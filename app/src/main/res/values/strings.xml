@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">ChatterBox</string>
+    <string name="login_UsernameHint">Username (Email)</string>
+    <string name="login_PasswordHint">Password</string>
+    <string name="login_StayLoggedIn">Stay logged in</string>
+    <string name="login_ImageDescriptor">Application Logo</string>
+    <string name="login_loginButton">Login</string>
+    <string name="login_registerButton">Register</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="registerFirstName">First Name</string>
+    <string name="registerLastName">Last Name</string>
+    <string name="registerEmail">Email</string>
+    <string name="registerNickname">Nickname</string>
 </resources>
