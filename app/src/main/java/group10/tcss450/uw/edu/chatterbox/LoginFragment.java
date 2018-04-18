@@ -1,11 +1,13 @@
 package group10.tcss450.uw.edu.chatterbox;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 /**
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
  */
 public class LoginFragment extends Fragment {
 
+    private OnFragmentInteractionListener mListener;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -23,7 +26,38 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        View v = inflater.inflate(R.layout.fragment_login, container, false);
+
+        Button loginButton = (Button) v.findViewById(R.id.loginButton);
+        loginButton.setOnClickListener(view -> mListener.onLoginAction("test", "test"));
+
+        Button registerButton = (Button) v.findViewById((R.id.loginRegisterButton));
+        registerButton.setOnClickListener(view -> mListener.onLoginRegisterAction());
+
+        return v;
     }
 
+
+
+    public interface OnFragmentInteractionListener {
+        void onLoginAction(String username, String password);
+        void onLoginRegisterAction();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
 }
