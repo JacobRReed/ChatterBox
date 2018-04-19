@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">ChatterBox</string>
-    <string name="login_UsernameHint">Username (Email)</string>
+    <string name="login_UsernameHint">Email</string>
     <string name="login_PasswordHint">Password</string>
     <string name="login_StayLoggedIn">Stay logged in</string>
     <string name="login_ImageDescriptor">Application Logo</string>
@@ -24,4 +24,15 @@
     <string name="appName">ChatterBox</string>
     <string name="appGroupName">Group 10 TCSS 450</string>
     <string name="registerInfo">Register for an account.</string>
+    <string name="home_location">Weather for current location</string>
+    <string name="home_changelocation">Change Location</string>
+    <string name="home_current_conditions">Current Conditions</string>
+    <string name="home_twentyfour">24 Hour Forecast</string>
+    <string name="home_tenday">Ten Day Forecast</string>
+    <string name="location_zipcode">Zipcode</string>
+    <string name="location_or">Or</string>
+    <string name="location_map">Choose a location on the map</string>
+    <string name="location_change">Set Changes</string>
+    <string name="chat_message">Send a message</string>
+    <string name="chat_send">Send</string>
 </resources>

@@ -13,11 +13,10 @@ import android.widget.Button;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LoginFragment extends Fragment {
-
+public class WeatherFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
-    public LoginFragment() {
+    public WeatherFragment() {
         // Required empty public constructor
     }
 
@@ -26,29 +25,24 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_login, container, false);
+        View v = inflater.inflate(R.layout.fragment_weather, container, false);
 
-        Button loginButton = v.findViewById(R.id.loginButton);
-        loginButton.setOnClickListener(view -> mListener.onLoginAction("test", "test"));
-
-        Button registerButton = v.findViewById((R.id.loginRegisterButton));
-        registerButton.setOnClickListener(view -> mListener.onLoginRegisterAction());
+        Button changeLocationButton = v.findViewById(R.id.weatherChangeLocationButton);
+        changeLocationButton.setOnClickListener(view -> mListener.onChangeLocationAction());
 
         return v;
     }
 
 
-
     public interface OnFragmentInteractionListener {
-        void onLoginAction(String username, String password);
-        void onLoginRegisterAction();
+        void onChangeLocationAction();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof WeatherFragment.OnFragmentInteractionListener) {
+            mListener = (WeatherFragment.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
