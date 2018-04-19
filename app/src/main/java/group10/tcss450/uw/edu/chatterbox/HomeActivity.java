@@ -1,5 +1,6 @@
 package group10.tcss450.uw.edu.chatterbox;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -72,6 +73,8 @@ public class HomeActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
+            Intent myIntent = new Intent(this, MainActivity.class);
+            startActivity(myIntent);
             return true;
         }
 
