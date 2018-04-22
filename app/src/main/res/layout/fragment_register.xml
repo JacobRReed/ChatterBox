@@ -10,7 +10,7 @@
     <!-- TODO: Update blank fragment layout -->
 
     <EditText
-        android:id="@+id/registerFirstName"
+        android:id="@+id/editTextRegisterFirstName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
@@ -21,10 +21,10 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewRegisterTitle" />
 
     <EditText
-        android:id="@+id/registerEmail"
+        android:id="@+id/editTextRegisterEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
@@ -36,10 +36,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerLastName" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextRegisterLastName" />
 
     <EditText
-        android:id="@+id/registerLastName"
+        android:id="@+id/editTextRegisterLastName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
@@ -51,10 +51,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerFirstName" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextRegisterFirstName" />
 
     <EditText
-        android:id="@+id/registerNickname"
+        android:id="@+id/editTextRegisterNickname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
@@ -65,10 +65,10 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextRegisterEmail" />
 
     <EditText
-        android:id="@+id/registerPassword"
+        android:id="@+id/editTextRegisterPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
@@ -79,10 +79,10 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerNickname" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextRegisterNickname" />
 
     <EditText
-        android:id="@+id/registerPasswordConfirm"
+        android:id="@+id/editTextRegisterPasswordConfirm"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
@@ -93,20 +93,20 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextRegisterPassword" />
 
     <Button
-        android:id="@+id/registerRegisterButton"
+        android:id="@+id/buttonRegisterRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/login_registerButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerPasswordConfirm" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextRegisterPasswordConfirm" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textViewRegisterTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -114,10 +114,10 @@
         android:text="@string/registerInfo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewRegisterLogo" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imageViewRegisterLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"

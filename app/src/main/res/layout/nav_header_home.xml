@@ -13,7 +13,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewLoginLogo"
         android:layout_width="92dp"
         android:layout_height="95dp"
         android:contentDescription="@string/nav_header_desc"
@@ -28,7 +28,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/TextViewWeatherTitle "
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/appGroupName" />

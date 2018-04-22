@@ -4,12 +4,10 @@ package group10.tcss450.uw.edu.chatterbox;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toolbar;
 
 
 /**
@@ -29,16 +27,7 @@ public class WeatherFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_weather, container, false);
 
-//        Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
-
-//        toolbar.setTitle("Weather");
-//        getView().
-
-
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Weather");
-
-
-        Button changeLocationButton = v.findViewById(R.id.weatherChangeLocationButton);
+        Button changeLocationButton = v.findViewById(R.id.buttonWeatherChangeLocation);
         changeLocationButton.setOnClickListener(view -> mListener.onChangeLocationAction());
 
         return v;
