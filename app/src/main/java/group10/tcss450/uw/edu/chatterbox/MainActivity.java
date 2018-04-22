@@ -36,4 +36,9 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         //Load registration fragment
         loadFragment(new RegisterFragment());
     }
+
+
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
 }
