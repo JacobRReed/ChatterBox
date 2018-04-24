@@ -30,7 +30,7 @@ public class ChangeLocationFragment extends Fragment {
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Settings");
 
-        Button submitChangeButton = v.findViewById(R.id.changeSetChangeButton);
+        Button submitChangeButton = v.findViewById(R.id.buttonChangeLocationSetChanges);
         submitChangeButton.setOnClickListener(view -> mListener.onChangeLocationSubmitAction());
 
         return v;

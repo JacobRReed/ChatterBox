@@ -31,10 +31,10 @@ public class LoginFragment extends Fragment {
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Login");
 
-        Button loginButton = v.findViewById(R.id.loginButton);
+        Button loginButton = v.findViewById(R.id.buttonLoginLogin);
         loginButton.setOnClickListener(view -> mListener.onLoginAction("test", "test"));
 
-        Button registerButton = v.findViewById((R.id.loginRegisterButton));
+        Button registerButton = v.findViewById((R.id.buttonLoginRegister));
         registerButton.setOnClickListener(view -> mListener.onLoginRegisterAction());
 
         return v;
