@@ -78,6 +78,8 @@ public class HomeActivity extends AppCompatActivity
             Intent myIntent = new Intent(this, MainActivity.class);
             startActivity(myIntent);
             return true;
+        } else if(id == R.id.action_settings) {
+            loadFragment(new SettingsFragment());
         }
 
         return super.onOptionsItemSelected(item);

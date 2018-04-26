@@ -35,4 +35,12 @@
     <string name="location_change">Set Changes</string>
     <string name="chat_message">Send a message</string>
     <string name="chat_send">Send</string>
+    <string name="settings_color">Choose Theme</string>
+    <string name="settingsChatFont">Chat Font Size</string>
+    <string name="settingsFontOne">Small</string>
+    <string name="settingsFontTwo">Medium</string>
+    <string name="settingsFontThree">Large</string>
+    <string name="settingsColorThemeDefault">(Default) Pink/Brown</string>
+    <string name="settingsColorThemeTwo">Purple/Yellow</string>
+    <string name="settingsColorThemeThree">Cyan/Red</string>
 </resources>

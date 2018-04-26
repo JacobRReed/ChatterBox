@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Theme One -->
     <color name="colorPrimary">#E91E63</color>
     <color name="colorPrimaryDark">#C2185B</color>
     <color name="colorAccent">#795548</color>
+    <!-- Theme Two-->
+    <color name="colorPrimaryTwo">#673AB7</color>
+    <color name="colorPrimaryDarkTwo">#512DA8</color>
+    <color name="colorAccentTwo">#FFC107</color>
+    <!-- Theme Three -->
+    <color name="colorPrimaryThree">#00BCD4</color>
+    <color name="colorPrimaryDarkThree">#0097A7</color>
+    <color name="colorAccentThree">#FF5252</color>
 </resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="colors_array">
+        <item id="@+id/default">Pink/Brown (Default)</item>
+        <item id="@+id/two">Purple/Yellow</item>
+        <item id="@+id/three">Cyan/Red</item>
+    </string-array>
+</resources>
