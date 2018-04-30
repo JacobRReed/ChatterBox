@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ep_base_url">https://chatterboxtcss450.herokuapp.com</string>
+    <string name="ep_login">https://chatterboxtcss450.herokuapp.com/login</string>
+    <string name="ep_register">https://chatterboxtcss450.herokuapp.com/register</string>
+</resources>
