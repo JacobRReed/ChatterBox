@@ -2,6 +2,7 @@ package group10.tcss450.uw.edu.chatterbox;
 
 
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,9 +40,8 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-       //switch parent.getItemIdAtPosition(position){
-
-        //}
+        String selected = parent.getSelectedItem().toString();
+        Log.wtf("SELECTED:", selected);
     }
 
     @Override
