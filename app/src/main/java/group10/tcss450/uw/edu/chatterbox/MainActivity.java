@@ -76,8 +76,8 @@ public class MainActivity extends AppCompatActivity
         /*//build the web service URL
         Uri uri = new Uri.Builder()
                 .scheme("https")
-                .appendPath(getString(R.string.ep_base_url))
-                .appendPath(getString(R.string.ep_register))
+                .appendPath(getString(R.end_points.ep_base_url))
+                .appendPath(getString(R.end_points.ep_register))
                 .build();
 
         //build the JSONObject
