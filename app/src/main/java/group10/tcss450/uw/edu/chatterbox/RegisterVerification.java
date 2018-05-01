@@ -4,6 +4,7 @@ package group10.tcss450.uw.edu.chatterbox;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +27,15 @@ public class RegisterVerification extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        //((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Register Verification");
+//        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Register Verification");
         View v = inflater.inflate(R.layout.fragment_register_verification, container, false);
+
+        try {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Register Verification");
+        } catch (NullPointerException e) {
+            Log.e("Error", "title isn't working");
+        }
+
 
         Button loginButton = (Button) v.findViewById(R.id.buttonRegisterVerifyLogin);
         loginButton.setOnClickListener((View view) ->  {
