@@ -41,7 +41,14 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String selected = parent.getSelectedItem().toString();
-        Log.wtf("SELECTED:", selected);
+        if(selected.contains("Pink")) {
+            //Swap to pink brown
+        } else if (selected.contains("Purple")) {
+            //swap to purple/yellow
+        } else if (selected.contains("Cyan")) {
+            //swap to cyan/red
+
+        }
     }
 
     @Override
