@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,13 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         //((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Register");
         View v =  inflater.inflate(R.layout.fragment_register, container, false);
+
+        try {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Register");
+        } catch (NullPointerException e) {
+            Log.e("Error", "registration title isn't working");
+        }
+
 
         Button registerButton = (Button) v.findViewById(R.id.buttonRegisterRegister);
         registerButton.setOnClickListener(view -> {
