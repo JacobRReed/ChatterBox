@@ -28,7 +28,7 @@ public class ChangeLocationFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_change_location, container, false);
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Settings");
+        //((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Settings");
 
         Button submitChangeButton = v.findViewById(R.id.buttonChangeLocationSetChanges);
         submitChangeButton.setOnClickListener(view -> mListener.onChangeLocationSubmitAction());

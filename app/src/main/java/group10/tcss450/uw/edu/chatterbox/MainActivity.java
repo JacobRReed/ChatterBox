@@ -1,6 +1,7 @@
 package group10.tcss450.uw.edu.chatterbox;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,9 +15,29 @@ public class MainActivity extends AppCompatActivity
         implements LoginFragment.OnFragmentInteractionListener,
         RegisterFragment.RegisterAction {
 
+    private static final String PREFS_THEME = "theme_pref";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences preferences = getSharedPreferences(PREFS_THEME, MODE_PRIVATE);
+        int themeChoice = preferences.getInt(PREFS_THEME, 0);
+        switch(themeChoice) {
+            case 1:
+                setTheme(R.style.AppTheme);
+                break;
+            case 2:
+                setTheme(R.style.AppThemeTwo);
+                break;
+            case 3:
+                setTheme(R.style.AppThemeThree);
+                break;
+            default:
+                setTheme(R.style.AppTheme);
+                break;
+        }
+
         setContentView(R.layout.activity_main);
         loadFragment(new LoginFragment());
     }

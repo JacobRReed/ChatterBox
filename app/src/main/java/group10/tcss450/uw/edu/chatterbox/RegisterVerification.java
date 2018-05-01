@@ -26,7 +26,7 @@ public class RegisterVerification extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Register Verification");
+        //((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Register Verification");
         View v = inflater.inflate(R.layout.fragment_register_verification, container, false);
 
         Button loginButton = (Button) v.findViewById(R.id.buttonRegisterVerifyLogin);

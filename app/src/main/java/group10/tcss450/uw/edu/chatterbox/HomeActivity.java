@@ -1,6 +1,7 @@
 package group10.tcss450.uw.edu.chatterbox;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,14 +20,52 @@ import android.view.MenuItem;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, WeatherFragment.OnFragmentInteractionListener, ChangeLocationFragment.OnFragmentInteractionListener {
 
+    private static final String PREFS_THEME = "theme_pref";
+    private static final String PREFS_FONT = "font_pref";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences themePreferences = getSharedPreferences(PREFS_THEME, MODE_PRIVATE);
+        int themeChoice = themePreferences.getInt(PREFS_THEME, 0);
+        SharedPreferences fontPreferences = getSharedPreferences(PREFS_FONT, MODE_PRIVATE);
+        int fontChoice = fontPreferences.getInt(PREFS_FONT, 0);
+
+        switch(themeChoice) {
+            case 1:
+                setTheme(R.style.AppTheme);
+                break;
+            case 2:
+                setTheme(R.style.AppThemeTwo);
+                break;
+            case 3:
+                setTheme(R.style.AppThemeThree);
+                break;
+            default:
+                setTheme(R.style.AppTheme);
+                break;
+        }
+
+        switch(fontChoice) {
+            case 1:
+                //Set font to small
+                break;
+            case 2:
+                //Set font to medium
+                break;
+            case 3:
+                //Set font to large
+                break;
+            default:
+                //Set font to medium
+                break;
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle("Home");
+        //getSupportActionBar().setTitle("Home");
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

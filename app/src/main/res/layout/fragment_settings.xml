@@ -9,18 +9,6 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <Spinner
-        android:id="@+id/settingsColorSpinner"
-        android:layout_width="368dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="110dp"
@@ -52,15 +40,15 @@
         android:text="@string/settingsChatFont"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settingsColorSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/settingsColorGroup" />
 
     <RadioGroup
         android:id="@+id/settingsFontGroup"
         android:layout_width="312dp"
         android:layout_height="129dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:checkedButton="@+id/settingFontMedium"
+        android:layout_marginTop="8dp"
+        android:checkedButton="@+id/settingsFontMedium"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3">
 
@@ -72,10 +60,11 @@
             android:text="@string/settingsFontOne" />
 
         <RadioButton
-            android:id="@+id/settingFontMedium"
+            android:id="@+id/settingsFontMedium"
             android:layout_width="145dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:checked="false"
             android:text="@string/settingsFontTwo"
             android:textSize="16sp" />
 
@@ -87,5 +76,47 @@
             android:text="@string/settingsFontThree"
             android:textSize="18sp" />
     </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/settingsColorGroup"
+        android:layout_width="134dp"
+        android:layout_height="93dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+        <RadioButton
+            android:id="@+id/settingsThemeOne"
+            android:layout_width="124dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/settingsColorThemeDefault" />
+
+        <RadioButton
+            android:id="@+id/settingsThemeTwo"
+            android:layout_width="124dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/settingsColorThemeTwo" />
+
+        <RadioButton
+            android:id="@+id/settingsThemeThree"
+            android:layout_width="122dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/settingsColorThemeThree" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/settingsSaveChanges"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/location_change"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

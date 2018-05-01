@@ -32,7 +32,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Register");
+        //((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Register");
         View v =  inflater.inflate(R.layout.fragment_register, container, false);
 
         Button registerButton = (Button) v.findViewById(R.id.buttonRegisterRegister);
