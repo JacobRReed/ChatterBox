@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="keys_shared_prefs">edu.uw.tcss450.challengeapp.PREFS</string>
+    <string name="keys_prefs_username">username</string>
+    <string name="keys_prefs_stay_logged_in">loggedIn</string>
+    <string name="keys_fragment_login">loginFragmentTag</string>
+    <string name="keys_fragment_register">registerFragmentTag</string>
+</resources>

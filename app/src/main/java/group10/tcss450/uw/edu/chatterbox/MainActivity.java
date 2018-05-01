@@ -2,20 +2,27 @@ package group10.tcss450.uw.edu.chatterbox;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import group10.tcss450.uw.edu.chatterbox.model.Credentials;
+import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
 
 public class MainActivity extends AppCompatActivity
         implements LoginFragment.OnFragmentInteractionListener,
         RegisterFragment.RegisterAction {
 
     private static final String PREFS_THEME = "theme_pref";
+    private static Credentials mCredentials = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +58,48 @@ public class MainActivity extends AppCompatActivity
         transaction.commit();
     }
 
+    /**
+     * Handle errors that may occur during the AsyncTask.
+     * @param result the error message provide from the AsyncTask */
+    private void handleErrorsInTask(String result) {
+        Log.e("ASYNCT_TASK_ERROR", result);
+    }
+
+    /**
+     * Handle onPostExecute of the AsynceTask. The result from our webservice is
+     * a JSON formatted String. Parse it for success or failure.
+     * @param result the JSON formatted String response from the web service
+     */
+    private void handleRegOnPost(String result) {
+        try {
+            JSONObject resultsJSON = new JSONObject(result);
+            boolean success = resultsJSON.getBoolean("success");
+
+
+            if (success) {
+                // registration was successful.
+                // Switch to the registration verfication frag
+                loadFragment(new RegisterVerification());
+            } else {
+                // registration was unsuccessful. Don’t switch fragments and inform the user
+                /*RegisterFragment frag = (RegisterFragment) getSupportFragmentManager()
+                        .findFragmentByTag(
+                                getString(R.string.keys_fragment_register));*/
+
+                RegisterFragment frag = (RegisterFragment) getSupportFragmentManager()
+                        .findFragmentById(R.id.fragmentContainer);
+                frag.setError("Register unsuccessful");
+            }
+
+        } catch (JSONException e) {
+
+            //It appears that the web service didn’t return a JSON formatted String
+            //or it didn’t have what we expected in it.
+            Log.e("JSON_PARSE_ERROR", result
+                    + System.lineSeparator()
+                    + e.getMessage());
+        }
+    }
 
     @Override
     public void onLoginAction(String username, String password) {
@@ -85,16 +134,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onRegistrationInteraction(Credentials userInfo) {
 
-        RegisterVerification registerVer = new RegisterVerification();
+        /*RegisterVerification registerVer = new RegisterVerification();
         FragmentTransaction transaction = getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentContainer, registerVer);
         FragmentManager fragManager = getSupportFragmentManager();
         fragManager.popBackStack();
-        transaction.commit();
+        transaction.commit();*/
 
         //Use this code when end points is ready for Asyntask
-        /*//build the web service URL
+        //build the web service URL
         Uri uri = new Uri.Builder()
                 .scheme("https")
                 .appendPath(getString(R.string.ep_base_url))
@@ -115,7 +164,7 @@ public class MainActivity extends AppCompatActivity
                 .build().execute();
 
         FragmentManager fragManager = getSupportFragmentManager();
-        fragManager.popBackStack();*/
+        fragManager.popBackStack();
     }
 
 
