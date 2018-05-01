@@ -12,4 +12,6 @@
     <color name="colorPrimaryThree">#00BCD4</color>
     <color name="colorPrimaryDarkThree">#0097A7</color>
     <color name="colorAccentThree">#FF5252</color>
+
+    <color name="colorNavDrawerBackground">#000000</color>
 </resources>

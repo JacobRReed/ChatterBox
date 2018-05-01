@@ -2,6 +2,10 @@ package group10.tcss450.uw.edu.chatterbox;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.shapes.Shape;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -33,15 +37,19 @@ public class HomeActivity extends AppCompatActivity
         switch(themeChoice) {
             case 1:
                 setTheme(R.style.AppTheme);
+                //Set side_nav_bar color
                 break;
             case 2:
                 setTheme(R.style.AppThemeTwo);
+                //Set side_nav_bar color
                 break;
             case 3:
                 setTheme(R.style.AppThemeThree);
+                //Set side_nav_bar color
                 break;
             default:
                 setTheme(R.style.AppTheme);
+                //Set side_nav_bar color
                 break;
         }
 
