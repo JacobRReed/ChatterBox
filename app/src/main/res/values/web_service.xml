@@ -3,4 +3,6 @@
     <string name="ep_base_url">chatterboxtcss450.herokuapp.com</string>
     <string name="ep_login">login</string>
     <string name="ep_register">register</string>
+    <string name="ep_send_message">sendMessages</string>
+    <string name="ep_get_message">getMessages</string>
 </resources>
