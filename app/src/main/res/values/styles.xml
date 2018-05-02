@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -13,7 +13,7 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <!-- Second Theme -->
-    <style name="AppThemeTwo" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppThemeTwo" parent="Theme.AppCompat">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimaryTwo</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkTwo</item>
@@ -26,7 +26,7 @@
     <style name="AppThemeTwo.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <!-- Third Theme -->
-    <style name="AppThemeThree" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppThemeThree" parent="Theme.AppCompat">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimaryThree</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkThree</item>
