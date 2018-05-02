@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 
 public class HomeActivity extends AppCompatActivity
@@ -36,27 +37,18 @@ public class HomeActivity extends AppCompatActivity
         int fontChoice = fontPreferences.getInt(PREFS_FONT, 0);
 
         //Apply themes
-        LinearLayout sideNavBar = findViewById(R.id.sideNavBarLayout); //The xml layout for side bar that controls background
-        //ShapeDrawable draw = new ShapeDrawable();
-        //draw.getPaint().setColor(getResources().getColor(R.color.colorPrimaryDarkThree));
-        //getActionBar().setBackgroundDrawable(draw);
-        //sideNavBar.setBackgroundColor(R.color.colorPrimaryDarkThree);
         switch(themeChoice) {
             case 1:
                 setTheme(R.style.AppTheme);
-                //Set side_nav_bar color
                 break;
             case 2:
                 setTheme(R.style.AppThemeTwo);
-                //Set side_nav_bar color
                 break;
             case 3:
                 setTheme(R.style.AppThemeThree);
-                //Set side_nav_bar color
                 break;
             default:
                 setTheme(R.style.AppTheme);
-                //Set side_nav_bar color
                 break;
         }
 
@@ -79,9 +71,6 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        //getSupportActionBar().setTitle("Home");
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -90,9 +79,26 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+        //Apply nav side bar theme
+        switch(themeChoice) {
+            case 1:
+                header.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                break;
+            case 2:
+                header.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDarkTwo));
+                break;
+            case 3:
+                header.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDarkThree));
+                break;
+            default:
+                header.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                break;
+        }
 
         loadFragment(new WeatherFragment());
     }
+
 
     @Override
     public void onBackPressed() {

@@ -1,6 +1,0 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle"
-    android:id="@+id/colorNav">
-    <solid android:color="@color/colorPrimaryThree"
-        />
-</shape>
