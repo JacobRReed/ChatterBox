@@ -5,4 +5,16 @@
     <string name="keys_prefs_stay_logged_in">loggedIn</string>
     <string name="keys_fragment_login">loginFragmentTag</string>
     <string name="keys_fragment_register">registerFragmentTag</string>
+
+
+    <string name="keys_prefs_time_stamp">ts key</string>
+    <string name="keys_json_username">username</string>
+    <string name="keys_json_password">password</string>
+    <string name="keys_json_email">email</string>
+    <string name="keys_json_firstname">first</string>
+    <string name="keys_json_lastname">last</string>
+    <string name="keys_json_message">message</string>
+    <string name="keys_json_messages">messages</string> <string name="keys_json_success">success</string>
+    <string name="keys_json_chat_id">chatId</string>
+    <string name="keys_json_success_value_true">true</string> <string name="keys_json_success_value_false">false</string>
 </resources>
