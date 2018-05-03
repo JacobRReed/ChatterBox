@@ -50,10 +50,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             String firstName = (String) firstNameTxtbox.getText().toString();
 
             EditText lastNameTxtbox = (EditText) v.findViewById(R.id.editTextRegisterLastName);
-            String lastName = (String) firstNameTxtbox.getText().toString();
+            String lastName = (String) lastNameTxtbox.getText().toString();
 
             EditText emailTxtbox = (EditText) v.findViewById(R.id.editTextRegisterEmail);
-            String email = (String) firstNameTxtbox.getText().toString();
+            String email = (String) emailTxtbox.getText().toString();
 
             EditText nicknameTxtbox = (EditText) v.findViewById(R.id.editTextRegisterNickname);
             String nickname = (String) nicknameTxtbox.getText().toString();
