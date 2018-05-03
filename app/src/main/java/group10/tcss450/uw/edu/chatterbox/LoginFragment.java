@@ -88,7 +88,7 @@ public class LoginFragment extends Fragment {
 //        Log in unsuccessful for reason: err. Try again.
 //        you may want to add error stuffs for the user here.
         ((TextView) getView().findViewById(R.id.logUsernameEditText))
-                .setError("Login Unsuccessful");
+                .setError(err);
     }
 
     @Override

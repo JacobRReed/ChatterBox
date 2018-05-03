@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -98,12 +99,8 @@ public class MainActivity extends AppCompatActivity
                 checkStayLoggedIn();
                 onLoginAction();
             } else {
-                //Login was unsuccessful. Don’t switch fragments and inform the user
-                LoginFragment frag =
-                        (LoginFragment) getSupportFragmentManager()
-                                .findFragmentByTag(
-                                        getString(R.string.keys_fragment_login));
-                frag.setError("Log in unsuccessful");
+                //Login was unsuccessful. Don’t switch fragments and inform the usertest
+                Toast.makeText(this, "Login Unsuccessful", Toast.LENGTH_SHORT).show();
             }
         } catch (JSONException e) {
             //It appears that the web service didn’t return a JSON formatted String
@@ -149,20 +146,7 @@ public class MainActivity extends AppCompatActivity
                 // Switch to the registration verfication frag
                 loadFragment(new RegisterVerification());
             } else {
-                // registration was unsuccessful. Don’t switch fragments and inform the user
-                /*RegisterFragment frag = (RegisterFragment) getSupportFragmentManager()
-                        .findFragmentByTag(
-                                getString(R.string.keys_fragment_register));*/
-
-
-//                RegisterFragment frag = (RegisterFragment) getSupportFragmentManager()
-//                        .findFragmentById(R.id.fragmentContainer);
-//                frag.setError("Register unsuccessful");
-
-                /*
-                RegisterFragment frag = (RegisterFragment) getSupportFragmentManager()
-                        .findFragmentById(R.id.fragmentContainer);
-                frag.setError("Register unsuccessful");*/
+                Toast.makeText(this, "Registration Unsuccessful. Either due to server error or duplicate username.", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -229,14 +213,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onRegistrationInteraction(Credentials userInfo) {
-
-        /*RegisterVerification registerVer = new RegisterVerification();
-        FragmentTransaction transaction = getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragmentContainer, registerVer);
-        FragmentManager fragManager = getSupportFragmentManager();
-        fragManager.popBackStack();
-        transaction.commit();*/
 
         //Use this code when end points is ready for Asyntask
         //build the web service URL
