@@ -157,8 +157,8 @@ public class HomeActivity extends AppCompatActivity
     private void loadFragment(Fragment frag) {
         FragmentTransaction transaction = getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.homeFragmentContainer, frag)
-                .addToBackStack(null);
+                .replace(R.id.homeFragmentContainer, frag);
+
         // Commit the transaction
         transaction.commit();
     }
