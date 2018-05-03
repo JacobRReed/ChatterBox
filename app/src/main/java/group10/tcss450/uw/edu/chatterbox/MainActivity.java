@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity
             //save the username for later usage
             prefs.edit().putString(
                     getString(R.string.keys_prefs_username),
-                    mCredentials.getUsername())
+                    mCredentials.getEmail())
                     .apply();
             //save the users “want” to stay logged in
             prefs.edit().putBoolean(

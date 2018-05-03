@@ -46,14 +46,14 @@ public class LoginFragment extends Fragment {
         // variables
         Button loginButton = v.findViewById(R.id.buttonLoginLogin);
         Button registerButton = v.findViewById((R.id.buttonLoginRegister));
-        EditText usernameTextBox = (EditText) v.findViewById(R.id.editTextLoginEmail);
+        EditText loginEmailTextBox = (EditText) v.findViewById(R.id.editTextLoginEmail);
         EditText passwordTextBox = (EditText) v.findViewById(R.id.editTextLoginPassword);
 
         loginButton.setOnClickListener(view -> {
             boolean flag = true;
 
-            if(usernameTextBox.getText().toString().length() < 1) {
-                usernameTextBox.setError("Must have a username!");
+            if(loginEmailTextBox.getText().toString().length() < 1) {
+                loginEmailTextBox.setError("Must have a valid email!");
                 flag = false;
             }
             if(passwordTextBox.getText().length() < 1) {
@@ -62,8 +62,8 @@ public class LoginFragment extends Fragment {
             }
             if(flag) {
                 Editable password = new SpannableStringBuilder(passwordTextBox.getText().toString());
-                String username = usernameTextBox.getText().toString();
-                Credentials.Builder mCredentials = new Credentials.Builder(username, password);
+                String loginEmail = loginEmailTextBox.getText().toString();
+                Credentials.Builder mCredentials = new Credentials.Builder(loginEmail, password);
                 Credentials mc = mCredentials.build();
                 mListener.onLoginAttempt(mc);
             }
@@ -87,7 +87,7 @@ public class LoginFragment extends Fragment {
     public void setError(String err) {
 //        Log in unsuccessful for reason: err. Try again.
 //        you may want to add error stuffs for the user here.
-        ((TextView) getView().findViewById(R.id.logUsernameEditText))
+        ((TextView) getView().findViewById(R.id.logEmailEditText))
                 .setError(err);
     }
 
