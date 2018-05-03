@@ -19,7 +19,7 @@ import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
 
 public class MainActivity extends AppCompatActivity
         implements LoginFragment.OnFragmentInteractionListener,
-        RegisterFragment.RegisterAction {
+        RegisterFragment.RegisterAction, RegisterVerification.OnFragmentInteractionListener {
 
     private static final String PREFS_THEME = "theme_pref";
     private static Credentials mCredentials = null;
@@ -85,10 +85,10 @@ public class MainActivity extends AppCompatActivity
                 /*RegisterFragment frag = (RegisterFragment) getSupportFragmentManager()
                         .findFragmentByTag(
                                 getString(R.string.keys_fragment_register));*/
-
+                /*
                 RegisterFragment frag = (RegisterFragment) getSupportFragmentManager()
                         .findFragmentById(R.id.fragmentContainer);
-                frag.setError("Register unsuccessful");
+                frag.setError("Register unsuccessful");*/
             }
 
         } catch (JSONException e) {
@@ -172,4 +172,8 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setTitle(title);
     }
 
+    @Override
+    public void onVerificationLogin() {
+        loadFragment(new LoginFragment());
+    }
 }
