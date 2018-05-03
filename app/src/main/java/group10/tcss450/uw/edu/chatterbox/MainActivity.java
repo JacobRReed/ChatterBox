@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity
         Uri uri = new Uri.Builder()
                 .scheme("https")
                 .appendPath(getString(R.string.ep_base_url))
-                .appendPath(getString(R.string.ep_register))
+                .appendPath(getString(R.string.ep_login))
                 .build();
         //build the JSONObject
         JSONObject msg = credentials.asJSONObject();
