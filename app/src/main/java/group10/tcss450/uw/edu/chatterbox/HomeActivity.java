@@ -1,18 +1,19 @@
 package group10.tcss450.uw.edu.chatterbox;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.Shape;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,6 +21,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, WeatherFragment.OnFragmentInteractionListener, ChangeLocationFragment.OnFragmentInteractionListener {
@@ -34,22 +37,19 @@ public class HomeActivity extends AppCompatActivity
         SharedPreferences fontPreferences = getSharedPreferences(PREFS_FONT, MODE_PRIVATE);
         int fontChoice = fontPreferences.getInt(PREFS_FONT, 0);
 
+        //Apply themes
         switch(themeChoice) {
             case 1:
                 setTheme(R.style.AppTheme);
-                //Set side_nav_bar color
                 break;
             case 2:
                 setTheme(R.style.AppThemeTwo);
-                //Set side_nav_bar color
                 break;
             case 3:
                 setTheme(R.style.AppThemeThree);
-                //Set side_nav_bar color
                 break;
             default:
                 setTheme(R.style.AppTheme);
-                //Set side_nav_bar color
                 break;
         }
 
@@ -72,9 +72,6 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        //getSupportActionBar().setTitle("Home");
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -83,9 +80,26 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+        //Apply nav side bar theme
+        switch(themeChoice) {
+            case 1:
+                header.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                break;
+            case 2:
+                header.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDarkTwo));
+                break;
+            case 3:
+                header.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDarkThree));
+                break;
+            default:
+                header.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                break;
+        }
 
         loadFragment(new WeatherFragment());
     }
+
 
     @Override
     public void onBackPressed() {
@@ -113,6 +127,8 @@ public class HomeActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
+
+            onLogout();
             Intent myIntent = new Intent(this, MainActivity.class);
             startActivity(myIntent);
             return true;
@@ -121,6 +137,21 @@ public class HomeActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onLogout() {
+        SharedPreferences prefs =
+                getSharedPreferences(
+                        getString(R.string.keys_shared_prefs),
+                        Context.MODE_PRIVATE);
+        prefs.edit().remove(getString(R.string.keys_prefs_username));
+        prefs.edit().putBoolean(
+                getString(R.string.keys_prefs_stay_logged_in),
+                false)
+                .apply();
+        //the way to close an app programmaticaly
+        finishAndRemoveTask();
     }
 
     private void loadFragment(Fragment frag) {

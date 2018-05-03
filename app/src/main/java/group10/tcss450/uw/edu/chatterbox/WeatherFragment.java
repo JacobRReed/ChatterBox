@@ -45,6 +45,7 @@ public class WeatherFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onChangeLocationAction();
+        void onLogout();
     }
 
     @Override

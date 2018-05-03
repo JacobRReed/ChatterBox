@@ -21,7 +21,7 @@ import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
 
 public class MainActivity extends AppCompatActivity
         implements LoginFragment.OnFragmentInteractionListener,
-        RegisterFragment.RegisterAction {
+        RegisterFragment.RegisterAction{
 
     private static final String PREFS_THEME = "theme_pref";
     private static Credentials mCredentials = null;
@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         SharedPreferences preferences = getSharedPreferences(PREFS_THEME, MODE_PRIVATE);
         int themeChoice = preferences.getInt(PREFS_THEME, 0);
@@ -47,10 +48,25 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
-        setContentView(R.layout.activity_main);
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragmentContainer, new LoginFragment(), getString(R.string.keys_fragment_login))
-                .commit();
+        if(savedInstanceState == null) {
+            if (findViewById(R.id.fragmentContainer) != null) {
+                SharedPreferences prefs =
+                        getSharedPreferences(
+                                getString(R.string.keys_shared_prefs),
+                                Context.MODE_PRIVATE);
+                if (prefs.getBoolean(getString(R.string.keys_prefs_stay_logged_in),
+                        false)) {
+                    onLoginAction();
+                } else {
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.fragmentContainer, new LoginFragment(), getString(R.string.keys_fragment_login))
+                            .commit();
+                }
+            }
+        }
+
+
+
     }
 
     private void loadFragment(Fragment frag) {
