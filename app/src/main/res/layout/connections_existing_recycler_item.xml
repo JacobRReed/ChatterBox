@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    >
+
+    <TextView
+        android:id="@+id/contact_name"
+        android:layout_width="209dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/remove_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="true"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="@string/existing_remove"
+        android:textSize="12sp" />
+
+    <Button
+        android:id="@+id/message_button"
+        android:layout_width="101dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:enabled="true"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="@string/existing_message"
+        android:textSize="12sp" />
+</LinearLayout>

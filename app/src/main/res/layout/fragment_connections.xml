@@ -2,20 +2,56 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout7"
-    android:label="Friends"
+    android:id="@+id/connectionsFrame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:label="Friends"
     tools:context=".ConnectionsFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="126dp"
-        android:text="Placeholder for connections. Will have a tabbing system similar to facebook to check current connections, add new connections, view request etc."
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/connectionsFragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="216dp" />
+        app:layout_constraintTop_toBottomOf="@+id/connectionsTabLayout">
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/connectionsTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/connectionsExisting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/connections_existing" />
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/connectionsAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/connections_add" />
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/connectionsRequests"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/connections_requests" />
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/connectionsInvite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/connections_invite" />
+    </android.support.design.widget.TabLayout>
 </android.support.constraint.ConstraintLayout>

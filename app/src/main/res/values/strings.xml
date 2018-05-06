@@ -6,8 +6,6 @@
     <string name="login_ImageDescriptor">Application Logo</string>
     <string name="login_loginButton">Login</string>
     <string name="login_registerButton">Register</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="registerFirstName">First Name</string>
     <string name="registerLastName">Last Name</string>
@@ -43,4 +41,21 @@
     <string name="settingsColorThemeDefault">(Default) Pink/Brown</string>
     <string name="settingsColorThemeTwo">Purple/Yellow</string>
     <string name="settingsColorThemeThree">Cyan/Red</string>
+    <string name="connections_existing">Existing</string>
+    <string name="connections_add">Add</string>
+    <string name="connections_invite">Invite</string>
+    <string name="connections_requests">Requests</string>
+    <string name="existing_remove">Remove</string>
+    <string name="existing_message">Message</string>
+    <string name="add_info">Add A New Connection</string>
+    <string name="add_info_2">Search By:</string>
+    <string name="add_nickname">Nickname</string>
+    <string name="add_info4">Or</string>
+    <string name="add_first_name">First Name</string>
+    <string name="add_and">AND</string>
+    <string name="add_last_name">Last Name</string>
+    <string name="add_email">Email</string>
+    <string name="add_search">Search</string>
+    <string name="add_firstlast">First/Last Name</string>
+    <string name="add_add">Add</string>
 </resources>
