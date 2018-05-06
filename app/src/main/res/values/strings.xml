@@ -58,4 +58,10 @@
     <string name="add_search">Search</string>
     <string name="add_firstlast">First/Last Name</string>
     <string name="add_add">Add</string>
+    <string name="invite_info">Invite a friend!</string>
+    <string name="invite_email">Email</string>
+    <string name="invite_contacts">Invite via Contacts</string>
+    <string name="invite_send">Send Invite</string>
+    <string name="requests_accept">Accept</string>
+    <string name="requests_decline">Decline</string>
 </resources>
