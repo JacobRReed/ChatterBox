@@ -162,7 +162,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLoginAction() {
-        //Load home activity
         startActivity(new Intent(MainActivity.this, HomeActivity.class));
     }
 
@@ -201,6 +200,7 @@ public class MainActivity extends AppCompatActivity
         //build the JSONObject
         JSONObject msg = credentials.asJSONObject();
         mCredentials = credentials;
+
         //instantiate and execute the AsyncTask.
         //Feel free to add a handler for onPreExecution so that a progress bar
         //is displayed or maybe disable buttons. You would need a method in

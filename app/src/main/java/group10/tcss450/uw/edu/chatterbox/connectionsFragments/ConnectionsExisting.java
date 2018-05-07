@@ -1,6 +1,8 @@
 package group10.tcss450.uw.edu.chatterbox.connectionsFragments;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -43,7 +45,14 @@ public class ConnectionsExisting extends Fragment {
         mRecyclerView = v.findViewById(R.id.connectionsExistingRecycler);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
-        onExistingConnectionsLoad("jrreed"); //FIX THIS @TODO
+        //Load home activity
+        SharedPreferences prefs =
+                getActivity().getSharedPreferences(
+                        getString(R.string.keys_shared_prefs),
+                        Context.MODE_PRIVATE);
+        String username = prefs.getString(getString(R.string.keys_prefs_username_local), "");
+        Log.wtf("Username existing connections: ", username);
+        onExistingConnectionsLoad(username); //FIX THIS @TODO
         mContacts = new ArrayList<>();
 
 

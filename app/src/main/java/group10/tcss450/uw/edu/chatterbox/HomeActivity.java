@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, WeatherFragment.OnFragmentInteractionListener, ChangeLocationFragment.OnFragmentInteractionListener {
@@ -28,6 +29,10 @@ public class HomeActivity extends AppCompatActivity
         int themeChoice = themePreferences.getInt(PREFS_THEME, 0);
         SharedPreferences fontPreferences = getSharedPreferences(PREFS_FONT, MODE_PRIVATE);
         int fontChoice = fontPreferences.getInt(PREFS_FONT, 0);
+        /*SharedPreferences userPrefs = getSharedPreferences(getString(R.string.keys_shared_prefs), MODE_PRIVATE);
+        String name = userPrefs.getString(getString(R.string.keys_prefs_username_local),"ChatterBox");
+        TextView navBarTitle = findViewById(R.id.navBarTitleText);
+        navBarTitle.setText(name);*/
 
         //Apply themes
         switch(themeChoice) {
@@ -73,6 +78,7 @@ public class HomeActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
+
         //Apply nav side bar theme
         switch(themeChoice) {
             case 1:
@@ -138,6 +144,7 @@ public class HomeActivity extends AppCompatActivity
                         getString(R.string.keys_shared_prefs),
                         Context.MODE_PRIVATE);
         prefs.edit().remove(getString(R.string.keys_prefs_username));
+        prefs.edit().remove(getString(R.string.keys_prefs_username_local));
         prefs.edit().putBoolean(
                 getString(R.string.keys_prefs_stay_logged_in),
                 false)

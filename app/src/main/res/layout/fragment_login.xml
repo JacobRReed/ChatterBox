@@ -28,7 +28,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:ems="10"
-        android:hint="@string/login_UsernameHint"
+        android:hint="@string/login_user"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

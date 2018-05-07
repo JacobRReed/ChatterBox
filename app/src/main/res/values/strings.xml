@@ -64,4 +64,5 @@
     <string name="invite_send">Send Invite</string>
     <string name="requests_accept">Accept</string>
     <string name="requests_decline">Decline</string>
+    <string name="login_user">Username</string>
 </resources>
