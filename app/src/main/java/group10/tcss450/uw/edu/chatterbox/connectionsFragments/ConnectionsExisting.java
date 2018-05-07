@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,7 +56,9 @@ public class ConnectionsExisting extends Fragment {
         Log.wtf("Username existing connections: ", username);
         onExistingConnectionsLoad(username); //FIX THIS @TODO
         mContacts = new ArrayList<>();
-
+        mAdapter = new ContactsAdapterExisting(mContacts);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         return v;
     }
@@ -99,7 +103,6 @@ public class ConnectionsExisting extends Fragment {
         }
         mAdapter = new ContactsAdapterExisting(mContacts);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(mLayoutManager);
 
     }
 
@@ -109,4 +112,5 @@ public class ConnectionsExisting extends Fragment {
     private void handleErrorsInTask(String result) {
         Log.e("ASYNCT_TASK_ERROR", result);
     }
+
 }

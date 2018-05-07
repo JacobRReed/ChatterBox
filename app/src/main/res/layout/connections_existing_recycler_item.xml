@@ -9,29 +9,30 @@
     >
 
     <TextView
-        android:id="@+id/contact_name"
-        android:layout_width="209dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
-
-    <Button
-        android:id="@+id/remove_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:enabled="true"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:text="@string/existing_remove"
-        android:textSize="12sp" />
-
-    <Button
-        android:id="@+id/message_button"
-        android:layout_width="101dp"
+        android:id="@+id/connectionsExistingContactName"
+        android:layout_width="261dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/connectionsExistingRemove"
+        android:layout_width="58dp"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_remove"
         android:enabled="true"
+        android:gravity="center_horizontal|top"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:text="@string/existing_message"
-        android:textSize="12sp" />
+        android:paddingRight="16dp" />
+
+    <Button
+        android:id="@+id/connectionExistingMessage"
+        android:layout_width="34dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableStart="@drawable/ic_chat"
+        android:enabled="true"
+        android:gravity="center_horizontal|top"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp" />
 </LinearLayout>
