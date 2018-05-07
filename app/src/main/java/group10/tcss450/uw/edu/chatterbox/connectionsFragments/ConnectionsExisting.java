@@ -56,7 +56,7 @@ public class ConnectionsExisting extends Fragment {
         Log.wtf("Username existing connections: ", username);
         onExistingConnectionsLoad(username); //FIX THIS @TODO
         mContacts = new ArrayList<>();
-        mAdapter = new ContactsAdapterExisting(mContacts);
+        mAdapter = new ContactsAdapterExisting(mContacts, this.getContext());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
@@ -101,7 +101,7 @@ public class ConnectionsExisting extends Fragment {
         for(String s : userListFinal) {
             mContacts.add(new Contact(s));
         }
-        mAdapter = new ContactsAdapterExisting(mContacts);
+        mAdapter = new ContactsAdapterExisting(mContacts, this.getContext());
         mRecyclerView.setAdapter(mAdapter);
 
     }

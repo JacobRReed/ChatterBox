@@ -2,6 +2,8 @@ package group10.tcss450.uw.edu.chatterbox.utils;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -23,9 +25,10 @@ public class ContactsAdapterExisting extends
         RecyclerView.Adapter<ContactsAdapterExisting.ViewHolder> implements View.OnClickListener {
 
     private List<Contact> mContacts;
-
-    public ContactsAdapterExisting(List<Contact> contacts) {
+    private Context mContext;
+    public ContactsAdapterExisting(List<Contact> contacts, Context context) {
         mContacts = contacts;
+        mContext = context;
     }
 
 
@@ -52,6 +55,7 @@ public class ContactsAdapterExisting extends
         Button remove = holder.itemView.findViewById(R.id.connectionsExistingRemove);
         remove.setOnClickListener(v -> {
             Log.wtf("Removing contact:", contact.getName());
+            onRemoveFriend(contact.getName());
         });
         Button message = holder.itemView.findViewById(R.id.connectionExistingMessage);
         message.setOnClickListener(v -> {
@@ -61,7 +65,51 @@ public class ContactsAdapterExisting extends
 
     }
 
+    private void onRemoveFriend(String friend) {
+        //get username
 
+        SharedPreferences prefs =
+                mContext.getSharedPreferences(
+                        mContext.getString(R.string.keys_shared_prefs),
+                        Context.MODE_PRIVATE);
+        String username = prefs.getString(mContext.getString(R.string.keys_prefs_username_local), "");
+
+        //build the web service URL
+        Uri uri = new Uri.Builder()
+                .scheme("https")
+                .appendPath(Resources.getSystem().getString(R.string.ep_base_url))
+                .appendPath(Resources.getSystem().getString(R.string.ep_existing))
+                .build();
+        //build the JSONObject
+        JSONObject msg = new JSONObject();
+        try{
+            msg.put("friend", friend);
+            msg.put("username", username);
+            msg.put("remove", true);
+        } catch (JSONException e) {
+            Log.wtf("Error creating JSON object for existing connections:", e);
+        }
+
+        //instantiate and execute the AsyncTask.
+        //Feel free to add a handler for onPreExecution so that a progress bar
+        //is displayed or maybe disable buttons. You would need a method in
+        //LoginFragment to perform this.
+        new SendPostAsyncTask.Builder(uri.toString(), msg)
+                .onPostExecute(this::handleRemoveOnPost)
+                .onCancelled(this::handleErrorsInTask)
+                .build().execute();
+    }
+
+    private void handleRemoveOnPost(String result) {
+
+    }
+
+    /**
+     * Handle errors that may occur during the AsyncTask.
+     * @param result the error message provide from the AsyncTask */
+    private void handleErrorsInTask(String result) {
+        Log.e("ASYNCT_TASK_ERROR", result);
+    }
 
     @Override
     public int getItemCount() {
