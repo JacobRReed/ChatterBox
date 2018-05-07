@@ -188,4 +188,6 @@ public class HomeActivity extends AppCompatActivity
         //Save location changes and send to weather fragment
         loadFragment(new WeatherFragment());
     }
+
+
 }

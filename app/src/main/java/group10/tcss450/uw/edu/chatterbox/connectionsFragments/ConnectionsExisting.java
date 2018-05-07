@@ -1,19 +1,25 @@
 package group10.tcss450.uw.edu.chatterbox.connectionsFragments;
 
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import group10.tcss450.uw.edu.chatterbox.R;
 import group10.tcss450.uw.edu.chatterbox.utils.Contact;
 import group10.tcss450.uw.edu.chatterbox.utils.ContactsAdapterExisting;
+import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +29,7 @@ public class ConnectionsExisting extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     public ArrayList<Contact> mContacts;
+
 
     public ConnectionsExisting() {
         // Required empty public constructor
@@ -36,31 +43,61 @@ public class ConnectionsExisting extends Fragment {
         mRecyclerView = v.findViewById(R.id.connectionsExistingRecycler);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
+        onExistingConnectionsLoad("jrreed"); //FIX THIS @TODO
         mContacts = new ArrayList<>();
-        createContacts();
-        mAdapter = new ContactsAdapterExisting(mContacts);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+
 
         return v;
     }
 
-    private void createContacts() {
-        mContacts.add(new Contact("test1"));
-        mContacts.add(new Contact("test2"));
-        mContacts.add(new Contact("test3"));
-        mContacts.add(new Contact("test4"));
-        mContacts.add(new Contact("test5"));
-        mContacts.add(new Contact("test6"));
-        mContacts.add(new Contact("test7"));
-        mContacts.add(new Contact("test8"));
-        mContacts.add(new Contact("test9"));
-        mContacts.add(new Contact("test10"));
-        mContacts.add(new Contact("test11"));
-        mContacts.add(new Contact("test12"));
-        mContacts.add(new Contact("test13"));
-        mContacts.add(new Contact("test14"));
-        mContacts.add(new Contact("test15"));
 
+    private void onExistingConnectionsLoad(String username) {
+        //build the web service URL
+        Uri uri = new Uri.Builder()
+                .scheme("https")
+                .appendPath(getString(R.string.ep_base_url))
+                .appendPath(getString(R.string.ep_existing))
+                .build();
+        //build the JSONObject
+        JSONObject msg = new JSONObject();
+        try{
+            msg.put("username", username);
+        } catch (JSONException e) {
+            Log.wtf("Error creating JSON object for existing connections:", e);
+        }
+
+        //instantiate and execute the AsyncTask.
+        //Feel free to add a handler for onPreExecution so that a progress bar
+        //is displayed or maybe disable buttons. You would need a method in
+        //LoginFragment to perform this.
+        new SendPostAsyncTask.Builder(uri.toString(), msg)
+                .onPostExecute(this::handleExistingConnectionOnPost)
+                .onCancelled(this::handleErrorsInTask)
+                .build().execute();
+    }
+
+    private void handleExistingConnectionOnPost(String result) {
+        String users = result.replace("friends","");
+        users = users.replaceAll("[^a-zA-Z,]", "");
+        String[] userList = users.split(",");
+        String[] userListFinal = new String[userList.length];
+        for(int i = 0; i < userList.length; i++) {
+            userListFinal[i] = userList[i].replaceAll("[^a-zA-Z]", "");
+        }
+
+        for(String s : userListFinal) {
+            mContacts.add(new Contact(s));
+        }
+        mAdapter = new ContactsAdapterExisting(mContacts);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+    }
+
+    /**
+     * Handle errors that may occur during the AsyncTask.
+     * @param result the error message provide from the AsyncTask */
+    private void handleErrorsInTask(String result) {
+        Log.e("ASYNCT_TASK_ERROR", result);
     }
 }
