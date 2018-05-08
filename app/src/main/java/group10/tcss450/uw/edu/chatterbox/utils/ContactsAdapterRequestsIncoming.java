@@ -59,7 +59,6 @@ public class ContactsAdapterRequestsIncoming extends RecyclerView.Adapter<Contac
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Contact contact = mContacts.get(position);
-        // Set item views based on your views and data model
         TextView textView = holder.nameTextView;
         textView.setText(contact.getName());
         Button decline = holder.itemView.findViewById(R.id.requestsRecyclerDecline);
@@ -148,7 +147,10 @@ public class ContactsAdapterRequestsIncoming extends RecyclerView.Adapter<Contac
      */
     private void refreshEvents(List<Contact> contacts) {
         mContacts.clear();
-        mContacts.addAll(contacts);
+        if(!contacts.isEmpty()) {
+            mContacts.addAll(contacts);
+        }
+
         notifyDataSetChanged();
     }
 
@@ -161,7 +163,8 @@ public class ContactsAdapterRequestsIncoming extends RecyclerView.Adapter<Contac
 
     @Override
     public int getItemCount() {
-        return mContacts.size();
+            return mContacts.size();
+
     }
 
     // Provide a direct reference to each of the views within a data item

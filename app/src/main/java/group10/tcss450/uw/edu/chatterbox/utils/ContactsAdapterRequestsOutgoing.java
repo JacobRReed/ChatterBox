@@ -56,10 +56,9 @@ public class ContactsAdapterRequestsOutgoing extends RecyclerView.Adapter<Contac
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Contact contact = mContacts.get(position);
-        TextView textView = holder.nameTextView;
+        TextView textView = holder.nameOutTextView;
         textView.setText(contact.getName());
-
-        Button cancel = holder.cancelButton;
+        Button cancel = holder.itemView.findViewById(R.id.requestsOutCancel);
         cancel.setOnClickListener(v -> {
             mPosition = position;
             mUserRequested = contact.getName();
@@ -76,13 +75,14 @@ public class ContactsAdapterRequestsOutgoing extends RecyclerView.Adapter<Contac
         //build the web service URL
         Uri uri = new Uri.Builder()
                 .scheme("https")
-                .path(mContext.getString(R.string.ep_requests_out_cancel))
+                .path(mContext.getString(R.string.ep_requests_out))
                 .build();
         //build the JSONObject
         JSONObject msg = new JSONObject();
         try{
             msg.put("friend", user);
             msg.put("username", mUsername);
+            msg.put("cancel", true);
         } catch (JSONException e) {
             Log.wtf("Error creating JSON object for existing connections:", e);
         }
@@ -132,7 +132,7 @@ public class ContactsAdapterRequestsOutgoing extends RecyclerView.Adapter<Contac
 
     @Override
     public int getItemCount() {
-        return 0;
+            return mContacts.size();
     }
 
     /**
@@ -147,7 +147,7 @@ public class ContactsAdapterRequestsOutgoing extends RecyclerView.Adapter<Contac
     public class ViewHolder extends RecyclerView.ViewHolder {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
-        public TextView nameTextView;
+        public TextView nameOutTextView;
         public Button cancelButton;
 
         // We also create a constructor that accepts the entire item row
@@ -157,7 +157,7 @@ public class ContactsAdapterRequestsOutgoing extends RecyclerView.Adapter<Contac
             // to access the context from any ViewHolder instance.
             super(itemView);
 
-            nameTextView = itemView.findViewById(R.id.requestsOutName);
+            nameOutTextView = itemView.findViewById(R.id.requestsOutName);
             cancelButton = itemView.findViewById(R.id.requestsOutCancel);
         }
     }

@@ -92,6 +92,8 @@ public class ConnectionsRequests extends Fragment {
         JSONObject msg = new JSONObject();
         try{
             msg.put("username", username);
+            msg.put("cancel", false);
+            msg.put("friend", "null");
         } catch (JSONException e) {
             Log.wtf("Error creating JSON object for existing connections:", e);
         }
@@ -117,7 +119,7 @@ public class ConnectionsRequests extends Fragment {
         String[] userListFinal = new String[userList.length];
         for(int i = 0; i < userList.length; i++) {
             userListFinal[i] = userList[i].replaceAll("[^a-zA-Z]", "");
-            userListFinal[i] = userList[i].replaceAll("possibleFriends", "");
+            userListFinal[i] = userList[i].replaceAll("outgoingFriends", "");
         }
 
         for(String s : userListFinal) {
@@ -162,7 +164,7 @@ public class ConnectionsRequests extends Fragment {
         String[] userListFinal = new String[userList.length];
         for(int i = 0; i < userList.length; i++) {
             userListFinal[i] = userList[i].replaceAll("[^a-zA-Z]", "");
-            userListFinal[i] = userList[i].replaceAll("possibleFriends", "");
+            userListFinal[i] = userList[i].replaceAll("incomingFriends", "");
         }
 
         for(String s : userListFinal) {
