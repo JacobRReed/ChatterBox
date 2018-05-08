@@ -9,26 +9,18 @@
     >
 
     <TextView
-        android:id="@+id/requestsRecyclerName"
-        android:layout_width="240dp"
+        android:id="@+id/requestsOutName"
+        android:layout_width="314dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/requestsRecyclerDecline"
+        android:id="@+id/requestsOutCancel"
         android:layout_width="32dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:drawableStart="@drawable/ic_decline"
         android:gravity="center_horizontal|top" />
 
-    <Button
-        android:id="@+id/requestsRecycleAccept"
-        android:layout_width="32dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:drawableStart="@drawable/ic_accept"
-        android:enabled="true"
-        android:gravity="center_horizontal|top" />
 </LinearLayout>

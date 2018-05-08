@@ -65,4 +65,6 @@
     <string name="requests_accept">Accept</string>
     <string name="requests_decline">Decline</string>
     <string name="login_user">Username</string>
+    <string name="requests_out">Outgoing</string>
+    <string name="requests_in">Incoming</string>
 </resources>

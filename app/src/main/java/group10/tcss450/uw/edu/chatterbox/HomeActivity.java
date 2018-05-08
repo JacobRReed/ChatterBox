@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,6 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import static java.security.AccessController.getContext;
+
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, WeatherFragment.OnFragmentInteractionListener, ChangeLocationFragment.OnFragmentInteractionListener {
 
@@ -24,6 +27,7 @@ public class HomeActivity extends AppCompatActivity
     private static final String PREFS_FONT = "font_pref";
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences themePreferences = getSharedPreferences(PREFS_THEME, MODE_PRIVATE);
         int themeChoice = themePreferences.getInt(PREFS_THEME, 0);
@@ -82,16 +86,16 @@ public class HomeActivity extends AppCompatActivity
         //Apply nav side bar theme
         switch(themeChoice) {
             case 1:
-                header.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                header.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
                 break;
             case 2:
-                header.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDarkTwo));
+                header.setBackgroundColor(ContextCompat.getColor(this,R.color.colorPrimaryDarkTwo));
                 break;
             case 3:
-                header.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDarkThree));
+                header.setBackgroundColor(ContextCompat.getColor(this,R.color.colorPrimaryDarkThree));
                 break;
             default:
-                header.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                header.setBackgroundColor(ContextCompat.getColor(this,R.color.colorPrimaryDark));
                 break;
         }
 
