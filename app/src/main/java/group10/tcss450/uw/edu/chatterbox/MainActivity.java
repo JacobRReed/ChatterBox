@@ -96,6 +96,13 @@ public class MainActivity extends AppCompatActivity
             boolean success = resultsJSON.getBoolean("success");
             if (success) {
                 //Login was successful. Switch to the loadSuccessFragment.
+                SharedPreferences prefs = getSharedPreferences(
+                        getString(R.string.keys_shared_prefs),
+                        Context.MODE_PRIVATE);
+//            save the username for later usage
+                prefs.edit().putString(getString(R.string.keys_prefs_username),
+                        mCredentials.getUsername())
+                        .apply();
                 checkStayLoggedIn();
                 onLoginAction();
             } else {
