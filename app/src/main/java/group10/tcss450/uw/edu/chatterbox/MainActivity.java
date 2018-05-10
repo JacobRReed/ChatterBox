@@ -93,8 +93,10 @@ public class MainActivity extends AppCompatActivity
     private void handleLoginOnPost(String result) {
         try {
             JSONObject resultsJSON = new JSONObject(result);
-            boolean success = resultsJSON.getBoolean("success");
-            if (success) {
+           // boolean success = resultsJSON.getBoolean("success");
+            boolean usernameMatch = resultsJSON.getBoolean("username");
+            boolean passwordMatch = resultsJSON.getBoolean("password");
+            if (usernameMatch && passwordMatch) {
                 //Login was successful. Switch to the loadSuccessFragment.
                 SharedPreferences prefs = getSharedPreferences(
                         getString(R.string.keys_shared_prefs),
@@ -105,9 +107,17 @@ public class MainActivity extends AppCompatActivity
                         .apply();
                 checkStayLoggedIn();
                 onLoginAction();
+            }
+
+            else if(!usernameMatch) {
+                //Login was unsuccessful. Don’t switch fragments and inform the usertest
+                Toast.makeText(this, "Login Unsuccessful: Wrong Username.", Toast.LENGTH_LONG).show();
+            } else if(!passwordMatch && usernameMatch) {
+                //Login was unsuccessful. Don’t switch fragments and inform the usertest
+                Toast.makeText(this, "Login Unsuccessful: Wrong Password.", Toast.LENGTH_LONG).show();
             } else {
                 //Login was unsuccessful. Don’t switch fragments and inform the usertest
-                Toast.makeText(this, "Login Unsuccessful", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Login Unsuccessful: Unknown Reason.", Toast.LENGTH_LONG).show();
             }
         } catch (JSONException e) {
             //It appears that the web service didn’t return a JSON formatted String
