@@ -3,16 +3,10 @@ package group10.tcss450.uw.edu.chatterbox;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.Shape;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -22,7 +16,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import static java.security.AccessController.getContext;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, WeatherFragment.OnFragmentInteractionListener, ChangeLocationFragment.OnFragmentInteractionListener {
@@ -31,11 +27,16 @@ public class HomeActivity extends AppCompatActivity
     private static final String PREFS_FONT = "font_pref";
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences themePreferences = getSharedPreferences(PREFS_THEME, MODE_PRIVATE);
         int themeChoice = themePreferences.getInt(PREFS_THEME, 0);
         SharedPreferences fontPreferences = getSharedPreferences(PREFS_FONT, MODE_PRIVATE);
         int fontChoice = fontPreferences.getInt(PREFS_FONT, 0);
+        /*SharedPreferences userPrefs = getSharedPreferences(getString(R.string.keys_shared_prefs), MODE_PRIVATE);
+        String name = userPrefs.getString(getString(R.string.keys_prefs_username_local),"ChatterBox");
+        TextView navBarTitle = findViewById(R.id.navBarTitleText);
+        navBarTitle.setText(name);*/
 
         //Apply themes
         switch(themeChoice) {
@@ -81,19 +82,20 @@ public class HomeActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
+
         //Apply nav side bar theme
         switch(themeChoice) {
             case 1:
-                header.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                header.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
                 break;
             case 2:
-                header.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDarkTwo));
+                header.setBackgroundColor(ContextCompat.getColor(this,R.color.colorPrimaryDarkTwo));
                 break;
             case 3:
-                header.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDarkThree));
+                header.setBackgroundColor(ContextCompat.getColor(this,R.color.colorPrimaryDarkThree));
                 break;
             default:
-                header.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                header.setBackgroundColor(ContextCompat.getColor(this,R.color.colorPrimaryDark));
                 break;
         }
 
@@ -146,6 +148,7 @@ public class HomeActivity extends AppCompatActivity
                         getString(R.string.keys_shared_prefs),
                         Context.MODE_PRIVATE);
         prefs.edit().remove(getString(R.string.keys_prefs_username));
+        prefs.edit().remove(getString(R.string.keys_prefs_username_local));
         prefs.edit().putBoolean(
                 getString(R.string.keys_prefs_stay_logged_in),
                 false)
@@ -196,4 +199,6 @@ public class HomeActivity extends AppCompatActivity
         //Save location changes and send to weather fragment
         loadFragment(new WeatherFragment());
     }
+
+
 }

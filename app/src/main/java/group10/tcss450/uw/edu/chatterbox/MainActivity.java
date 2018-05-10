@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -96,6 +96,13 @@ public class MainActivity extends AppCompatActivity
             boolean success = resultsJSON.getBoolean("success");
             if (success) {
                 //Login was successful. Switch to the loadSuccessFragment.
+                SharedPreferences prefs = getSharedPreferences(
+                        getString(R.string.keys_shared_prefs),
+                        Context.MODE_PRIVATE);
+//            save the username for later usage
+                prefs.edit().putString(getString(R.string.keys_prefs_username),
+                        mCredentials.getUsername())
+                        .apply();
                 checkStayLoggedIn();
                 onLoginAction();
             } else {
@@ -162,7 +169,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLoginAction() {
-        //Load home activity
         startActivity(new Intent(MainActivity.this, HomeActivity.class));
     }
 
@@ -201,6 +207,7 @@ public class MainActivity extends AppCompatActivity
         //build the JSONObject
         JSONObject msg = credentials.asJSONObject();
         mCredentials = credentials;
+
         //instantiate and execute the AsyncTask.
         //Feel free to add a handler for onPreExecution so that a progress bar
         //is displayed or maybe disable buttons. You would need a method in

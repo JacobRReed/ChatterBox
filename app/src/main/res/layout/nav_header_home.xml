@@ -19,7 +19,7 @@
         android:layout_height="95dp"
         android:contentDescription="@string/nav_header_desc"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@mipmap/ic_app_logo"
+        app:srcCompat="@mipmap/ic_app_icon"
         />
 
     <TextView
@@ -29,11 +29,5 @@
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="@string/appName"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-    <TextView
-        android:id="@+id/navBarSubText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/appGroupName" />
 
 </LinearLayout>

@@ -2,6 +2,7 @@ package group10.tcss450.uw.edu.chatterbox;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -53,7 +54,7 @@ public class LoginFragment extends Fragment {
             boolean flag = true;
 
             if(loginEmailTextBox.getText().toString().length() < 1) {
-                loginEmailTextBox.setError("Must have a valid email!");
+                loginEmailTextBox.setError("Must have a valid username!");
                 flag = false;
             }
             if(passwordTextBox.getText().length() < 1) {
@@ -62,9 +63,15 @@ public class LoginFragment extends Fragment {
             }
             if(flag) {
                 Editable password = new SpannableStringBuilder(passwordTextBox.getText().toString());
-                String loginEmail = loginEmailTextBox.getText().toString();
-                Credentials.Builder mCredentials = new Credentials.Builder(loginEmail, password);
+                String loginUsername = loginEmailTextBox.getText().toString();
+                Credentials.Builder mCredentials = new Credentials.Builder(loginUsername, password);
                 Credentials mc = mCredentials.build();
+                SharedPreferences prefs =
+                        getActivity().getSharedPreferences(
+                                getString(R.string.keys_shared_prefs),
+                                Context.MODE_PRIVATE);
+                prefs.edit().putString(getString(R.string.keys_prefs_username_local), loginUsername).apply();
+                Log.wtf("Local Username:", prefs.getString("usernameLocal", ""));
                 mListener.onLoginAttempt(mc);
             }
         });

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    >
+
+    <TextView
+        android:id="@+id/connectionsExistingContactName"
+        android:layout_width="261dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/connectionsExistingRemove"
+        android:layout_width="58dp"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_remove"
+        android:enabled="true"
+        android:gravity="center_horizontal|top"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp" />
+
+    <Button
+        android:id="@+id/connectionExistingMessage"
+        android:layout_width="34dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableStart="@drawable/ic_chat"
+        android:enabled="true"
+        android:gravity="center_horizontal|top"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp" />
+</LinearLayout>
