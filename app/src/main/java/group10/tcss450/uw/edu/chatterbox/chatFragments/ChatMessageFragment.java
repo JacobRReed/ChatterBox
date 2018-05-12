@@ -14,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,9 +28,9 @@ import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link android.support.v4.app.Fragment} subclass.
  */
-public class ChatMessageFragment extends Fragment {
+public class ChatMessageFragment extends android.support.v4.app.Fragment {
 
     private String mUsername;
     private String mSendUrl;

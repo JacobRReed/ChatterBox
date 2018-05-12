@@ -18,10 +18,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import group10.tcss450.uw.edu.chatterbox.chatFragments.ChatContactsFragment;
+import group10.tcss450.uw.edu.chatterbox.chatFragments.ChatListFragment;
+import group10.tcss450.uw.edu.chatterbox.chatFragments.ChatMessageFragment;
+
 import static java.security.AccessController.getContext;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, WeatherFragment.OnFragmentInteractionListener, ChangeLocationFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+            WeatherFragment.OnFragmentInteractionListener,
+            ChangeLocationFragment.OnFragmentInteractionListener,
+            ChatListFragment.OnFragmentInteractionListener {
 
     private static final String PREFS_THEME = "theme_pref";
     private static final String PREFS_FONT = "font_pref";
@@ -177,7 +184,8 @@ public class HomeActivity extends AppCompatActivity
             loadFragment(new ConnectionsFragment());
         } else if (id == R.id.nav_chat) {
             //Handle chat action
-            loadFragment(new ChatFragment());
+//            loadFragment(new ChatFragment());
+            loadFragment(new ChatListFragment());
         } else if (id == R.id.nav_weather) {
             //Handle weather action
             loadFragment(new WeatherFragment());
@@ -198,6 +206,24 @@ public class HomeActivity extends AppCompatActivity
     public void onChangeLocationSubmitAction() {
         //Save location changes and send to weather fragment
         loadFragment(new WeatherFragment());
+    }
+
+
+    @Override
+    public void onMakeNewChatAction() {
+        loadFragment(new ChatContactsFragment());
+    }
+
+//    @Override
+//    public void onAddFriendToChatAction() {
+//        loadFragment(new ChatMessageFragment());
+//    }
+
+    public void switchContent(int id, Fragment fragment) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(id, fragment, fragment.toString());
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
 
