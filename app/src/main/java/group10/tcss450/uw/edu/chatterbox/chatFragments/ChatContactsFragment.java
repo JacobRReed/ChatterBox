@@ -62,8 +62,8 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
         onExistingConnectionsLoad(username); //FIX THIS @TODO
         mContacts = new ArrayList<>();
 //        FragmentManager fg;
-        android.support.v4.app.FragmentManager transaction = getChildFragmentManager();
-        mAdapter = new ChatContactsAdapter(mContacts, this.getContext(), transaction);
+        android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
+        mAdapter = new ChatContactsAdapter(mContacts, this.getContext(), fm);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
 

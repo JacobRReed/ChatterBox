@@ -43,16 +43,16 @@ public class ChatContactsAdapter extends RecyclerView.Adapter<ChatContactsAdapte
     private List<Contact> mContacts;
     private Context mContext;
     private int mPosition;
-    private android.support.v4.app.FragmentManager mFragM;
+    private FragmentManager mFrag;
 
 
 
-    public ChatContactsAdapter(List<Contact> contacts, Context context, android.support.v4.app.FragmentManager fragM) {
+    public ChatContactsAdapter(List<Contact> contacts, Context context, FragmentManager fragmentManager) {
         mContacts = contacts;
 //        Log.e("contactSize", "" + mContacts.size());
 //        mRemovalPerson = null;
         mContext = context;
-        mFragM = fragM;
+        mFrag = fragmentManager;
     }
 
 
@@ -83,7 +83,9 @@ public class ChatContactsAdapter extends RecyclerView.Adapter<ChatContactsAdapte
         friendButton.setOnClickListener(v -> {
             mPosition = position;
 //            mListener.onAddFriendToChatAction();
-            mFragM.beginTransaction().replace(R.id.ChatContactsRecycler, new ChatMessageFragment()).commit();
+            FragmentTransaction fragTrans = mFrag.beginTransaction();
+            fragTrans.replace(R.id.ChatContactsRecycler, new ChatMessageFragment());
+            fragTrans.commit();
 
         });
 
