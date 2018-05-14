@@ -67,6 +67,8 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        mRecyclerView.setItemAnimator(null);
+
 
 
 
