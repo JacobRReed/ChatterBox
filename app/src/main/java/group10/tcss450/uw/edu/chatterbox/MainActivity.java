@@ -21,7 +21,10 @@ import group10.tcss450.uw.edu.chatterbox.model.Credentials;
 import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
 
 public class MainActivity extends AppCompatActivity
-        implements LoginFragment.OnFragmentInteractionListener, RegisterFragment.RegisterAction, RegisterVerification.OnFragmentInteractionListener {
+        implements LoginFragment.OnFragmentInteractionListener,
+        RegisterFragment.RegisterAction,
+        RegisterVerification.OnFragmentInteractionListener,
+        ResetPasswordFragment.OnFragmentInteractionListener {
 
     private static final String PREFS_THEME = "theme_pref";
     private static Credentials mCredentials = null;
@@ -207,6 +210,20 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void onForgotPasswordAction() {
+        //Load forgotPassword fragment
+        loadFragment(new ResetPasswordFragment());
+    }
+
+    @Override
+    public void onNewPasswordSubmit() {
+        // Reset the password and save it to the DB
+
+        //Load forgotPassword fragment
+        loadFragment(new LoginFragment());
+    }
+
+    @Override
     public void onLoginAttempt(Credentials credentials) {
         //build the web service URL
         Uri uri = new Uri.Builder()
@@ -265,4 +282,6 @@ public class MainActivity extends AppCompatActivity
     public void onVerificationLogin() {
         loadFragment(new LoginFragment());
     }
+
+
 }

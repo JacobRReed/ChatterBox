@@ -47,6 +47,7 @@ public class LoginFragment extends Fragment {
         // variables
         Button loginButton = v.findViewById(R.id.buttonLoginLogin);
         Button registerButton = v.findViewById((R.id.buttonLoginRegister));
+        Button forgotPasswordButton = v.findViewById(R.id.buttonLoginForgotPassword);
         EditText loginEmailTextBox = (EditText) v.findViewById(R.id.editTextLoginEmail);
         EditText passwordTextBox = (EditText) v.findViewById(R.id.editTextLoginPassword);
 
@@ -75,8 +76,8 @@ public class LoginFragment extends Fragment {
                 mListener.onLoginAttempt(mc);
             }
         });
-
         registerButton.setOnClickListener(view -> mListener.onLoginRegisterAction());
+        forgotPasswordButton.setOnClickListener(view -> mListener.onForgotPasswordAction());
 
         return v;
     }
@@ -119,5 +120,6 @@ public class LoginFragment extends Fragment {
         void onLoginAttempt(Credentials credentials);
         void onLoginAction();
         void onLoginRegisterAction();
+        void onForgotPasswordAction();
     }
 }
