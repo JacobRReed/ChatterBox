@@ -2,6 +2,7 @@ package group10.tcss450.uw.edu.chatterbox.utils;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+//import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 //import android.support.v7.widget.RecyclerView;
@@ -85,9 +86,13 @@ public class ChatContactsAdapter extends RecyclerView.Adapter<ChatContactsAdapte
         friendButton.setOnClickListener(v -> {
             mPosition = position;
 //            mListener.onAddFriendToChatAction();
+
             FragmentTransaction fragTrans = mFrag.beginTransaction();
-            fragTrans.replace(R.id.ChatContactsRecycler, new ChatMessageFragment());
+            fragTrans.remove(new ChatContactsFragment());
+            fragTrans.replace(R.id.ChatContactsRecyclerLayout, new ChatMessageFragment());
+            fragTrans.addToBackStack(null);
             fragTrans.commit();
+
 
         });
 

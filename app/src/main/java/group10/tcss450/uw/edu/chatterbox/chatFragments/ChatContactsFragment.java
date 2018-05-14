@@ -131,28 +131,5 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
         Log.e("ASYNCT_TASK_ERROR", result);
     }
 
-//    public interface OnFragmentInteractionListener {
-//        void onAddFriendToChatAction();
-//        void onLogout();
-//
-//    }
-//
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof ChatListFragment.OnFragmentInteractionListener) {
-//            mListener = (ChatContactsFragment.OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
-
 
 }
