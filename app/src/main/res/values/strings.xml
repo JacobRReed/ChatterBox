@@ -71,5 +71,7 @@
     <string name="reset_password_hint">New Password</string>
     <string name="reset_password_confirm_hint">Confirm New Password</string>
     <string name="reset_password_title_text_view">Reset Password</string>
+    <string name="reset_password_username_hint_text_view">Enter your username</string>
+    <string name="reset_password_email_hint_text_view">Enter your email</string>
     <string name="reset_password_button">Submit</string>
 </resources>

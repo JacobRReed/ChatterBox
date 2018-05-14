@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onNewPasswordSubmit() {
+    public void onNewPasswordSubmit(Credentials mCredentials) {
         // Reset the password and save it to the DB
 
         //Load forgotPassword fragment
