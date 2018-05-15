@@ -8,6 +8,7 @@
     <string name="ep_existing">friends</string>
     <string name="ep_add">add</string>
     <string name="ep_invite">invite</string>
+    <string name="ep_reset_password">resetpassword</string>
     <string name="ep_requests_acceptdecline">chatterboxtcss450.herokuapp.com/requests/ad</string>
     <string name="ep_requests_inc">chatterboxtcss450.herokuapp.com/requests/inc</string>
     <string name="ep_requests_out">chatterboxtcss450.herokuapp.com/requests/out</string>
