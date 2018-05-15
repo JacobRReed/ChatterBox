@@ -37,6 +37,7 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     public ArrayList<Contact> mContacts;
+    private String mUsername;
 
     public ChatContactsFragment() {
         // Required empty public constructor
@@ -59,11 +60,12 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
                         getString(R.string.keys_shared_prefs),
                         Context.MODE_PRIVATE);
         String username = prefs.getString(getString(R.string.keys_prefs_username_local), "");
+        mUsername = username;
         onExistingConnectionsLoad(username); //FIX THIS @TODO
         mContacts = new ArrayList<>();
 //        FragmentManager fg;
         android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
-        mAdapter = new ChatContactsAdapter(mContacts, this.getContext(), fm);
+        mAdapter = new ChatContactsAdapter(mContacts, this.getContext(), fm, getView(), mUsername, prefs);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
@@ -113,13 +115,19 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
             userListFinal[i] = userList[i].replaceAll("[^a-zA-Z]", "");
         }
 
-        for(String s : userListFinal) {
+        for(String s : userList) {
             mContacts.add(new Contact(s));
             Log.e("contacts", mContacts.toString());
         }
 
+        SharedPreferences prefs =
+                getActivity().getSharedPreferences(
+                        getString(R.string.keys_shared_prefs),
+                        Context.MODE_PRIVATE);
+
+
         android.support.v4.app.FragmentManager transaction = getChildFragmentManager();
-        mAdapter = new ChatContactsAdapter(mContacts, this.getContext(), transaction); //I changed this
+        mAdapter = new ChatContactsAdapter(mContacts, this.getContext(), transaction, getView(), mUsername, prefs); //I changed this
         mRecyclerView.setAdapter(mAdapter);
 
     }

@@ -32,6 +32,8 @@ import group10.tcss450.uw.edu.chatterbox.R;
 import group10.tcss450.uw.edu.chatterbox.WeatherFragment;
 import group10.tcss450.uw.edu.chatterbox.connectionsFragments.ConnectionsExisting;
 import group10.tcss450.uw.edu.chatterbox.model.Credentials;
+import group10.tcss450.uw.edu.chatterbox.utils.Chat;
+import group10.tcss450.uw.edu.chatterbox.utils.ChatListAdapter;
 import group10.tcss450.uw.edu.chatterbox.utils.Contact;
 import group10.tcss450.uw.edu.chatterbox.utils.ContactsAdapterExisting;
 import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
@@ -45,6 +47,14 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
     private ChatListFragment.OnFragmentInteractionListener mListener;
 //    private ConstraintLayout mContainer;
 
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    public ArrayList<Contact> mContacts;
+    public ArrayList<Chat> mChats;
+
+
+    private String mUsername;
 
     public ChatListFragment() {
         // Required empty public constructor
@@ -62,21 +72,32 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
         FloatingActionButton makeNewChatButton = v.findViewById(R.id.ChatListMakeNewChatActionButton);
         makeNewChatButton.setOnClickListener(view -> mListener.onMakeNewChatAction());
 
-////        mRecyclerView = v.findViewById(R.id.connectionsExistingRecycler);
-//        mRecyclerView = v.findViewById(R.id.ChatContactsRecycler);
-//        mRecyclerView.setHasFixedSize(true);
-//        mLayoutManager = new LinearLayoutManager(getContext());
-//        //Get username
-//        SharedPreferences prefs =
-//                getActivity().getSharedPreferences(
-//                        getString(R.string.keys_shared_prefs),
-//                        Context.MODE_PRIVATE);
-//        String username = prefs.getString(getString(R.string.keys_prefs_username_local), "");
-//        onExistingConnectionsLoad(username); //FIX THIS @TODO
-//        mContacts = new ArrayList<>();
-//        mAdapter = new ContactsAdapterExisting(mContacts, this.getContext());
-//        mRecyclerView.setAdapter(mAdapter);
-//        mRecyclerView.setLayoutManager(mLayoutManager);
+        //------------
+
+        mRecyclerView = v.findViewById(R.id.ChatListRecycler);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(getContext());
+        //Get username
+        SharedPreferences prefs =
+                getActivity().getSharedPreferences(
+                        getString(R.string.keys_shared_prefs),
+                        Context.MODE_PRIVATE);
+        String username = prefs.getString(getString(R.string.keys_prefs_username_local), "");
+        mUsername = username;
+        //---
+        onExistingConnectionsLoad(username); //FIX THIS @TODO
+        //-----
+        mContacts = new ArrayList<>();
+        mChats = new ArrayList<>();
+//        FragmentManager fg;
+        android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
+
+        mAdapter = new ChatListAdapter(mChats, this.getContext(), fm, getView(), mUsername, prefs);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mRecyclerView.setItemAnimator(null);
+
 
         return v;
     }
@@ -107,4 +128,64 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
         mListener = null;
     }
 
+    //---------
+
+    private void onExistingConnectionsLoad(String username) {
+        //build the web service URL
+        Uri uri = new Uri.Builder()
+                .scheme("https")
+                .appendPath(getString(R.string.ep_base_url))
+                .appendPath("chats")
+                .appendPath("getAllChats")
+                .build();
+        //build the JSONObject
+        JSONObject msg = new JSONObject();
+        try{
+            msg.put("name", username);
+        } catch (JSONException e) {
+            Log.wtf("Error creating JSON object for existing connections:", e);
+        }
+
+        //instantiate and execute the AsyncTask.
+        //Feel free to add a handler for onPreExecution so that a progress bar
+        //is displayed or maybe disable buttons. You would need a method in
+        //LoginFragment to perform this.
+        new SendPostAsyncTask.Builder(uri.toString(), msg)
+                .onPostExecute(this::handleExistingConnectionOnPost)
+                .onCancelled(this::handleErrorsInTask)
+                .build().execute();
+    }
+
+    private void handleExistingConnectionOnPost(String result) {
+        Log.e("#@#@#@# the results are: ", result.toString());
+        String temp = result.toString();
+        temp = temp.replace("{\"name\":[","");
+        temp = temp.replace("]}","");
+        temp = temp.replace("\"","");
+        String[] chatNames = temp.split(",");
+        Log.e("#@#@#@#@ the results are: ", chatNames[0]);
+
+        for(String s : chatNames) {
+            mChats.add(new Chat(s));
+            Log.e("chats", mChats.toString());
+        }
+
+        SharedPreferences prefs =
+                getActivity().getSharedPreferences(
+                        getString(R.string.keys_shared_prefs),
+                        Context.MODE_PRIVATE);
+
+
+        android.support.v4.app.FragmentManager transaction = getChildFragmentManager();
+        mAdapter = new ChatListAdapter(mChats, this.getContext(), transaction, getView(), mUsername, prefs); //I changed this
+        mRecyclerView.setAdapter(mAdapter);
+
+    }
+
+    /**
+     * Handle errors that may occur during the AsyncTask.
+     * @param result the error message provide from the AsyncTask */
+    private void handleErrorsInTask(String result) {
+        Log.e("ASYNCT_TASK_ERROR", result);
+    }
 }

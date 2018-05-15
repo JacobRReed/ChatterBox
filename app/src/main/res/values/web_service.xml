@@ -13,4 +13,6 @@
     <string name="ep_requests_out">chatterboxtcss450.herokuapp.com/requests/out</string>
     <string name="ep_requests_out_cancel">chatterboxtcss450.herokuapp.com/requests/out/cancel</string>
     <string name="ep_requests">chatterboxtcss450.herokuapp.com/requests</string>
+
+    <string name="ep_make_chat">makeChat</string>
 </resources>
