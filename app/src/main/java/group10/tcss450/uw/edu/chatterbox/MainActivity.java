@@ -99,7 +99,8 @@ public class MainActivity extends AppCompatActivity
            // boolean success = resultsJSON.getBoolean("success");
             boolean usernameMatch = resultsJSON.getBoolean("username");
             boolean passwordMatch = resultsJSON.getBoolean("password");
-            if (usernameMatch && passwordMatch) {
+            boolean verificationMatch = resultsJSON.getBoolean("verification");
+            if (usernameMatch && passwordMatch && verificationMatch) {
                 //Login was successful. Switch to the loadSuccessFragment.
                 SharedPreferences prefs = getSharedPreferences(
                         getString(R.string.keys_shared_prefs),
@@ -118,7 +119,10 @@ public class MainActivity extends AppCompatActivity
             } else if(!passwordMatch && usernameMatch) {
                 //Login was unsuccessful. Don’t switch fragments and inform the usertest
                 Toast.makeText(this, "Login Unsuccessful: Wrong Password.", Toast.LENGTH_LONG).show();
-            } else {
+            } else if (!verificationMatch && usernameMatch && passwordMatch) {
+                Toast.makeText(this, "Login Unsuccessful: You are not verified yet. Check your email to verify.", Toast.LENGTH_LONG).show();
+
+            } else{
                 //Login was unsuccessful. Don’t switch fragments and inform the usertest
                 Toast.makeText(this, "Login Unsuccessful: Unknown Reason.", Toast.LENGTH_LONG).show();
             }
