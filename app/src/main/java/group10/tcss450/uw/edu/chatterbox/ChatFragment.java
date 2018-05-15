@@ -20,6 +20,8 @@ import org.json.JSONObject;
 import group10.tcss450.uw.edu.chatterbox.utils.ListenManager;
 import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +31,7 @@ public class ChatFragment extends Fragment {
     private String mUsername;
     private String mSendUrl;
     private TextView mOutputTextView; private ListenManager mListenManager;
+    private static final String PREFS_FONT = "font_pref";
 
     public ChatFragment() {
         // Required empty public constructor
@@ -47,10 +50,26 @@ public class ChatFragment extends Fragment {
             Log.e("Error", "title isn't working");
         }
 
-
-
         v.findViewById(R.id.chatSendButton).setOnClickListener(this::sendMessage);
         mOutputTextView = v.findViewById(R.id.chatOutputTextView);
+
+        /*
+        SharedPreferences preferences = getActivity().getSharedPreferences(PREFS_FONT, MODE_PRIVATE);
+        int fontChoice = preferences.getInt(PREFS_FONT, 0);
+        switch(fontChoice) {
+            case 1:
+                mOutputTextView.setTextSize(R.id.settingsFontSmall);
+                break;
+            case 2:
+                mOutputTextView.setTextSize(R.id.settingsFontMedium);
+                break;
+            case 3:
+                mOutputTextView.setTextSize(R.id.settingsFontLarge);
+                break;
+            default:
+                mOutputTextView.setTextSize(R.id.settingsFontMedium);
+                break;
+        }*/
 
         return v;
     }
@@ -59,7 +78,7 @@ public class ChatFragment extends Fragment {
     public void onStart() {
         super.onStart();
         SharedPreferences prefs =
-                getActivity().getSharedPreferences( getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
+                getActivity().getSharedPreferences( getString(R.string.keys_shared_prefs), MODE_PRIVATE);
 
 
 
@@ -111,7 +130,7 @@ public class ChatFragment extends Fragment {
         SharedPreferences prefs =
                 getActivity().getSharedPreferences(
                         getString(R.string.keys_shared_prefs),
-                        Context.MODE_PRIVATE);
+                        MODE_PRIVATE);
         // Save the most recent message timestamp
         prefs.edit().putString(
                 getString(R.string.keys_prefs_time_stamp),

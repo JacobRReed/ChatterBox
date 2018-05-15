@@ -21,7 +21,10 @@ import group10.tcss450.uw.edu.chatterbox.model.Credentials;
 import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
 
 public class MainActivity extends AppCompatActivity
-        implements LoginFragment.OnFragmentInteractionListener, RegisterFragment.RegisterAction, RegisterVerification.OnFragmentInteractionListener {
+        implements LoginFragment.OnFragmentInteractionListener,
+        RegisterFragment.RegisterAction,
+        RegisterVerification.OnFragmentInteractionListener,
+        ResetPasswordFragment.OnFragmentInteractionListener {
 
     private static final String PREFS_THEME = "theme_pref";
     private static Credentials mCredentials = null;
@@ -96,7 +99,8 @@ public class MainActivity extends AppCompatActivity
            // boolean success = resultsJSON.getBoolean("success");
             boolean usernameMatch = resultsJSON.getBoolean("username");
             boolean passwordMatch = resultsJSON.getBoolean("password");
-            if (usernameMatch && passwordMatch) {
+            boolean verificationMatch = resultsJSON.getBoolean("verification");
+            if (usernameMatch && passwordMatch && verificationMatch) {
                 //Login was successful. Switch to the loadSuccessFragment.
                 SharedPreferences prefs = getSharedPreferences(
                         getString(R.string.keys_shared_prefs),
@@ -115,7 +119,10 @@ public class MainActivity extends AppCompatActivity
             } else if(!passwordMatch && usernameMatch) {
                 //Login was unsuccessful. Don’t switch fragments and inform the usertest
                 Toast.makeText(this, "Login Unsuccessful: Wrong Password.", Toast.LENGTH_LONG).show();
-            } else {
+            } else if (!verificationMatch && usernameMatch && passwordMatch) {
+                Toast.makeText(this, "Login Unsuccessful: You are not verified yet. Check your email to verify.", Toast.LENGTH_LONG).show();
+
+            } else{
                 //Login was unsuccessful. Don’t switch fragments and inform the usertest
                 Toast.makeText(this, "Login Unsuccessful: Unknown Reason.", Toast.LENGTH_LONG).show();
             }
@@ -207,6 +214,68 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void onForgotPasswordAction() {
+        //Load forgotPassword fragment
+        loadFragment(new ResetPasswordFragment());
+    }
+
+    @Override
+    public void onNewPasswordSubmit(Credentials mCredentials) {
+        // Reset the password and save it to the DB
+        //Use this code when end points is ready for Asyntask
+        //build the web service URL
+        Uri uri = new Uri.Builder()
+                .scheme("https")
+                .appendPath(getString(R.string.ep_base_url))
+                .appendPath(getString(R.string.ep_reset_password))
+                .build();
+
+        //build the JSONObject
+        JSONObject msg = mCredentials.asJSONObject();
+
+        //instantiate and execute the AsyncTask.
+        //Feel free to add a handler for onPreExecution so that a progress bar
+        //is displayed or maybe disable buttons. You would need a method in
+        //LoginFragment to perform this.
+        new SendPostAsyncTask.Builder(uri.toString(), msg)
+                .onPostExecute(this::handleNewPassOnPost)
+                .onCancelled(this::handleErrorsInTask)
+                .build().execute();
+    }
+
+    /**
+     * Handle onPostExecute of the AsynceTask. The result from our webservice is
+     * a JSON formatted String. Parse it for success or failure.
+     * @param result the JSON formatted String response from the web service
+     */
+    private void handleNewPassOnPost(String result) {
+        try {
+            JSONObject resultsJSON = new JSONObject(result);
+            boolean userName = resultsJSON.getBoolean("username");
+            boolean email = resultsJSON.getBoolean("email");
+
+            // checking for all possible errors
+            if (userName && email) {
+                // registration was successful.
+                //Load forgotPassword fragment
+                loadFragment(new LoginFragment());
+            } else {
+                Toast.makeText(this, "Password Reset Unsuccessful. Due to invalid email or password.", Toast.LENGTH_LONG).show();
+
+            }
+        } catch (JSONException e) {
+
+            //It appears that the web service didn’t return a JSON formatted String
+            //or it didn’t have what we expected in it.
+            Log.e("JSON_PARSE_ERROR", result
+                    + System.lineSeparator()
+                    + e.getMessage());
+        }
+    }
+
+
+
+    @Override
     public void onLoginAttempt(Credentials credentials) {
         //build the web service URL
         Uri uri = new Uri.Builder()
@@ -265,4 +334,6 @@ public class MainActivity extends AppCompatActivity
     public void onVerificationLogin() {
         loadFragment(new LoginFragment());
     }
+
+
 }
