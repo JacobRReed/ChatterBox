@@ -57,6 +57,15 @@ public class ResetPasswordFragment extends Fragment {
 
             boolean check = true;
 
+
+            if(username.length() < 1){
+                usernameTxtbox.setError("username cannot not be blank");
+                check = false;
+            }
+            if(email.length() < 1){
+                emailTxtbox.setError("email cannot not be blank");
+                check = false;
+            }
             if(pw.length() < 1){
                 pwTxtbox.setError("New password cannot not be blank");
                 check = false;
