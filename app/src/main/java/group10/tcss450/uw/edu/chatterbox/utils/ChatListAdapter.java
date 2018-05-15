@@ -42,6 +42,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
 
     private String myCurrentChatId;
     private String myCurrentMemId;
+    private String doNothing; //please delete this later
 
 
     //didnt change mContact to mChat
