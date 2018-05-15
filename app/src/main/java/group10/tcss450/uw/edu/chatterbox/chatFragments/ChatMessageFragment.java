@@ -6,13 +6,19 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,13 +31,14 @@ import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link android.support.v4.app.Fragment} subclass.
  */
-public class ChatMessageFragment extends Fragment {
+public class ChatMessageFragment extends android.support.v4.app.Fragment {
 
     private String mUsername;
     private String mSendUrl;
     private TextView mOutputTextView; private ListenManager mListenManager;
+    private String mCurrentChatId;
 
     public ChatMessageFragment() {
         // Required empty public constructor
@@ -50,7 +57,8 @@ public class ChatMessageFragment extends Fragment {
             Log.e("Error", "title isn't working");
         }
 
-
+//        LinearLayout layout = (LinearLayout) v.findViewById(R.id.frameLayout6);
+//        layout.removeAllViewsInLayout();
 
         v.findViewById(R.id.chatSendButton).setOnClickListener(this::sendMessage);
         mOutputTextView = v.findViewById(R.id.chatOutputTextView);
@@ -58,13 +66,23 @@ public class ChatMessageFragment extends Fragment {
         return v;
     }
 
+
     @Override
     public void onStart() {
         super.onStart();
         SharedPreferences prefs =
                 getActivity().getSharedPreferences( getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
 
+//        FragmentManager fragMan = getFragmentManager();
+//        FragmentTransaction fragTrans = fragMan.beginTransaction();
 
+//        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.ChatListRecyclerLayout)).commit();
+
+
+//        LinearLayout layout = (LinearLayout) .findViewById(R.id.layoutDeviceList);
+//        layout.removeAllViewsInLayout();
+//        fragTrans.
+//        Fragment temp = fragMan.p;
 
         if (!prefs.contains(getString(R.string.keys_prefs_username))) {
             throw new IllegalStateException("No username in prefs!");
@@ -76,12 +94,14 @@ public class ChatMessageFragment extends Fragment {
 
         //--
 
+        String currentChatId = prefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "");
+        Log.d("the current chat id is: ", currentChatId);
         //-------------
         Uri retrieve = new Uri.Builder()
                 .scheme("https")
                 .appendPath(getString(R.string.ep_base_url))
                 .appendPath(getString(R.string.ep_get_message))
-                .appendQueryParameter("chatId", "1") // this need to be change to a unique chat
+                .appendQueryParameter("chatId", currentChatId) // this need to be change to a unique chat
                 .build();
         //-------------
 
@@ -105,6 +125,51 @@ public class ChatMessageFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+//        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.ChatListRecyclerLayout)).commit();
+
+//        SharedPreferences prefs =
+//                getActivity().getSharedPreferences( getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
+//
+//
+//
+//        if (!prefs.contains(getString(R.string.keys_prefs_username))) {
+//            throw new IllegalStateException("No username in prefs!");
+//        }
+//        mUsername = prefs.getString(getString(R.string.keys_prefs_username_local), "");
+//        mSendUrl = new Uri.Builder() .scheme("https")
+//                .appendPath(getString(R.string.ep_base_url)) .appendPath(getString(R.string.ep_send_message)) .build()
+//                .toString();
+//
+//        //--
+//
+//        String currentChatId = prefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "");
+//        Log.d("the current chat id is: ", currentChatId);
+//        //-------------
+//        Uri retrieve = new Uri.Builder()
+//                .scheme("https")
+//                .appendPath(getString(R.string.ep_base_url))
+//                .appendPath(getString(R.string.ep_get_message))
+//                .appendQueryParameter("chatId", currentChatId) // this need to be change to a unique chat
+//                .build();
+//        //-------------
+//
+//        if (prefs.contains(getString(R.string.keys_prefs_time_stamp))) {
+//            //ignore all of the seen messages. You may want to store these messages locally
+//            mListenManager = new ListenManager.Builder(retrieve.toString(),
+//                    this::publishProgress)
+//                    .setTimeStamp(prefs.getString(getString(R.string.keys_prefs_time_stamp),"0"))
+//                    .setExceptionHandler(this::handleError) .setDelay(1000)
+//                    .build();
+//        } else {
+////no record of a saved timestamp. must be a first time login
+//            mListenManager = new ListenManager.Builder(retrieve.toString(),
+//                    this::publishProgress)
+//                    .setExceptionHandler(this::handleError)
+//                    .setDelay(1000)
+//                    .build();
+//        }
+
         mListenManager.startListening();
     }
 
@@ -129,10 +194,16 @@ public class ChatMessageFragment extends Fragment {
         JSONObject messageJson = new JSONObject();
         String msg = ((EditText) getView().findViewById(R.id.chatInputEditText))
                 .getText().toString();
+
+        SharedPreferences prefs =
+                getActivity().getSharedPreferences( getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
+
+        String dogChatId = prefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "");
+
         try {
             messageJson.put(getString(R.string.keys_json_username), mUsername);
             messageJson.put(getString(R.string.keys_json_message), msg);
-            messageJson.put(getString(R.string.keys_json_chat_id), 1); // change this
+            messageJson.put(getString(R.string.keys_json_chat_id), dogChatId); // change this
         } catch (JSONException e) {
             e.printStackTrace();
         }

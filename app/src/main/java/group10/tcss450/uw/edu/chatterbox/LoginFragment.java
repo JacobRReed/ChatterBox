@@ -72,6 +72,7 @@ public class LoginFragment extends Fragment {
                                 getString(R.string.keys_shared_prefs),
                                 Context.MODE_PRIVATE);
                 prefs.edit().putString(getString(R.string.keys_prefs_username_local), loginUsername).apply();
+                prefs.edit().putString(getString(R.string.keys_prefs_current_chatid), "1").apply(); //Keldon added this
                 Log.wtf("Local Username:", prefs.getString("usernameLocal", ""));
                 mListener.onLoginAttempt(mc);
             }
