@@ -26,8 +26,8 @@
     <string name="home_location">Weather for current location</string>
     <string name="home_changelocation">Change Location</string>
     <string name="home_current_conditions">Current Conditions</string>
-    <string name="home_twentyfour">24 Hour Forecast</string>
-    <string name="home_tenday">Ten Day Forecast</string>
+    <string name="home_twentyfour">12 Hour Forecast</string>
+    <string name="home_tenday">Five Day Forecast</string>
     <string name="location_zipcode">Zipcode</string>
     <string name="location_or">Or</string>
     <string name="location_map">Choose a location on the map</string>
