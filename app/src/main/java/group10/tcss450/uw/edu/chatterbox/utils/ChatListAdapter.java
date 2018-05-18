@@ -44,19 +44,21 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     private String myCurrentMemId;
     private String doNothing; //please delete this later
 
+    private View myContactView;
+
+    private Runnable mSwap;
+
 
     //didnt change mContact to mChat
     public ChatListAdapter(List<Chat> contacts, Context context,
-                               FragmentManager fragmentManager, View theView,
+                               Runnable swap, View theView,
                                String theUsername, SharedPreferences thePrefs) {
         mContacts = contacts;
-//        Log.e("contactSize", "" + mContacts.size());
-//        mRemovalPerson = null;
         mContext = context;
-        mFrag = fragmentManager;
         mView = theView;
         mUsername = theUsername;
         mPrefs = thePrefs;
+        mSwap = swap;
     }
 
 
@@ -70,7 +72,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View contactView = inflater.inflate(R.layout.chat_list_recycler_item, parent, false);
+        myContactView = inflater.inflate(R.layout.chat_list_recycler_item, parent, false);
 
 
         mSendUrlMakeChat = new Uri.Builder() .scheme("https")
@@ -87,22 +89,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
                 .build()
                 .toString();
 
-//        mSendUrlAddFriendToChat = new Uri.Builder() .scheme("https")
-//                .appendPath(mContext.getString(R.string.ep_base_url))
-//                .appendPath("chats")
-//                .appendPath("addFriendToChat")
-//                .build()
-//                .toString();
-
-//        mSendUrlMakeAndAddToChat = new Uri.Builder() .scheme("https")
-//                .appendPath(mContext.getString(R.string.ep_base_url))
-//                .appendPath("chats")
-//                .appendPath("MakeAndAddToChat")
-//                .build()
-//                .toString();
-
         // Return a new holder instance
-        ViewHolder viewHolder = new ViewHolder(contactView);
+        ViewHolder viewHolder = new ViewHolder(myContactView);
         return viewHolder;
     }
 
@@ -113,17 +101,9 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         chatButton.setText(contact.getName());
         chatButton.setOnClickListener(v -> {
             mPosition = position;
-////            String chatName = "Chat Room: " + mUsername.toUpperCase() + " and " + contact.getName().toUpperCase();
-////            MakeAndAddToChat(chatName, mUsername, contact.getName());
-            Log.d("#@#@#@#@#@#@#@#@#@#@#@#@", contact.getName());
             askForChatId(contact.getName());
-//
-            FragmentTransaction fragTrans = mFrag.beginTransaction();
-//            fragTrans.remove(new ChatListFragment());
-            fragTrans.replace(R.id.ChatListRecyclerLayout, new ChatMessageFragment());
-            fragTrans.addToBackStack(null);
-            fragTrans.commit();
 
+            mSwap.run();
         });
 
     }

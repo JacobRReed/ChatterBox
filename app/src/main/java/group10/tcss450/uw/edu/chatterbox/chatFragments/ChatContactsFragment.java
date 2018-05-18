@@ -64,8 +64,17 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
         onExistingConnectionsLoad(username); //FIX THIS @TODO
         mContacts = new ArrayList<>();
 //        FragmentManager fg;
-        android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
-        mAdapter = new ChatContactsAdapter(mContacts, this.getContext(), fm, getView(), mUsername, prefs);
+
+        Runnable swap = () -> {
+            FragmentTransaction fragTrans = getActivity().getSupportFragmentManager().beginTransaction();
+//            fragTrans.remove(new ChatListFragment());
+            fragTrans.replace(R.id.homeFragmentContainer, new ChatMessageFragment());
+            fragTrans.addToBackStack(null);
+            fragTrans.commit();
+        };
+
+//        android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
+        mAdapter = new ChatContactsAdapter(mContacts, this.getContext(), swap, getView(), mUsername, prefs);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
@@ -126,8 +135,16 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
                         Context.MODE_PRIVATE);
 
 
-        android.support.v4.app.FragmentManager transaction = getChildFragmentManager();
-        mAdapter = new ChatContactsAdapter(mContacts, this.getContext(), transaction, getView(), mUsername, prefs); //I changed this
+        Runnable swap = () -> {
+            FragmentTransaction fragTrans = getActivity().getSupportFragmentManager().beginTransaction();
+//            fragTrans.remove(new ChatListFragment());
+            fragTrans.replace(R.id.homeFragmentContainer, new ChatMessageFragment());
+            fragTrans.addToBackStack(null);
+            fragTrans.commit();
+        };
+
+//        android.support.v4.app.FragmentManager transaction = getChildFragmentManager();
+        mAdapter = new ChatContactsAdapter(mContacts, this.getContext(), swap, getView(), mUsername, prefs); //I changed this
         mRecyclerView.setAdapter(mAdapter);
 
     }
