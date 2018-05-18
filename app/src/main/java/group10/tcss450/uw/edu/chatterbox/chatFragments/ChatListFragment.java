@@ -90,9 +90,17 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
         mContacts = new ArrayList<>();
         mChats = new ArrayList<>();
 //        FragmentManager fg;
-        android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
+//        android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
 
-        mAdapter = new ChatListAdapter(mChats, this.getContext(), fm, getView(), mUsername, prefs);
+        Runnable swap = () -> {
+            FragmentTransaction fragTrans = getActivity().getSupportFragmentManager().beginTransaction();
+//            fragTrans.remove(new ChatListFragment());
+            fragTrans.replace(R.id.homeFragmentContainer, new ChatMessageFragment());
+            fragTrans.addToBackStack(null);
+            fragTrans.commit();
+        };
+
+        mAdapter = new ChatListAdapter(mChats, this.getContext(), swap, getView(), mUsername, prefs);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
@@ -177,7 +185,16 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
 
 
         android.support.v4.app.FragmentManager transaction = getChildFragmentManager();
-        mAdapter = new ChatListAdapter(mChats, this.getContext(), transaction, getView(), mUsername, prefs); //I changed this
+
+        Runnable swap = () -> {
+            FragmentTransaction fragTrans = getActivity().getSupportFragmentManager().beginTransaction();
+//            fragTrans.remove(new ChatListFragment());
+            fragTrans.replace(R.id.homeFragmentContainer, new ChatMessageFragment());
+            fragTrans.addToBackStack(null);
+            fragTrans.commit();
+        };
+
+        mAdapter = new ChatListAdapter(mChats, this.getContext(), swap, getView(), mUsername, prefs); //I changed this
         mRecyclerView.setAdapter(mAdapter);
 
     }

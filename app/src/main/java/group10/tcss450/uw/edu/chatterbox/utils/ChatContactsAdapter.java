@@ -64,19 +64,22 @@ public class ChatContactsAdapter extends RecyclerView.Adapter<ChatContactsAdapte
     private String myCurrentChatId;
     private String myCurrentMemId;
 
+    private Runnable mSwap;
+
 
 
     public ChatContactsAdapter(List<Contact> contacts, Context context,
-                               FragmentManager fragmentManager, View theView,
+                               Runnable swap, View theView,
                                String theUsername, SharedPreferences thePrefs) {
         mContacts = contacts;
 //        Log.e("contactSize", "" + mContacts.size());
 //        mRemovalPerson = null;
         mContext = context;
-        mFrag = fragmentManager;
+//        mFrag = fragmentManager;
         mView = theView;
         mUsername = theUsername;
         mPrefs = thePrefs;
+        mSwap = swap;
     }
 
 
@@ -137,12 +140,17 @@ public class ChatContactsAdapter extends RecyclerView.Adapter<ChatContactsAdapte
             MakeAndAddToChat(chatName, mUsername, contact.getName());
             askForChatId(chatName);
 
+            mSwap.run();
 
-            FragmentTransaction fragTrans = mFrag.beginTransaction();
-            fragTrans.remove(mFrag.findFragmentById(R.id.ChatContactsRecyclerLayout));
-            fragTrans.replace(R.id.ChatContactsRecyclerLayout, new ChatMessageFragment());
-            fragTrans.addToBackStack(null);
-            fragTrans.commit();
+//            while(!mFrag.getFragments().isEmpty()) {
+//                mFrag.popBackStack();
+//            }
+//            FragmentTransaction fragTrans = mFrag.beginTransaction();
+////            fragTrans.remove(mFrag.findFragmentById(R.id.ChatContactsRecyclerLayout));
+////            fragTrans.replace(R.id.ChatContactsRecyclerLayout, new ChatMessageFragment());
+//            fragTrans.add(R.id.frameLayout6, new ChatMessageFragment());
+//            fragTrans.addToBackStack(null);
+//            fragTrans.commit();
         });
 
     }
