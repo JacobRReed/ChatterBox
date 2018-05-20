@@ -196,31 +196,31 @@ public class WeatherFragment extends Fragment {
                 Bitmap tempBMP = BitmapFactory.decodeStream(tempURL.openConnection().getInputStream());
                 switch(j){
                     case 0:
-                        mDayOneText.setText(weeklyForecast[j][0]);
+                        mDayOneText.setText(convertDayString(weeklyForecast[j][0]));
                         mDayOneImage.setImageBitmap(tempBMP);
                         mDayOneDesc.setText(weeklyForecast[j][3]);
                         mDayOneTemp.setText(weeklyForecast[j][1] + "° F");
                         break;
                         case 1:
-                            mDayTwoText.setText(weeklyForecast[j][0]);
+                            mDayTwoText.setText(convertDayString(weeklyForecast[j][0]));
                             mDayTwoImage.setImageBitmap(tempBMP);
                             mDayTwoDesc.setText(weeklyForecast[j][3]);
                             mDayTwoTemp.setText(weeklyForecast[j][1]+ "° F");
                             break;
                     case 2:
-                        mDayThreeText.setText(weeklyForecast[j][0]);
+                        mDayThreeText.setText(convertDayString(weeklyForecast[j][0]));
                         mDayThreeImage.setImageBitmap(tempBMP);
                         mDayThreeDesc.setText(weeklyForecast[j][3]);
                         mDayThreeTemp.setText(weeklyForecast[j][1]+ "° F");
                         break;
                     case 3:
-                        mDayFourText.setText(weeklyForecast[j][0]);
+                        mDayFourText.setText(convertDayString(weeklyForecast[j][0]));
                         mDayFourImage.setImageBitmap(tempBMP);
                         mDayFourDesc.setText(weeklyForecast[j][3]);
                         mDayFourTemp.setText(weeklyForecast[j][1]+ "° F");
                         break;
                     case 4:
-                        mDayFiveText.setText(weeklyForecast[j][0]);
+                        mDayFiveText.setText(convertDayString(weeklyForecast[j][0]));
                         mDayFiveImage.setImageBitmap(tempBMP);
                         mDayFiveDesc.setText(weeklyForecast[j][3]);
                         mDayFiveTemp.setText(weeklyForecast[j][1]+ "° F");
@@ -241,6 +241,35 @@ public class WeatherFragment extends Fragment {
 
     }
 
+    private String convertDayString(String day) {
+        String result = new String();
+        switch(day) {
+            case "Mon":
+                result = "Monday";
+                break;
+            case "Tue":
+                result = "Tuesday";
+                break;
+            case "Thu":
+                result = "Thursday";
+                break;
+            case "Wed":
+                result = "Wednesday";
+                break;
+            case "Fri":
+                result = "Friday";
+                break;
+            case "Sat":
+                result = "Saturday";
+                break;
+            case "Sun":
+                result = "Sunday";
+                break;
+            default:
+                break;
+        }
+        return result;
+    }
 
     public interface OnFragmentInteractionListener {
         void onChangeLocationAction();
