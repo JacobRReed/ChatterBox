@@ -53,6 +53,10 @@ public class ConnectionsInvite extends Fragment {
         return v;
     }
 
+    /**
+     * Handles invite button on click. Send email if valid
+     * @param view Current view
+     */
     private void onInviteClick(View view) {
         mEmailStr = mEmailAddr.getText().toString();
         boolean sendEmail = false;
@@ -187,8 +191,5 @@ public class ConnectionsInvite extends Fragment {
             // gracefully handle failure
             Log.w("", "Warning: activity result not ok");
         }
-
-
     }
-
 }

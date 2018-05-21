@@ -13,13 +13,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-
 import group10.tcss450.uw.edu.chatterbox.R;
 import group10.tcss450.uw.edu.chatterbox.utils.Contact;
 import group10.tcss450.uw.edu.chatterbox.utils.ContactsAdapterAdd;

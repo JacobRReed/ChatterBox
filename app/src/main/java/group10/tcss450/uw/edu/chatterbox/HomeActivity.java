@@ -13,19 +13,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
-import com.google.android.gms.maps.model.LatLng;
 
 import group10.tcss450.uw.edu.chatterbox.chatFragments.ChatContactsFragment;
 import group10.tcss450.uw.edu.chatterbox.chatFragments.ChatListFragment;
-import group10.tcss450.uw.edu.chatterbox.chatFragments.ChatMessageFragment;
-
-import static java.security.AccessController.getContext;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -36,20 +30,16 @@ public class HomeActivity extends AppCompatActivity
     private static final String PREFS_THEME = "theme_pref";
     private static final String PREFS_FONT = "font_pref";
     private static final String PREFS_LOC = "location_pref";
-    private LatLng mLocation;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
+        /**
+         * Handle shared prefs for theme and fonts
+         */
         SharedPreferences themePreferences = getSharedPreferences(PREFS_THEME, MODE_PRIVATE);
         int themeChoice = themePreferences.getInt(PREFS_THEME, 0);
-        SharedPreferences fontPreferences = getSharedPreferences(PREFS_FONT, MODE_PRIVATE);
-        int fontChoice = fontPreferences.getInt(PREFS_FONT, 0);
-        /*SharedPreferences userPrefs = getSharedPreferences(getString(R.string.keys_shared_prefs), MODE_PRIVATE);
-        String name = userPrefs.getString(getString(R.string.keys_prefs_username_local),"ChatterBox");
-        TextView navBarTitle = findViewById(R.id.navBarTitleText);
-        navBarTitle.setText(name);*/
 
-        //Apply themes
+        //Apply themes from shared prefs
         switch(themeChoice) {
             case 1:
                 setTheme(R.style.AppTheme);
@@ -62,21 +52,6 @@ public class HomeActivity extends AppCompatActivity
                 break;
             default:
                 setTheme(R.style.AppTheme);
-                break;
-        }
-
-        switch(fontChoice) {
-            case 1:
-                //Set font to small
-                break;
-            case 2:
-                //Set font to medium
-                break;
-            case 3:
-                //Set font to large
-                break;
-            default:
-                //Set font to medium
                 break;
         }
 
@@ -116,6 +91,9 @@ public class HomeActivity extends AppCompatActivity
     }
 
 
+    /**
+     * Handles back presses
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -126,6 +104,11 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Creates options menu
+     * @param menu Menu to create
+     * @return boolean true if success
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -133,6 +116,9 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
+    /*
+    Handles menu item clicks
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -154,6 +140,9 @@ public class HomeActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Handles logouts.
+     */
     @Override
     public void onLogout() {
         SharedPreferences prefs =
@@ -166,10 +155,14 @@ public class HomeActivity extends AppCompatActivity
                 getString(R.string.keys_prefs_stay_logged_in),
                 false)
                 .apply();
-        //the way to close an app programmaticaly
+        //Closes app on logout
         finishAndRemoveTask();
     }
 
+    /**
+     * Helper method to load fragments
+     * @param frag Fragment to load
+     */
     private void loadFragment(Fragment frag) {
         FragmentTransaction transaction = getSupportFragmentManager()
                 .beginTransaction()
@@ -179,12 +172,10 @@ public class HomeActivity extends AppCompatActivity
         transaction.commit();
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_connections) {
             // Handle the connections action
             loadFragment(new ConnectionsFragment());
@@ -197,17 +188,23 @@ public class HomeActivity extends AppCompatActivity
             loadFragment(new WeatherFragment());
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+    /*
+    Handles change location button, which loads new change location fragment
+     */
     @Override
     public void onChangeLocationAction() {
         //Load change weather location fragment
         loadFragment(new ChangeLocationFragment());
     }
 
+    /*
+    When user enters zipcode and selects save changes, saves zipcode to prefs.
+     */
     @Override
     public void onChangeLocationSubmitAction(String zipcode) {
         SharedPreferences.Editor locEditor = this.getSharedPreferences(PREFS_LOC, MODE_PRIVATE).edit();
@@ -227,18 +224,5 @@ public class HomeActivity extends AppCompatActivity
     public void onMakeNewChatAction() {
         loadFragment(new ChatContactsFragment());
     }
-
-//    @Override
-//    public void onAddFriendToChatAction() {
-//        loadFragment(new ChatMessageFragment());
-//    }
-
-    public void switchContent(int id, Fragment fragment) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(id, fragment, fragment.toString());
-        ft.addToBackStack(null);
-        ft.commit();
-    }
-
 
 }

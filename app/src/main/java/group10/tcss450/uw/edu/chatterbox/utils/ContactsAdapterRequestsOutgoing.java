@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import group10.tcss450.uw.edu.chatterbox.R;
 
 public class ContactsAdapterRequestsOutgoing extends RecyclerView.Adapter<ContactsAdapterRequestsOutgoing.ViewHolder>{

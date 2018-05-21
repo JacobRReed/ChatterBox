@@ -43,21 +43,19 @@ public class ResetPasswordFragment extends Fragment {
 
 
         submitButton.setOnClickListener(view -> {
+            EditText pwTxtbox = v.findViewById(R.id.resetPasswordEditText);
+            String pw = pwTxtbox.getText().toString();
+            EditText pwConTxtbox = v.findViewById(R.id.resetPasswordConfirmEditText);
+            String pwConfir = pwConTxtbox.getText().toString();
+            EditText emailTxtbox = v.findViewById(R.id.resetPEmailEditText);
+            String email = emailTxtbox.getText().toString();
+            EditText usernameTxtbox = v.findViewById(R.id.resetPUsernameEditText);
+            String username = usernameTxtbox.getText().toString();
 
-            // variables
-            EditText pwTxtbox = (EditText) v.findViewById(R.id.resetPasswordEditText);
-            String pw = (String) pwTxtbox.getText().toString();
-            EditText pwConTxtbox = (EditText) v.findViewById(R.id.resetPasswordConfirmEditText);
-            String pwConfir = (String) pwConTxtbox.getText().toString();
-            EditText emailTxtbox = (EditText) v.findViewById(R.id.resetPEmailEditText);
-            String email = (String) emailTxtbox.getText().toString();
-            EditText usernameTxtbox = (EditText) v.findViewById(R.id.resetPUsernameEditText);
-            String username = (String) usernameTxtbox.getText().toString();
-
-
+            /*
+            Checks for reset password info
+             */
             boolean check = true;
-
-
             if(username.length() < 1){
                 usernameTxtbox.setError("username cannot not be blank");
                 check = false;
@@ -96,6 +94,10 @@ public class ResetPasswordFragment extends Fragment {
     }
 
 
+    /**
+     * Attaches context to mListener
+     * @param context
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -107,12 +109,18 @@ public class ResetPasswordFragment extends Fragment {
         }
     }
 
+    /**
+     * Detaches mListener
+     */
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
+    /**
+     * Interface to be implemented by activity host
+     */
     public interface OnFragmentInteractionListener {
         void onNewPasswordSubmit(Credentials credentials);
     }

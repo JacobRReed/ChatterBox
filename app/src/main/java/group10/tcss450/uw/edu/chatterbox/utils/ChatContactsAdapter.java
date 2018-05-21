@@ -1,49 +1,28 @@
 package group10.tcss450.uw.edu.chatterbox.utils;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-//import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-//import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
-
-import android.support.v4.app.FragmentManager;
-import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.app.Fragment;
-//import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
 
-import java.util.List;
-
-import group10.tcss450.uw.edu.chatterbox.HomeActivity;
-import group10.tcss450.uw.edu.chatterbox.MainActivity;
 import group10.tcss450.uw.edu.chatterbox.R;
-import group10.tcss450.uw.edu.chatterbox.chatFragments.ChatContactsFragment;
-import group10.tcss450.uw.edu.chatterbox.chatFragments.ChatListFragment;
-import group10.tcss450.uw.edu.chatterbox.chatFragments.ChatMessageFragment;
-import group10.tcss450.uw.edu.chatterbox.model.Credentials;
+
+//import android.support.v4.app.FragmentTransaction;
+//import android.support.v7.widget.RecyclerView;
+//import android.support.v7.widget.RecyclerView;
 
 public class ChatContactsAdapter extends RecyclerView.Adapter<ChatContactsAdapter.ViewHolder> {
 

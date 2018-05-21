@@ -133,7 +133,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-    <ScrollView
+    <HorizontalScrollView
         android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="209dp"
@@ -142,7 +142,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView20">
-
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
         <TableLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -151,7 +153,9 @@
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView20">
+            app:layout_constraintTop_toBottomOf="@+id/textView20"
+            android:stretchColumns="*"
+            android:orientation="horizontal">
 
             <TableRow
                 android:id="@+id/weatherDayNameRow"
@@ -306,7 +310,9 @@
             </TableRow>
 
         </TableLayout>
-    </ScrollView>
+    </LinearLayout>
+    </HorizontalScrollView>
+
 
     <TextView
         android:id="@+id/sunriseLabel"

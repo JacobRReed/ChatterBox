@@ -6,21 +6,15 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-
 import group10.tcss450.uw.edu.chatterbox.R;
 import group10.tcss450.uw.edu.chatterbox.utils.Contact;
 import group10.tcss450.uw.edu.chatterbox.utils.ContactsAdapterExisting;
@@ -54,7 +48,7 @@ public class ConnectionsExisting extends Fragment {
                         getString(R.string.keys_shared_prefs),
                         Context.MODE_PRIVATE);
         String username = prefs.getString(getString(R.string.keys_prefs_username_local), "");
-        onExistingConnectionsLoad(username); //FIX THIS @TODO
+        onExistingConnectionsLoad(username);
         mContacts = new ArrayList<>();
         mAdapter = new ContactsAdapterExisting(mContacts, this.getContext());
         mRecyclerView.setAdapter(mAdapter);
@@ -64,6 +58,10 @@ public class ConnectionsExisting extends Fragment {
     }
 
 
+    /**
+     * ASYNC call for existing connections
+     * @param username Username to load connections for
+     */
     private void onExistingConnectionsLoad(String username) {
         //build the web service URL
         Uri uri = new Uri.Builder()
@@ -89,6 +87,10 @@ public class ConnectionsExisting extends Fragment {
                 .build().execute();
     }
 
+    /**
+     * Handles ASYNC on post. Loads existing connections and refreshes recycler view
+     * @param result JSON result string
+     */
     private void handleExistingConnectionOnPost(String result) {
         String users = result.replace("friends","");
         users = users.replaceAll("[^a-zA-Z,]", "");

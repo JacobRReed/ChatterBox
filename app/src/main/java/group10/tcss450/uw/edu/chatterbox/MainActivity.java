@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*
+        Sets theme based on shared prefs
+         */
         SharedPreferences preferences = getSharedPreferences(PREFS_THEME, MODE_PRIVATE);
         int themeChoice = preferences.getInt(PREFS_THEME, 0);
         switch(themeChoice) {
@@ -51,6 +54,9 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
+        /*
+        Checks stay logged in when loading app, and loads based on that result
+         */
         if(savedInstanceState == null) {
             if (findViewById(R.id.fragmentContainer) != null) {
                 SharedPreferences prefs =
@@ -72,6 +78,10 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    /**
+     * Load fragment helper method
+     * @param frag Fragment to load
+     */
     private void loadFragment(Fragment frag) {
         FragmentTransaction transaction = getSupportFragmentManager()
                 .beginTransaction()
@@ -105,7 +115,7 @@ public class MainActivity extends AppCompatActivity
                 SharedPreferences prefs = getSharedPreferences(
                         getString(R.string.keys_shared_prefs),
                         Context.MODE_PRIVATE);
-//            save the username for later usage
+                //save the username for later usage
                 prefs.edit().putString(getString(R.string.keys_prefs_username),
                         mCredentials.getUsername())
                         .apply();
@@ -135,6 +145,9 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Handles check stay logged in checkbox, saves prefs
+     */
     private void checkStayLoggedIn() {
         if (((CheckBox) findViewById(R.id.checkBoxLoginStayLogIn)).isChecked()) {
             SharedPreferences prefs =
@@ -184,17 +197,23 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * When login is clicked and verified load home activity
+     */
     @Override
     public void onLoginAction() {
         startActivity(new Intent(MainActivity.this, HomeActivity.class));
     }
 
+    /**
+     * Loads register fragment with predefined username password
+     */
     @Override
     public void onLoginRegisterAction() {
         // retrieve text from email and password edit text
         // to pass into registration form
-        EditText emailTxtbox = (EditText) findViewById(R.id.editTextLoginEmail);
-        String email = (String)emailTxtbox.getText().toString();
+        EditText userNameTextBox = findViewById(R.id.editTextLoginEmail);
+        String username = userNameTextBox.getText().toString();
 
         EditText pwTxtbox = (EditText) findViewById(R.id.editTextLoginPassword);
         String pw = (String)pwTxtbox.getText().toString();
@@ -204,7 +223,7 @@ public class MainActivity extends AppCompatActivity
         // passing text from the username and password text box
         // in Login Fragment to Registration Fragment
         Bundle regArgs = new Bundle();
-        regArgs.putSerializable("email", email);
+        regArgs.putSerializable("username", username);
         regArgs.putSerializable("password", pw);
         regFrag.setArguments(regArgs);
 
@@ -213,6 +232,9 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    /**
+     * Handles forget password button
+     */
     @Override
     public void onForgotPasswordAction() {
         //Load forgotPassword fragment
@@ -274,7 +296,10 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
+    /**
+     * ASYNC call for login
+     * @param credentials Credentials for login
+     */
     @Override
     public void onLoginAttempt(Credentials credentials) {
         //build the web service URL
@@ -297,6 +322,10 @@ public class MainActivity extends AppCompatActivity
                 .build().execute();
     }
 
+    /**
+     * Handles registeration ASYNC
+     * @param userInfo
+     */
     @Override
     public void onRegistrationInteraction(Credentials userInfo) {
 
@@ -325,11 +354,9 @@ public class MainActivity extends AppCompatActivity
         fragManager.popBackStack();
     }
 
-
-    public void setActionBarTitle(String title) {
-        getSupportActionBar().setTitle(title);
-    }
-
+    /**
+     * On verification login, loads login fragment
+     */
     @Override
     public void onVerificationLogin() {
         loadFragment(new LoginFragment());

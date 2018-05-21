@@ -89,8 +89,10 @@ public class SettingsFragment extends Fragment {
         //Shared preferences editor for choosing font
         SharedPreferences.Editor fontEditor = this.getActivity().getSharedPreferences(PREFS_FONT, MODE_PRIVATE).edit();
 
+        /**
+         * Saves settings changes
+         */
         saveChanges.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
 

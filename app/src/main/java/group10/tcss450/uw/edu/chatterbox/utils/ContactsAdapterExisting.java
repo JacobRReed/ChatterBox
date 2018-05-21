@@ -1,12 +1,10 @@
 package group10.tcss450.uw.edu.chatterbox.utils;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;

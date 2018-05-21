@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,37 +16,37 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.google.android.gms.maps.model.LatLng;
-import com.google.gson.Gson;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Timer;
-
 import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
-
 import static android.content.Context.MODE_PRIVATE;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Weather Fragment
+ * This fragment loads all data from server for weather at a particular location.
+ * Either Lat/Lon coordinates or zipcode.
+ * This fragment shows the current conditions and a semi weekly forecast up to 5 days.
+ * It also displays the sunrise and sunset times at the given location.
  */
 public class WeatherFragment extends Fragment {
-    private OnFragmentInteractionListener mListener;
-    private double mLat = 47.25; //hardcoded Tacoma
-    private double mLon= -122.44; //hard coded Tacoma
+    private static final String PREFS_LOC = "location_pref";
 
+    private OnFragmentInteractionListener mListener;
+    private double mLat = 47.25; //hardcoded Tacoma for reference
+    private double mLon= -122.44; //hard coded Tacoma for reference
+    private LatLng mLocation;
+    private boolean searchByZip;
+    private boolean prefsSearch;
+    private String mZip;
+    /*
+    Display Variables Below
+     */
     private TextView mCCText;
     private TextView mCCTemp;
     private TextView mCCCity;
@@ -74,11 +73,7 @@ public class WeatherFragment extends Fragment {
     private TextView mDayFiveTemp;
     private TextView mSunset;
     private TextView mSunrise;
-    private LatLng mLocation;
-    private static final String PREFS_LOC = "location_pref";
-    private boolean searchByZip;
-    private boolean prefsSearch;
-    private String mZip;
+
 
     public WeatherFragment() {
         // Required empty public constructor
@@ -90,28 +85,29 @@ public class WeatherFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_weather, container, false);
 
-        SharedPreferences mPrefs = getActivity().getSharedPreferences(PREFS_LOC, MODE_PRIVATE);
         //Get location from shared prefs
+        SharedPreferences mPrefs = getActivity().getSharedPreferences(PREFS_LOC, MODE_PRIVATE);
         float latTemp = mPrefs.getFloat("lat", 0);
         float lonTemp = mPrefs.getFloat("lon", 0);
         prefsSearch = mPrefs.getBoolean("searchZip", false);
-
         mLocation = new LatLng(latTemp, lonTemp);
         if((mLocation.latitude >= 0 && mLocation.latitude <= 1)
                 || (mLocation.longitude >=0 && mLocation.longitude <= 1)) {
-            mLocation = new LatLng(mLat, mLon);  //hard code to tacoma
+            mLocation = new LatLng(mLat, mLon);  //hard code to tacoma if lat lon are wrong
         } else {
             Log.e("Got Coordinates from shared prefs:", mLocation.toString()); //Else use location from shared prefs
         }
 
-
+        // Checks SDK version and sets policy if higher SDK
         if (android.os.Build.VERSION.SDK_INT > 9)
         {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
 
-
+        /*
+        Weather Fragment Variables for displaying data
+         */
         mCCText = v.findViewById(R.id.ccText);
         mCCCity = v.findViewById(R.id.ccCity);
         mCCTemp = v.findViewById(R.id.ccTemp);
@@ -140,6 +136,7 @@ public class WeatherFragment extends Fragment {
         mSunset = v.findViewById(R .id.weatherSunsetTime);
         mZip = new String();
 
+        //Get the zipcode from arguments if passed by selecting change location via zipcode
         Bundle bundle = getArguments();
         if(bundle == null){
             searchByZip = false;
@@ -149,16 +146,18 @@ public class WeatherFragment extends Fragment {
             searchByZip = true;
         }
 
+        //If zipcode was the last thing saved to shared prefs instead of lat lon, use zipcode to load on app run instead.
         if(prefsSearch) {
             mZip = mPrefs.getString("zipCode", "");
             searchByZip = true;
         }
 
-        onLoad();//Call main load async for weather
+        //Calls ASYNC functions to get weather data
+        onLoad();
 
+        //Button handlers
         Button changeLocationButton = v.findViewById(R.id.buttonWeatherChangeLocation);
         changeLocationButton.setOnClickListener(view -> mListener.onChangeLocationAction());
-
 
         return v;
     }
@@ -172,11 +171,12 @@ public class WeatherFragment extends Fragment {
         //build the JSONObject
         JSONObject msg = new JSONObject();
         try{
+            //If zipcode search
             if(searchByZip || prefsSearch) {
                 Log.e("Searching weather by zip code:", "True");
                 msg.put("zip", mZip);
                 msg.put("searchByZip", true);
-            } else {
+            } else { //If lat lon search
                 Log.e("Searching weather by lat/long", "True");
                 msg.put("searchByZip", false);
                 msg.put("lat", mLocation.latitude);
@@ -197,7 +197,11 @@ public class WeatherFragment extends Fragment {
                 .build().execute();
     }
 
-    //Handles weather on post
+    /**
+     * Handles the onPost of ASYNC for weather data calls.
+     * Sets all texts and images based on weather data.
+     * @param result JSON response
+     */
     private void handleWeatherOnPost(String result) {
         try {
             JSONObject weatherObj = new JSONObject(result);
@@ -219,12 +223,14 @@ public class WeatherFragment extends Fragment {
             URL url = new URL(urlIcon);
             Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
             mCCIcon.setImageBitmap(bmp);
-            //Sunrise/sunset stuff
+
+            //Sunrise/Sunset Data
             String sunrise = weatherObj.getJSONObject("sun").getString("sunrise");
             String sunset = weatherObj.getJSONObject("sun").getString("sunset");
             mSunrise.setText(sunrise);
             mSunset.setText(sunset);
-            //Weekly forecast
+
+            //4-5 Day forecast
             JSONArray weeklyForecastJSON = weatherObj.getJSONArray("fiveDay");
             String[][] weeklyForecast = new String[weeklyForecastJSON.length()][4];
             for(int i=0; i < weeklyForecastJSON.length(); i++) { //populate array list with json objects
@@ -277,8 +283,6 @@ public class WeatherFragment extends Fragment {
                         break;
                 }
             }
-
-
         } catch(JSONException e) {
             Log.wtf("JSON ERROR:", e);
         } catch (MalformedURLException e) {
@@ -289,6 +293,11 @@ public class WeatherFragment extends Fragment {
 
     }
 
+    /**
+     * Simple day converter. Since the output from API will be in 3 letter format, formats the day to a full day name and returns the string.
+     * @param day 3 day letter code i.e Mon, Tue, Wed...
+     * @return String of day i.e Monday, Tuesday, Wednesday...
+     */
     private String convertDayString(String day) {
         String result = new String();
         switch(day) {
@@ -319,6 +328,9 @@ public class WeatherFragment extends Fragment {
         return result;
     }
 
+    /**
+     * Interface to be implemeneted by host activity
+     */
     public interface OnFragmentInteractionListener {
         void onChangeLocationAction();
         void onLogout();
@@ -331,6 +343,9 @@ public class WeatherFragment extends Fragment {
         Log.e("ASYNCT_TASK_ERROR", result);
     }
 
+    /*
+    Handles attach of fragment to activity. Makes sure activity implements interface
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -342,6 +357,9 @@ public class WeatherFragment extends Fragment {
         }
     }
 
+    /*
+    Detaches mListener onDetach
+     */
     @Override
     public void onDetach() {
         super.onDetach();

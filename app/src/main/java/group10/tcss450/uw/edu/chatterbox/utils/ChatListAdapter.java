@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,9 +19,6 @@ import org.json.JSONObject;
 import java.util.List;
 
 import group10.tcss450.uw.edu.chatterbox.R;
-import group10.tcss450.uw.edu.chatterbox.chatFragments.ChatContactsFragment;
-import group10.tcss450.uw.edu.chatterbox.chatFragments.ChatListFragment;
-import group10.tcss450.uw.edu.chatterbox.chatFragments.ChatMessageFragment;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHolder> {
 

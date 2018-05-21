@@ -1,6 +1,5 @@
 package group10.tcss450.uw.edu.chatterbox;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -53,7 +52,7 @@ public class ChatFragment extends Fragment {
         v.findViewById(R.id.chatSendButton).setOnClickListener(this::sendMessage);
         mOutputTextView = v.findViewById(R.id.chatOutputTextView);
 
-        /*
+        /* @TODO Set text font size based on shared prefs
         SharedPreferences preferences = getActivity().getSharedPreferences(PREFS_FONT, MODE_PRIVATE);
         int fontChoice = preferences.getInt(PREFS_FONT, 0);
         switch(fontChoice) {
@@ -107,7 +106,7 @@ public class ChatFragment extends Fragment {
                     .setExceptionHandler(this::handleError) .setDelay(1000)
                     .build();
         } else {
-//no record of a saved timestamp. must be a first time login
+            //no record of a saved timestamp. must be a first time login
             mListenManager = new ListenManager.Builder(retrieve.toString(),
                     this::publishProgress)
                     .setExceptionHandler(this::handleError)
@@ -138,7 +137,10 @@ public class ChatFragment extends Fragment {
                 .apply();
     }
 
-
+    /**
+     * Handles send message button
+     * @param theButton Button with listener
+     */
     private void sendMessage(final View theButton) {
         JSONObject messageJson = new JSONObject();
         String msg = ((EditText) getView().findViewById(R.id.chatInputEditText))
@@ -156,10 +158,18 @@ public class ChatFragment extends Fragment {
                 .build().execute();
     }
 
+    /**
+     * Handles chat error
+     * @param msg error msg for async
+     */
     private void handleError(final String msg) {
         Log.e("CHAT ERROR!!!", msg.toString());
     }
 
+    /**
+     * Handles ASYNC on post
+     * @param result JSON string result
+     */
     private void endOfSendMsgTask(final String result) {
         try {
             JSONObject res = new JSONObject(result);
@@ -174,13 +184,18 @@ public class ChatFragment extends Fragment {
         }
     }
 
-
-    //-------
-
+    /**
+     * Handles ASYNC errors
+     * @param e
+     */
     private void handleError(final Exception e) {
         Log.e("LISTEN ERROR!!!", e.getMessage());
     }
 
+    /**
+     * Handles ASYNC progress
+     * @param messages
+     */
     private void publishProgress(JSONObject messages) {
         final String[] msgs;
         if(messages.has(getString(R.string.keys_json_messages))) {
@@ -205,6 +220,5 @@ public class ChatFragment extends Fragment {
             });
         }
     }
-
 }
 
