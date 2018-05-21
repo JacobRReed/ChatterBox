@@ -29,16 +29,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextChangeLocationZipcode" />
 
-    <TextView
-        android:id="@+id/textViewChangeLocationChooseLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/location_map"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewChangeLocationOr" />
-
     <EditText
         android:id="@+id/editTextChangeLocationZipcode"
         android:layout_width="wrap_content"
@@ -63,20 +53,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <FrameLayout
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:id="@+id/mapView"
-        android:layout_width="368dp"
-        android:layout_height="345dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+    <Button
+        android:id="@+id/chooseLocationMapButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonChangeLocationSetChanges"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/location_map"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewChangeLocationChooseLocation">
-
-    </FrameLayout>
+        app:layout_constraintTop_toBottomOf="@+id/textViewChangeLocationOr" />
 
 </android.support.constraint.ConstraintLayout>

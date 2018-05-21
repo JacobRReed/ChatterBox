@@ -13,10 +13,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import group10.tcss450.uw.edu.chatterbox.chatFragments.ChatContactsFragment;
 import group10.tcss450.uw.edu.chatterbox.chatFragments.ChatListFragment;
@@ -32,7 +35,7 @@ public class HomeActivity extends AppCompatActivity
 
     private static final String PREFS_THEME = "theme_pref";
     private static final String PREFS_FONT = "font_pref";
-
+    private LatLng mLocation;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +109,9 @@ public class HomeActivity extends AppCompatActivity
                 break;
         }
 
-        loadFragment(new WeatherFragment());
+        //Get location from map if available
+        Fragment weatherFrag = new WeatherFragment();
+        loadFragment(weatherFrag);
     }
 
 
@@ -203,9 +208,13 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public void onChangeLocationSubmitAction() {
+    public void onChangeLocationSubmitAction(String zipcode) {
         //Save location changes and send to weather fragment
-        loadFragment(new WeatherFragment());
+        Bundle bundle = new Bundle();
+        bundle.putString("zip", zipcode);
+        Fragment frag = new WeatherFragment();
+        frag.setArguments(bundle);
+        loadFragment(frag);
     }
 
 

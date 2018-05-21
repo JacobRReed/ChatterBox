@@ -2,6 +2,7 @@ package group10.tcss450.uw.edu.chatterbox;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -17,18 +18,26 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Timer;
 
 import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -36,8 +45,8 @@ import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
  */
 public class WeatherFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
-    private String mLat = "47.25"; //hardcoded fix later @TODO
-    private String mLon= "-122.44"; //hard coded fix later @TODO
+    private double mLat = 47.25; //hardcoded Tacoma
+    private double mLon= -122.44; //hard coded Tacoma
 
     private TextView mCCText;
     private TextView mCCTemp;
@@ -65,6 +74,10 @@ public class WeatherFragment extends Fragment {
     private TextView mDayFiveTemp;
     private TextView mSunset;
     private TextView mSunrise;
+    private LatLng mLocation;
+    private static final String PREFS_LOC = "location_pref";
+    private boolean searchByZip;
+    private String mZip;
 
     public WeatherFragment() {
         // Required empty public constructor
@@ -75,17 +88,25 @@ public class WeatherFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_weather, container, false);
+        SharedPreferences mPrefs = getActivity().getSharedPreferences(PREFS_LOC, MODE_PRIVATE);
+        //Get location from shared prefs
+        float latTemp = mPrefs.getFloat("lat", 0);
+        float lonTemp = mPrefs.getFloat("lon", 0);
+        mLocation = new LatLng(latTemp, lonTemp);
+        if((mLocation.latitude >= 0 && mLocation.latitude <= 1)
+                || (mLocation.longitude >=0 && mLocation.longitude <= 1)) {
+            mLocation = new LatLng(mLat, mLon);  //hard code to tacoma
+        } else {
+            Log.e("Got Coordinates from shared prefs:", mLocation.toString()); //Else use location from shared prefs
+        }
+
 
         if (android.os.Build.VERSION.SDK_INT > 9)
         {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-        try {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Weather");
-        } catch (NullPointerException e) {
-            Log.e("Error", "title isn't working");
-        }
+
 
         mCCText = v.findViewById(R.id.ccText);
         mCCCity = v.findViewById(R.id.ccCity);
@@ -113,11 +134,23 @@ public class WeatherFragment extends Fragment {
         mDayFiveTemp = v.findViewById(R.id.dayFiveTemp);
         mSunrise = v.findViewById(R.id.weatherSunriseTime);
         mSunset = v.findViewById(R.id.weatherSunsetTime);
+        mZip = new String();
 
-        onLoad();
+        Bundle bundle = getArguments();
+        if(bundle == null){
+            searchByZip = false;
+            mZip = null;
+        } else {
+            mZip = bundle.getString("zip");
+            searchByZip = true;
+        }
+
+
+        onLoad();//Call main load async for weather
 
         Button changeLocationButton = v.findViewById(R.id.buttonWeatherChangeLocation);
         changeLocationButton.setOnClickListener(view -> mListener.onChangeLocationAction());
+
 
         return v;
     }
@@ -131,8 +164,17 @@ public class WeatherFragment extends Fragment {
         //build the JSONObject
         JSONObject msg = new JSONObject();
         try{
-            msg.put("lat", mLat);
-            msg.put("lon", mLon);
+            if(searchByZip) {
+                Log.e("Searching weather by zip code:", "True");
+                msg.put("zip", mZip);
+                msg.put("searchByZip", true);
+            } else {
+                Log.e("Searching weather by lat/long", "True");
+                msg.put("searchByZip", false);
+                msg.put("lat", mLocation.latitude);
+                msg.put("lon", mLocation.longitude);
+            }
+
         } catch (JSONException e) {
             Log.wtf("Error creating JSON object for existing connections:", e);
         }
@@ -172,8 +214,6 @@ public class WeatherFragment extends Fragment {
             //Sunrise/sunset stuff
             String sunrise = weatherObj.getJSONObject("sun").getString("sunrise");
             String sunset = weatherObj.getJSONObject("sun").getString("sunset");
-            Log.wtf("Sunset:", sunset);
-            Log.wtf("Sunrise:", sunrise);
             mSunrise.setText(sunrise);
             mSunset.setText(sunset);
             //Weekly forecast

@@ -344,8 +344,8 @@
 
     <TextView
         android:id="@+id/weatherSunriseTime"
-        android:layout_width="56dp"
-        android:layout_height="25dp"
+        android:layout_width="60dp"
+        android:layout_height="24dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:textSize="18sp"
