@@ -74,6 +74,7 @@ public class LocationMapChange extends FragmentActivity implements OnMapReadyCal
             SharedPreferences.Editor locEditor = this.getSharedPreferences(PREFS_LOC, MODE_PRIVATE).edit();
             locEditor.putFloat("lat", (float) mLocation.latitude);
             locEditor.putFloat("lon", (float) mLocation.longitude);
+            locEditor.putBoolean("searchZip", false);
             locEditor.commit();
             Log.e("Sent coordinates to shared prefs:", mLocation.toString());
             Intent intent = new Intent(this, HomeActivity.class);

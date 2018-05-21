@@ -35,6 +35,7 @@ public class HomeActivity extends AppCompatActivity
 
     private static final String PREFS_THEME = "theme_pref";
     private static final String PREFS_FONT = "font_pref";
+    private static final String PREFS_LOC = "location_pref";
     private LatLng mLocation;
     @Override
 
@@ -209,6 +210,10 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onChangeLocationSubmitAction(String zipcode) {
+        SharedPreferences.Editor locEditor = this.getSharedPreferences(PREFS_LOC, MODE_PRIVATE).edit();
+        locEditor.putBoolean("searchZip", true);
+        locEditor.putString("zipCode", zipcode);
+        locEditor.commit();
         //Save location changes and send to weather fragment
         Bundle bundle = new Bundle();
         bundle.putString("zip", zipcode);

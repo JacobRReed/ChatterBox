@@ -77,6 +77,7 @@ public class WeatherFragment extends Fragment {
     private LatLng mLocation;
     private static final String PREFS_LOC = "location_pref";
     private boolean searchByZip;
+    private boolean prefsSearch;
     private String mZip;
 
     public WeatherFragment() {
@@ -88,10 +89,13 @@ public class WeatherFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_weather, container, false);
+
         SharedPreferences mPrefs = getActivity().getSharedPreferences(PREFS_LOC, MODE_PRIVATE);
         //Get location from shared prefs
         float latTemp = mPrefs.getFloat("lat", 0);
         float lonTemp = mPrefs.getFloat("lon", 0);
+        prefsSearch = mPrefs.getBoolean("searchZip", false);
+
         mLocation = new LatLng(latTemp, lonTemp);
         if((mLocation.latitude >= 0 && mLocation.latitude <= 1)
                 || (mLocation.longitude >=0 && mLocation.longitude <= 1)) {
@@ -133,7 +137,7 @@ public class WeatherFragment extends Fragment {
         mDayFourTemp = v.findViewById(R.id.dayFourTemp);
         mDayFiveTemp = v.findViewById(R.id.dayFiveTemp);
         mSunrise = v.findViewById(R.id.weatherSunriseTime);
-        mSunset = v.findViewById(R.id.weatherSunsetTime);
+        mSunset = v.findViewById(R .id.weatherSunsetTime);
         mZip = new String();
 
         Bundle bundle = getArguments();
@@ -145,6 +149,10 @@ public class WeatherFragment extends Fragment {
             searchByZip = true;
         }
 
+        if(prefsSearch) {
+            mZip = mPrefs.getString("zipCode", "");
+            searchByZip = true;
+        }
 
         onLoad();//Call main load async for weather
 
@@ -164,7 +172,7 @@ public class WeatherFragment extends Fragment {
         //build the JSONObject
         JSONObject msg = new JSONObject();
         try{
-            if(searchByZip) {
+            if(searchByZip || prefsSearch) {
                 Log.e("Searching weather by zip code:", "True");
                 msg.put("zip", mZip);
                 msg.put("searchByZip", true);
