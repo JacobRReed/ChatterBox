@@ -1,15 +1,21 @@
 package group10.tcss450.uw.edu.chatterbox.connectionsFragments;
 
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +26,9 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import group10.tcss450.uw.edu.chatterbox.R;
 import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
@@ -32,6 +41,7 @@ public class ConnectionsInvite extends Fragment {
     private static final int CONTACT_PICKER_RESULT = 1001;
     private EditText mEmailAddr;
     private String mEmailStr;
+    private View mView;
 
     public ConnectionsInvite() {
         // Required empty public constructor
@@ -42,23 +52,26 @@ public class ConnectionsInvite extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_connections_invite, container, false);
-        mContactsButton = v.findViewById(R.id.inviteContactButton);
+        mView = inflater.inflate(R.layout.fragment_connections_invite, container, false);
+        mContactsButton = mView.findViewById(R.id.inviteContactButton);
         mContactsButton.setOnClickListener(this::onContactClick);
-        mEmailAddr = v.findViewById(R.id.inviteEmail);
+        mEmailAddr = mView.findViewById(R.id.inviteEmail);
         String mEmailStr = null;
-        Button inviteButton = v.findViewById(R.id.inviteButton);
+        Button inviteButton = mView.findViewById(R.id.inviteButton);
         inviteButton.setOnClickListener(this::onInviteClick);
 
-        return v;
+        return mView;
     }
 
+    /**
+     * Handles invite button on click. Send email if valid
+     * @param view Current view
+     */
     private void onInviteClick(View view) {
         mEmailStr = mEmailAddr.getText().toString();
         boolean sendEmail = false;
         //Check Email entry
         if(mEmailStr != null && mEmailStr.contains("@") && mEmailStr.length() >=2) {
-            Log.wtf("Sending invite to email:", mEmailStr);
             sendEmail = true;
         } else {
             Log.wtf("Invalid Email:", mEmailStr);
@@ -104,11 +117,20 @@ public class ConnectionsInvite extends Fragment {
      * @param result
      */
     private void handleInviteOnPost(String result) {
-        if(result.contains("true")) {
-            Toast.makeText(getContext(), "Invitation Sent!", Toast.LENGTH_LONG);
-        } else {
-            Toast.makeText(getContext(), "Invitation failed to send, server error", Toast.LENGTH_LONG);
+        try {
+            JSONObject obj = new JSONObject(result);
+            String success = obj.getString("result");
+            if(success.equals("true")) {
+                Toast.makeText(mView.getContext(), "Invitation Sent!", Toast.LENGTH_SHORT).show();
+                Log.e("Sent invite email!", "");
+            } else {
+                Toast.makeText(mView.getContext(), "Email Failed to Send!", Toast.LENGTH_SHORT).show();
+                Log.e("Invite Email Error", "");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
     }
 
     /**
@@ -125,7 +147,8 @@ public class ConnectionsInvite extends Fragment {
      */
     private void onContactClick(View v) {
         Intent contactPickerIntent = new Intent(Intent.ACTION_PICK,
-                ContactsContract.Contacts.CONTENT_URI);
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+
         startActivityForResult(contactPickerIntent, CONTACT_PICKER_RESULT);
     }
 
@@ -134,61 +157,35 @@ public class ConnectionsInvite extends Fragment {
      * @param requestCode
      * @param resultCode
      * @param data
-     * @TODO currently doesn't return selected user
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-                case CONTACT_PICKER_RESULT:
-                    Cursor cursor = null;
-                    String email = "";
-                    try {
-                        Uri result = data.getData();
-                        Log.v("", "Got a contact result: "
-                                + result.toString());
-
-                        // get the contact id from the Uri
-                        String id = result.getLastPathSegment();
-
-                        // query for everything email
-                        cursor = getContext().getContentResolver().query(ContactsContract.CommonDataKinds.Email.CONTENT_URI,
-                                null, ContactsContract.CommonDataKinds.Email.CONTACT_ID + "=?", new String[] { id },
-                                null);
-
-                        int emailIdx = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA);
-
-                        // let's just get the first email
-                        if (cursor.moveToFirst()) {
-                            email = cursor.getString(emailIdx);
-                            Log.v("", "Got email: " + email);
-                        } else {
-                            Log.w("", "No results");
-                        }
-                    } catch (Exception e) {
-                        Log.e("", "Failed to get email data", e);
-                    } finally {
-                        if (cursor != null) {
-                            cursor.close();
-                        }
-                        EditText emailEntry = getActivity().findViewById(R.id.inviteEmail);
-                        emailEntry.setText(email);
-                        if (email.length() == 0) {
-                            Toast.makeText(getContext(), "No email found for contact.",
-                                    Toast.LENGTH_LONG).show();
-                        }
-
-                    }
-
-                    break;
-            }
-
+        if (resultCode == Activity.RESULT_OK && requestCode == CONTACT_PICKER_RESULT) {
+            contactPicked(data);
         } else {
-            // gracefully handle failure
-            Log.w("", "Warning: activity result not ok");
+            Log.e("CONTACT PICKER", "Failed to pick contact");
         }
-
-
     }
+
+    /**
+     * Handles contact picked from contact picker activity
+     * @param data
+     */
+    private void contactPicked(Intent data) {
+       Uri contactUri = data.getData();
+       String[] projection = new String[]{ContactsContract.CommonDataKinds.Email.ADDRESS};
+       Cursor cursor = getActivity().getContentResolver().query(contactUri, projection, null, null, null);
+       if(cursor != null && cursor.moveToFirst()) {
+           int numberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS);
+           Cursor emailCur = getActivity().getContentResolver().query(
+                   ContactsContract.CommonDataKinds.Email.CONTENT_URI, null,
+                   ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
+                   projection, null);
+           String email = cursor.getString(numberIndex);
+           Log.e("Email from contacts picker: ", email);
+
+       }
+    }
+
 
 }

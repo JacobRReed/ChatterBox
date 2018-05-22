@@ -46,7 +46,7 @@ public class SettingsFragment extends Fragment {
         RadioGroup fontRadioGroup = v.findViewById(R.id.settingsFontGroup);
 
         //Load shared preference to set the default radio buttons selected for theme
-        SharedPreferences themePrefs = this.getActivity().getSharedPreferences(PREFS_THEME, MODE_PRIVATE);
+        SharedPreferences themePrefs = getActivity().getApplicationContext().getSharedPreferences(PREFS_THEME, MODE_PRIVATE);
         int themeChoice = themePrefs.getInt(PREFS_THEME, 0);
         switch(themeChoice) {
             case 1:
@@ -65,20 +65,20 @@ public class SettingsFragment extends Fragment {
         }
 
         //Load shared preference to set the default radio buttons selected for font
-        SharedPreferences fontPrefs = this.getActivity().getSharedPreferences(PREFS_FONT, MODE_PRIVATE);
+        SharedPreferences fontPrefs = getActivity().getApplicationContext().getSharedPreferences(PREFS_FONT, MODE_PRIVATE);
         int fontChoice = fontPrefs.getInt(PREFS_FONT, 0);
         switch(fontChoice) {
             case 1:
-                fontRadioGroup.check(R.id.settingsFontSmall);
+                fontRadioGroup.check(R.id.settingsFontOne);
                 break;
             case 2:
-                fontRadioGroup.check(R.id.settingsFontMedium);
+                fontRadioGroup.check(R.id.settingsFontTwo);
                 break;
             case 3:
-                fontRadioGroup.check(R.id.settingsFontLarge);
+                fontRadioGroup.check(R.id.settingsFontThree);
                 break;
             default:
-                fontRadioGroup.check(R.id.settingsFontMedium);
+                fontRadioGroup.check(R.id.settingsFontTwo);
                 break;
 
         }
@@ -89,11 +89,10 @@ public class SettingsFragment extends Fragment {
         //Shared preferences editor for choosing font
         SharedPreferences.Editor fontEditor = this.getActivity().getSharedPreferences(PREFS_FONT, MODE_PRIVATE).edit();
 
-        saveChanges.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
+        /**
+         * Saves settings changes
+         */
+        saveChanges.setOnClickListener(view -> {
                 int themeButtonID = themeRadioGroup.getCheckedRadioButtonId();
                 if(themeButtonID != -1) {
                     switch(themeButtonID) {
@@ -109,29 +108,36 @@ public class SettingsFragment extends Fragment {
                             themeEditor.putInt(PREFS_THEME, 3);
                             themeEditor.apply();
                             break;
+                        default:
+                            themeEditor.putInt(PREFS_THEME, 2);
+                            themeEditor.apply();
+                            break;
                     }
                 }
 
                 int fontButtonID = fontRadioGroup.getCheckedRadioButtonId();
                 if(fontButtonID != -1) {
                     switch(fontButtonID) {
-                        case R.id.settingsFontSmall:
+                        case R.id.settingsFontOne:
                             fontEditor.putInt(PREFS_FONT, 1);
                             fontEditor.apply();
+                            Log.e("Font stored", "1");
                             break;
-                        case R.id.settingsFontMedium:
+                        case R.id.settingsFontTwo:
                             fontEditor.putInt(PREFS_FONT, 2);
                             fontEditor.apply();
+                            Log.e("Font stored", "2");
                             break;
-                        case R.id.settingsFontLarge:
+                        case R.id.settingsFontThree:
                             fontEditor.putInt(PREFS_FONT, 3);
                             fontEditor.apply();
+                            Log.e("Font stored", "3");
                             break;
                     }
                 }
+
                 getActivity().recreate();
                 Toast.makeText(getActivity(), "Settings applied and saved!", Toast.LENGTH_SHORT).show();
-            }
         });
         return v;
     }

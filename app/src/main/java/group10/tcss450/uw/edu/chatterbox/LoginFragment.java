@@ -44,13 +44,15 @@ public class LoginFragment extends Fragment {
             Log.e("Error", "login title isn't working");
         }
 
-        // variables
         Button loginButton = v.findViewById(R.id.buttonLoginLogin);
         Button registerButton = v.findViewById((R.id.buttonLoginRegister));
         Button forgotPasswordButton = v.findViewById(R.id.buttonLoginForgotPassword);
-        EditText loginEmailTextBox = (EditText) v.findViewById(R.id.editTextLoginEmail);
-        EditText passwordTextBox = (EditText) v.findViewById(R.id.editTextLoginPassword);
+        EditText loginEmailTextBox = v.findViewById(R.id.editTextLoginEmail);
+        EditText passwordTextBox = v.findViewById(R.id.editTextLoginPassword);
 
+        /*
+        Handle login button and register button on clicks. Does checks against lengths and requirements
+         */
         loginButton.setOnClickListener(view -> {
             boolean flag = true;
 
@@ -100,6 +102,10 @@ public class LoginFragment extends Fragment {
                 .setError(err);
     }
 
+    /**
+     * Attaches context to fragment mListener
+     * @param context Context to attach
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -111,12 +117,18 @@ public class LoginFragment extends Fragment {
         }
     }
 
+    /**
+     * Detaches mListener onDetach
+     */
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
+    /**
+     * Handles interface to be implemented by host activity.
+     */
     public interface OnFragmentInteractionListener {
         void onLoginAttempt(Credentials credentials);
         void onLoginAction();

@@ -10,13 +10,15 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-
     <TextView
         android:id="@+id/textViewWeatherTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="@string/home_location"
+        android:text="@string/home_weather_title"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,68 +34,328 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="152dp"
+        android:layout_height="76dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView16">
+
+        <TextView
+            android:id="@+id/cityTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/weather_city"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/weatherTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/weather_text"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tempTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/weather_temp"
+            android:textSize="16sp" />
+    </LinearLayout>
+
     <TextView
-        android:id="@+id/textViewWeatherCurrentConditions"
+        android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="@string/home_current_conditions"
+        android:textSize="18sp"
+        android:textStyle="italic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewWeatherTitle" />
 
-    <WebView
-        android:id="@+id/webViewWeatherCurrentConditions"
-        android:layout_width="0dp"
-        android:layout_height="86dp"
-        android:layout_marginEnd="8dp"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="122dp"
+        android:layout_height="75dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/textView16">
+
+        <TextView
+            android:id="@+id/ccCity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textEnd"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/ccText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textEnd"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/ccTemp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textEnd"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ccImage"
+        android:layout_width="73dp"
+        android:layout_height="71dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="72dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewWeatherCurrentConditions" />
+        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewWeatherTwentyFour"
+        android:id="@+id/textView20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/home_twentyfour"
+        android:layout_marginTop="16dp"
+        android:text="Weekly Forecast"
+        android:textSize="18sp"
+        android:textStyle="italic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/webViewWeatherCurrentConditions" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-    <WebView
-        android:id="@+id/webViewTwentyFour"
+    <HorizontalScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="0dp"
-        android:layout_height="92dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="209dp"
+        android:layout_weight="1"
+        android:scrollbars="horizontal|vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewWeatherTwentyFour" />
+        app:layout_constraintTop_toBottomOf="@+id/textView20">
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView20"
+            android:stretchColumns="*"
+            android:orientation="horizontal">
+
+            <TableRow
+                android:id="@+id/weatherDayNameRow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/weatherDayOne"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dip" />
+
+                <TextView
+                    android:id="@+id/weatherDayTwo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dip"
+                    tools:layout_editor_absoluteX="8dp"
+                    tools:layout_editor_absoluteY="208dp" />
+
+                <TextView
+                    android:id="@+id/weatherDayThree"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dip"
+                    tools:layout_editor_absoluteX="744dp"
+                    tools:layout_editor_absoluteY="208dp" />
+
+                <TextView
+                    android:id="@+id/weatherDayFour"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dip"
+                    tools:layout_editor_absoluteX="1112dp"
+                    tools:layout_editor_absoluteY="208dp" />
+
+                <TextView
+                    android:id="@+id/weatherDayFive"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dip"
+                    tools:layout_editor_absoluteX="376dp"
+                    tools:layout_editor_absoluteY="208dp" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/weatherTempRow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/dayOneTemp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="16dip" />
+
+                <TextView
+                    android:id="@+id/dayTwoTemp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="16dip" />
+
+                <TextView
+                    android:id="@+id/dayThreeTemp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="16dip" />
+
+                <TextView
+                    android:id="@+id/dayFourTemp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="16dip" />
+
+                <TextView
+                    android:id="@+id/dayFiveTemp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="16dip" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/weatherImageRow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/dayOneImage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="8dip" />
+
+                <ImageView
+                    android:id="@+id/dayTwoImage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="8dip" />
+
+                <ImageView
+                    android:id="@+id/dayThreeImage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="8dip" />
+
+                <ImageView
+                    android:id="@+id/dayFourImage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="8dip" />
+
+                <ImageView
+                    android:id="@+id/dayFiveImage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="8dip" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/weatherTextRow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/dayOneText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="16dip" />
+
+                <TextView
+                    android:id="@+id/dayTwoText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="16dip" />
+
+                <TextView
+                    android:id="@+id/dayThreeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="16dip" />
+
+                <TextView
+                    android:id="@+id/dayFourText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="16dip" />
+
+                <TextView
+                    android:id="@+id/dayFiveText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="16dip" />
+            </TableRow>
+
+        </TableLayout>
+    </LinearLayout>
+    </HorizontalScrollView>
+
 
     <TextView
-        android:id="@+id/textViewWeatherTenDay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/home_tenday"
+        android:id="@+id/sunriseLabel"
+        android:layout_width="69dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/weather_sunrise"
+        android:textSize="18sp"
+        android:textStyle="italic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/webViewTwentyFour" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
 
-    <WebView
-        android:id="@+id/webViewTenDay"
-        android:layout_width="0dp"
-        android:layout_height="92dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+    <TextView
+        android:id="@+id/sunsetLabel"
+        android:layout_width="70dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/weather_sunset"
+        android:textSize="18sp"
+        android:textStyle="italic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewWeatherTenDay" />
+        app:layout_constraintTop_toBottomOf="@+id/sunriseLabel" />
+
+    <TextView
+        android:id="@+id/weatherSunsetTime"
+        android:layout_width="59dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="14dp"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/sunsetLabel"
+        app:layout_constraintTop_toBottomOf="@+id/weatherSunriseTime" />
+
+    <TextView
+        android:id="@+id/weatherSunriseTime"
+        android:layout_width="60dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/sunriseLabel"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+
 </android.support.constraint.ConstraintLayout>

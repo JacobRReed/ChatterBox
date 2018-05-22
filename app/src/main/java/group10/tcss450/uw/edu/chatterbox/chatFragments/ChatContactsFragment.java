@@ -1,7 +1,6 @@
 package group10.tcss450.uw.edu.chatterbox.chatFragments;
 
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -13,26 +12,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-
 import group10.tcss450.uw.edu.chatterbox.R;
 import group10.tcss450.uw.edu.chatterbox.utils.ChatContactsAdapter;
 import group10.tcss450.uw.edu.chatterbox.utils.Contact;
-import group10.tcss450.uw.edu.chatterbox.utils.ContactsAdapterExisting;
 import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
  */
 public class ChatContactsFragment extends android.support.v4.app.Fragment {
-
-//    private ChatContactsFragment.OnFragmentInteractionListener mListener;
-
-
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -50,38 +41,42 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_chat_contacts, container, false);
 
-        //        mRecyclerView = v.findViewById(R.id.connectionsExistingRecycler);
         mRecyclerView = v.findViewById(R.id.ChatContactsRecycler);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
-        //Get username
+
+        //Get username from shared prefs
         SharedPreferences prefs =
                 getActivity().getSharedPreferences(
                         getString(R.string.keys_shared_prefs),
                         Context.MODE_PRIVATE);
         String username = prefs.getString(getString(R.string.keys_prefs_username_local), "");
         mUsername = username;
-        onExistingConnectionsLoad(username); //FIX THIS @TODO
+
+        onChatContactLoad(username); //FIX THIS @TODO
         mContacts = new ArrayList<>();
-//        FragmentManager fg;
-        android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
-        mAdapter = new ChatContactsAdapter(mContacts, this.getContext(), fm, getView(), mUsername, prefs);
+
+        /*
+        Handles fragment runnable
+         */
+        Runnable swap = () -> {
+            FragmentTransaction fragTrans = getActivity().getSupportFragmentManager().beginTransaction();
+            fragTrans.replace(R.id.homeFragmentContainer, new ChatMessageFragment());
+            fragTrans.addToBackStack(null);
+            fragTrans.commit();
+        };
+
+
+        mAdapter = new ChatContactsAdapter(mContacts, this.getContext(), swap, getView(), mUsername, prefs);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
-
         mRecyclerView.setItemAnimator(null);
-
-
-
-
-//        Button makeNewChatButton = v.findViewById(R.id.ChatContactsFriendButton);
-//        makeNewChatButton.setOnClickListener(view -> mListener.onAddFriendToChatAction());
 
         return v;
     }
 
 
-    private void onExistingConnectionsLoad(String username) {
+    private void onChatContactLoad(String username) {
         //build the web service URL
         Uri uri = new Uri.Builder()
                 .scheme("https")
@@ -101,12 +96,16 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
         //is displayed or maybe disable buttons. You would need a method in
         //LoginFragment to perform this.
         new SendPostAsyncTask.Builder(uri.toString(), msg)
-                .onPostExecute(this::handleExistingConnectionOnPost)
+                .onPostExecute(this::handleChatContactOnPost)
                 .onCancelled(this::handleErrorsInTask)
                 .build().execute();
     }
 
-    private void handleExistingConnectionOnPost(String result) {
+    /**
+     * Handles chat connection on post
+     * @param result
+     */
+    private void handleChatContactOnPost(String result) {
         String users = result.replace("friends","");
         users = users.replaceAll("[^a-zA-Z,]", "");
         String[] userList = users.split(",");
@@ -125,9 +124,17 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
                         getString(R.string.keys_shared_prefs),
                         Context.MODE_PRIVATE);
 
+        /*
+        Handles fragment runnable
+         */
+        Runnable swap = () -> {
+            FragmentTransaction fragTrans = getActivity().getSupportFragmentManager().beginTransaction();
+            fragTrans.replace(R.id.homeFragmentContainer, new ChatMessageFragment());
+            fragTrans.addToBackStack(null);
+            fragTrans.commit();
+        };
 
-        android.support.v4.app.FragmentManager transaction = getChildFragmentManager();
-        mAdapter = new ChatContactsAdapter(mContacts, this.getContext(), transaction, getView(), mUsername, prefs); //I changed this
+        mAdapter = new ChatContactsAdapter(mContacts, this.getContext(), swap, getView(), mUsername, prefs); //I changed this
         mRecyclerView.setAdapter(mAdapter);
 
     }
@@ -138,6 +145,5 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
     private void handleErrorsInTask(String result) {
         Log.e("ASYNCT_TASK_ERROR", result);
     }
-
 
 }

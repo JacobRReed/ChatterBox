@@ -27,8 +27,6 @@ public class RegisterVerification extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-//        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Register Verification");
         View v = inflater.inflate(R.layout.fragment_register_verification, container, false);
 
         try {
@@ -44,9 +42,17 @@ public class RegisterVerification extends Fragment {
         return v;
     }
 
+    /**
+     * Interface to be implemented by host activity
+     */
     public interface OnFragmentInteractionListener {
             void onVerificationLogin();
     }
+
+    /**
+     * Interface on attach
+     * @param context
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -58,6 +64,9 @@ public class RegisterVerification extends Fragment {
         }
     }
 
+    /**
+     * Detaches mListener
+     */
     @Override
     public void onDetach() {
         super.onDetach();

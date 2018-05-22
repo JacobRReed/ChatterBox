@@ -48,10 +48,12 @@ public class ConnectionsFragment extends Fragment  implements TabLayout.OnTabSel
         return v;
     }
 
+    /**
+     * Fragment loader helper method
+     * @param frag Fragment to load
+     */
     private void loadFragment(Fragment frag) {
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction().replace(R.id.connectionsFragmentContainer, frag);
-
-        // Commit the transaction
         transaction.commit();
     }
 

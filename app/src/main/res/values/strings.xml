@@ -23,11 +23,11 @@
     <string name="appName">ChatterBox</string>
     <string name="appGroupName">Group 10 TCSS 450</string>
     <string name="registerInfo">Register for an account.</string>
-    <string name="home_location">Weather for current location</string>
+    <string name="home_weather_title">Weather</string>
     <string name="home_changelocation">Change Location</string>
     <string name="home_current_conditions">Current Conditions</string>
-    <string name="home_twentyfour">24 Hour Forecast</string>
-    <string name="home_tenday">Ten Day Forecast</string>
+    <string name="home_twentyfour">12 Hour Forecast</string>
+    <string name="home_tenday">Weekly Forecast</string>
     <string name="location_zipcode">Zipcode</string>
     <string name="location_or">Or</string>
     <string name="location_map">Choose a location on the map</string>
@@ -74,4 +74,10 @@
     <string name="reset_password_username_hint_text_view">Enter your username</string>
     <string name="reset_password_email_hint_text_view">Enter your email</string>
     <string name="reset_password_button">Submit</string>
+    <string name="weather_text">Current Weather:</string>
+    <string name="weather_temp">Temperature:</string>
+    <string name="weather_city">City:</string>
+    <string name="weather_sunrise">Sunrise:</string>
+    <string name="weather_sunset">Sunset:</string>
+    <string name="title_activity_location_map_change">Map</string>
 </resources>

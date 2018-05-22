@@ -157,6 +157,10 @@ public class ConnectionsRequests extends Fragment {
                 .build().execute();
     }
 
+    /**
+     * Handles ASYNC on post for requests incoming
+     * @param result JSON string
+     */
     private void handleReqIncOnPost(String result) {
         String users = result.replace("friends","");
         users = users.replaceAll("[^a-zA-Z,]", "");

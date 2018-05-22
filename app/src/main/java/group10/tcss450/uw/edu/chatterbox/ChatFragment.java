@@ -1,12 +1,12 @@
 package group10.tcss450.uw.edu.chatterbox;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +21,7 @@ import group10.tcss450.uw.edu.chatterbox.utils.ListenManager;
 import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
 
 import static android.content.Context.MODE_PRIVATE;
+
 
 
 /**
@@ -53,23 +54,28 @@ public class ChatFragment extends Fragment {
         v.findViewById(R.id.chatSendButton).setOnClickListener(this::sendMessage);
         mOutputTextView = v.findViewById(R.id.chatOutputTextView);
 
-        /*
+
         SharedPreferences preferences = getActivity().getSharedPreferences(PREFS_FONT, MODE_PRIVATE);
         int fontChoice = preferences.getInt(PREFS_FONT, 0);
+        Log.e("Font Choice: ", Integer.toString(fontChoice));
         switch(fontChoice) {
             case 1:
-                mOutputTextView.setTextSize(R.id.settingsFontSmall);
+                mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+                Log.e("Set text size to 14", "");
                 break;
             case 2:
-                mOutputTextView.setTextSize(R.id.settingsFontMedium);
+                mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
+                Log.e("Set text size to 16", "");
                 break;
             case 3:
-                mOutputTextView.setTextSize(R.id.settingsFontLarge);
+                mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
+                Log.e("Set text size to 18", "");
                 break;
             default:
-                mOutputTextView.setTextSize(R.id.settingsFontMedium);
+                mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
+                Log.e("Set text size to 16", "");
                 break;
-        }*/
+        }
 
         return v;
     }
@@ -107,7 +113,7 @@ public class ChatFragment extends Fragment {
                     .setExceptionHandler(this::handleError) .setDelay(1000)
                     .build();
         } else {
-//no record of a saved timestamp. must be a first time login
+            //no record of a saved timestamp. must be a first time login
             mListenManager = new ListenManager.Builder(retrieve.toString(),
                     this::publishProgress)
                     .setExceptionHandler(this::handleError)
@@ -138,7 +144,10 @@ public class ChatFragment extends Fragment {
                 .apply();
     }
 
-
+    /**
+     * Handles send message button
+     * @param theButton Button with listener
+     */
     private void sendMessage(final View theButton) {
         JSONObject messageJson = new JSONObject();
         String msg = ((EditText) getView().findViewById(R.id.chatInputEditText))
@@ -156,10 +165,18 @@ public class ChatFragment extends Fragment {
                 .build().execute();
     }
 
+    /**
+     * Handles chat error
+     * @param msg error msg for async
+     */
     private void handleError(final String msg) {
         Log.e("CHAT ERROR!!!", msg.toString());
     }
 
+    /**
+     * Handles ASYNC on post
+     * @param result JSON string result
+     */
     private void endOfSendMsgTask(final String result) {
         try {
             JSONObject res = new JSONObject(result);
@@ -174,13 +191,18 @@ public class ChatFragment extends Fragment {
         }
     }
 
-
-    //-------
-
+    /**
+     * Handles ASYNC errors
+     * @param e
+     */
     private void handleError(final Exception e) {
         Log.e("LISTEN ERROR!!!", e.getMessage());
     }
 
+    /**
+     * Handles ASYNC progress
+     * @param messages
+     */
     private void publishProgress(JSONObject messages) {
         final String[] msgs;
         if(messages.has(getString(R.string.keys_json_messages))) {
@@ -205,6 +227,5 @@ public class ChatFragment extends Fragment {
             });
         }
     }
-
 }
 

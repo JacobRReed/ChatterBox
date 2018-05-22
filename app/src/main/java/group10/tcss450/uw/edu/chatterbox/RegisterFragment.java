@@ -129,7 +129,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     public void onStart() {
         super.onStart();
         if (getArguments() != null) {
-            String nickname  = getArguments().getString("nickname");
+            String nickname  = getArguments().getString("username");
             String pw  = getArguments().getString("password");
             String firstName  = getArguments().getString("firstName");
             String lastName  = getArguments().getString("lastName");

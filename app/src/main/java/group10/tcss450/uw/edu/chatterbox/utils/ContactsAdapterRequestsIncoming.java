@@ -147,10 +147,7 @@ public class ContactsAdapterRequestsIncoming extends RecyclerView.Adapter<Contac
      */
     private void refreshEvents(List<Contact> contacts) {
         mContacts.clear();
-        if(!contacts.isEmpty()) {
-            mContacts.addAll(contacts);
-        }
-
+        mContacts.addAll(contacts);
         notifyDataSetChanged();
     }
 
@@ -164,7 +161,6 @@ public class ContactsAdapterRequestsIncoming extends RecyclerView.Adapter<Contac
     @Override
     public int getItemCount() {
             return mContacts.size();
-
     }
 
     // Provide a direct reference to each of the views within a data item
