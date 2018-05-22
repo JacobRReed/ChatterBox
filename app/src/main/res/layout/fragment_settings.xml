@@ -48,19 +48,19 @@
         android:layout_height="129dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:checkedButton="@+id/settingsFontMedium"
+        android:checkedButton="@+id/settingsFontTwo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3">
 
         <RadioButton
-            android:id="@+id/settingsFontSmall"
+            android:id="@+id/settingsFontOne"
             android:layout_width="145dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/settingsFontOne" />
 
         <RadioButton
-            android:id="@+id/settingsFontMedium"
+            android:id="@+id/settingsFontTwo"
             android:layout_width="145dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -69,7 +69,7 @@
             android:textSize="16sp" />
 
         <RadioButton
-            android:id="@+id/settingsFontLarge"
+            android:id="@+id/settingsFontThree"
             android:layout_width="146dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

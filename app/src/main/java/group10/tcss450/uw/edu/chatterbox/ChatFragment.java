@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import group10.tcss450.uw.edu.chatterbox.utils.ListenManager;
 import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
 
 import static android.content.Context.MODE_PRIVATE;
+
 
 
 /**
@@ -52,23 +54,28 @@ public class ChatFragment extends Fragment {
         v.findViewById(R.id.chatSendButton).setOnClickListener(this::sendMessage);
         mOutputTextView = v.findViewById(R.id.chatOutputTextView);
 
-        /* @TODO Set text font size based on shared prefs
+
         SharedPreferences preferences = getActivity().getSharedPreferences(PREFS_FONT, MODE_PRIVATE);
         int fontChoice = preferences.getInt(PREFS_FONT, 0);
+        Log.e("Font Choice: ", Integer.toString(fontChoice));
         switch(fontChoice) {
             case 1:
-                mOutputTextView.setTextSize(R.id.settingsFontSmall);
+                mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
+                Log.e("Set text size to 14", "");
                 break;
             case 2:
-                mOutputTextView.setTextSize(R.id.settingsFontMedium);
+                mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
+                Log.e("Set text size to 16", "");
                 break;
             case 3:
-                mOutputTextView.setTextSize(R.id.settingsFontLarge);
+                mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
+                Log.e("Set text size to 18", "");
                 break;
             default:
-                mOutputTextView.setTextSize(R.id.settingsFontMedium);
+                mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
+                Log.e("Set text size to 16", "");
                 break;
-        }*/
+        }
 
         return v;
     }

@@ -104,8 +104,8 @@ public class ConnectionsExisting extends Fragment {
             mContacts.add(new Contact(s));
         }
         mAdapter = new ContactsAdapterExisting(mContacts, this.getContext());
-        mRecyclerView.setAdapter(mAdapter);
 
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     /**
