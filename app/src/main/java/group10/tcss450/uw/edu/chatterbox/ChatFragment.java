@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -31,7 +32,8 @@ public class ChatFragment extends Fragment {
 
     private String mUsername;
     private String mSendUrl;
-    private TextView mOutputTextView; private ListenManager mListenManager;
+    private TextView mOutputTextView;
+    private ListenManager mListenManager;
     private static final String PREFS_FONT = "font_pref";
 
     public ChatFragment() {
@@ -53,7 +55,6 @@ public class ChatFragment extends Fragment {
 
         v.findViewById(R.id.chatSendButton).setOnClickListener(this::sendMessage);
         mOutputTextView = v.findViewById(R.id.chatOutputTextView);
-
 
         SharedPreferences preferences = getActivity().getSharedPreferences(PREFS_FONT, MODE_PRIVATE);
         int fontChoice = preferences.getInt(PREFS_FONT, 0);
