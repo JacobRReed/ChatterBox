@@ -29,6 +29,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     private View mView;
     private String mSendUrlMakeChat;
     private String mSendUrlGetChat;
+    private String mSendUrlRemoveMember;
     private String mSendUrlAddFriendToChat;
 
     private String mSendUrlMakeAndAddToChat;
@@ -43,11 +44,12 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     private View myContactView;
 
     private Runnable mSwap;
+    private Runnable mSwap2;
 
 
     //didnt change mContact to mChat
     public ChatListAdapter(List<Chat> contacts, Context context,
-                               Runnable swap, View theView,
+                               Runnable swap, Runnable swap2, View theView,
                                String theUsername, SharedPreferences thePrefs) {
         mContacts = contacts;
         mContext = context;
@@ -55,6 +57,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         mUsername = theUsername;
         mPrefs = thePrefs;
         mSwap = swap;
+        mSwap2 = swap2;
     }
 
 
@@ -85,6 +88,12 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
                 .build()
                 .toString();
 
+        mSendUrlRemoveMember = new Uri.Builder() .scheme("https")
+                .appendPath(mContext.getString(R.string.ep_base_url))
+                .appendPath("chats")
+                .appendPath("removeMember")
+                .build()
+                .toString();
         // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(myContactView);
         return viewHolder;
@@ -93,19 +102,69 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Chat contact = mContacts.get(position); //Did change the name of this either
+
         Button chatButton = holder.chatButton;
+        Button removeChatButton = holder.removeChatButton;
         chatButton.setText(contact.getName());
         chatButton.setOnClickListener(v -> {
             mPosition = position;
             askForChatId(contact.getName());
             String chatid = chatButton.getText().toString().split(" ")[0];
-            mPrefs.edit().putString("THIS_IS_MY_CURRENT_CHAT_ID",chatid);
+            mPrefs.edit().putString("THIS_IS_MY_CURRENT_CHAT_ID",chatid).commit();
             mSwap.run();
+        });
+        removeChatButton.setOnClickListener(v -> {
+            String chatid = chatButton.getText().toString().split(" ")[0];
+            Log.d("Fuck you forever", chatButton.getText().toString().split(" ")[0]);
+//            String username = mUsername;
+//            JSONObject messageJson = new JSONObject();
+
+            SharedPreferences prefs =
+                    mContext.getSharedPreferences( mContext.getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
+            mPrefs.edit().putString("THIS_IS_MY_CURRENT_CHAT_ID",chatid).commit();
+            Log.d("Fuck you forever 22222222", mPrefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "0"));
+            mSwap2.run();
+
+//            SharedPreferences prefs =
+//                    getSharedPreferences( getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
+//
+//            String dogChatId = prefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "0");
+//            try {
+//                messageJson.put(mContext.getString(R.string.keys_json_chat_id), Integer.parseInt(chatid));
+//                messageJson.put(mContext.getString(R.string.keys_json_username), username);
+//                //Log.d("Fuck Try Put: ", "Success on putting new friend into chat. chatID: " + currChatID + " CurrentFriendAdded: " + theCheckedFriends.get(i).toString());
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//                //Log.d("Fuck Try Put: ", "Failure on putting a temp chat. chatID: " + mCurrentChatId + " CurrentFriendAdded: " + theCheckedFriends.get(i));
+//            }
+//            new SendPostAsyncTask.Builder(mSendUrlRemoveMember, messageJson)
+//                    .onPostExecute(this::endOfAddFriendsToChat)
+//                    .onCancelled(this::handleError)
+//                    .build().execute();
+
         });
 
     }
 
+    /**
+     * Handles end of message task ASYNC
+     * @param result JSON string
+     */
+    private void endOfAddFriendsToChat(final String result) {
+        try {
+            JSONObject res = new JSONObject(result);
 
+            if(res.get(mContext.getString(R.string.keys_json_success)).toString()
+                    .equals(mContext.getString(R.string.keys_json_success_value_true))) {
+
+                Log.d("Can I say Fuck Ya?", "I guess so...");
+                // not sure what this needs to be
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d("Can I say Fuck No?", "I guess not...");
+        }
+    }
 
 
     @Override
@@ -116,8 +175,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public Button chatButton;
+        public Button removeChatButton;
         public ViewHolder(View itemView) {
             super(itemView);
+            removeChatButton = itemView.findViewById(R.id.chatListRemoveButton);
             chatButton = itemView.findViewById(R.id.chatListChatButton);
             String chatName = chatButton.getText().toString();
             Log.e("chatName", chatName);
