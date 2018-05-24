@@ -33,6 +33,7 @@ public class ChatFragment extends Fragment {
     private String mSendUrl;
     private TextView mOutputTextView;
     private ListenManager mListenManager;
+    private String mChatid;
     private static final String PREFS_FONT = "font_pref";
 
     public ChatFragment() {
@@ -97,12 +98,13 @@ public class ChatFragment extends Fragment {
                 .toString();
 
         //--
-
+        String currentChatId = prefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "");
+        mChatid = currentChatId;
         Uri retrieve = new Uri.Builder()
                 .scheme("https")
                 .appendPath(getString(R.string.ep_base_url))
                 .appendPath(getString(R.string.ep_get_message))
-                .appendQueryParameter("chatId", "1")
+                .appendQueryParameter("chatId", currentChatId)
                 .build();
 
         if (prefs.contains(getString(R.string.keys_prefs_time_stamp))) {
@@ -155,7 +157,7 @@ public class ChatFragment extends Fragment {
         try {
             messageJson.put(getString(R.string.keys_json_username), mUsername);
             messageJson.put(getString(R.string.keys_json_message), msg);
-            messageJson.put(getString(R.string.keys_json_chat_id), 1);
+            messageJson.put(getString(R.string.keys_json_chat_id), mChatid);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -205,7 +207,9 @@ public class ChatFragment extends Fragment {
      */
     private void publishProgress(JSONObject messages) {
         final String[] msgs;
+        Log.d("Fuck test ChatFragment publish progress:", "inside publish progress chatFragment");
         if(messages.has(getString(R.string.keys_json_messages))) {
+            Log.d("Fuck test Chat fragment publish progress:", "made it inside if statement");
             try {
                 JSONArray jMessages =
                         messages.getJSONArray(getString(R.string.keys_json_messages));

@@ -4,7 +4,7 @@
     <string name="ep_login">login</string>
     <string name="ep_register">register</string>
     <string name="ep_send_message">sendMessages</string>
-    <string name="ep_get_message">getMessages</string>
+    <string name="ep_get_message">getMessages3</string>
     <string name="ep_existing">friends</string>
     <string name="ep_add">add</string>
     <string name="ep_invite">invite</string>
