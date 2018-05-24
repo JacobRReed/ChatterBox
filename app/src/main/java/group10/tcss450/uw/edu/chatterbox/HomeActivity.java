@@ -20,6 +20,7 @@ import android.view.View;
 
 import group10.tcss450.uw.edu.chatterbox.chatFragments.ChatContactsFragment;
 import group10.tcss450.uw.edu.chatterbox.chatFragments.ChatListFragment;
+import group10.tcss450.uw.edu.chatterbox.utils.MyIntentService;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -88,6 +89,12 @@ public class HomeActivity extends AppCompatActivity
         //Get location from map if available
         Fragment weatherFrag = new WeatherFragment();
         loadFragment(weatherFrag);
+
+
+        /*
+        Start service for app notification
+         */
+        startService(new Intent(this, MyIntentService.class));
     }
 
 

@@ -39,7 +39,12 @@
 
         <activity
             android:name=".LocationMapChange"
-            android:label="@string/title_activity_location_map_change"></activity>
+            android:label="@string/title_activity_location_map_change" />
+
+        <service
+            android:name=".utils.MyIntentService"
+            android:exported="false" />
+
     </application>
 
 </manifest>

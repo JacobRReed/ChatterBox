@@ -18,4 +18,5 @@
     <string name="ep_search">chatterboxtcss450.herokuapp.com/search</string>
     <string name="ep_make_chat">makeChat</string>
     <string name="ep_weather">chatterboxtcss450.herokuapp.com/weather</string>
+    <string name="ep_check_new_message">Notification</string>
 </resources>

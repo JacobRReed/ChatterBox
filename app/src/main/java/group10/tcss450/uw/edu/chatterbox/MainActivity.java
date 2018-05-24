@@ -18,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import group10.tcss450.uw.edu.chatterbox.model.Credentials;
+import group10.tcss450.uw.edu.chatterbox.utils.MyIntentService;
 import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
 
 public class MainActivity extends AppCompatActivity
@@ -73,9 +74,6 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         }
-
-
-
     }
 
     /**
