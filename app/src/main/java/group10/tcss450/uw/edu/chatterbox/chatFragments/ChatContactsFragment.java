@@ -12,9 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.List;
+
 import group10.tcss450.uw.edu.chatterbox.R;
 import group10.tcss450.uw.edu.chatterbox.utils.ChatContactsAdapter;
 import group10.tcss450.uw.edu.chatterbox.utils.Contact;
@@ -29,6 +33,8 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     public ArrayList<Contact> mContacts;
     private String mUsername;
+    private ChatContactsFragment.OnFragmentInteractionListener mListener;
+    private ArrayList<String> mCheckedFriends = new ArrayList<>();
 
     public ChatContactsFragment() {
         // Required empty public constructor
@@ -44,6 +50,14 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
         mRecyclerView = v.findViewById(R.id.ChatContactsRecycler);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
+
+        Button makeNewChatButton = v.findViewById(R.id.chatCreateNewChatButton);
+        makeNewChatButton.setOnClickListener(view -> {
+
+
+            mListener.onCreateNewChatButtonPressed(mCheckedFriends);
+
+        });
 
         //Get username from shared prefs
         SharedPreferences prefs =
@@ -67,7 +81,7 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
         };
 
 
-        mAdapter = new ChatContactsAdapter(mContacts, this.getContext(), swap, getView(), mUsername, prefs);
+        mAdapter = new ChatContactsAdapter(mContacts, this.getContext(), swap, getView(), mUsername, prefs, mCheckedFriends);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(null);
@@ -134,9 +148,33 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
             fragTrans.commit();
         };
 
-        mAdapter = new ChatContactsAdapter(mContacts, this.getContext(), swap, getView(), mUsername, prefs); //I changed this
+        mAdapter = new ChatContactsAdapter(mContacts, this.getContext(), swap, getView(), mUsername, prefs, mCheckedFriends); //I changed this
         mRecyclerView.setAdapter(mAdapter);
 
+    }
+
+    /**
+     * Handles on attach of fragment and activity
+     * @param context Context of attach
+     */
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof ChatContactsFragment.OnFragmentInteractionListener) {
+            mListener = (ChatContactsFragment.OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    /**
+     * Detaches mListener onDetach
+     */
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
     /**
@@ -144,6 +182,14 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
      * @param result the error message provide from the AsyncTask */
     private void handleErrorsInTask(String result) {
         Log.e("ASYNCT_TASK_ERROR", result);
+    }
+
+    /**
+     * Interface to be implemented by host activities
+     */
+    public interface OnFragmentInteractionListener {
+        void onCreateNewChatButtonPressed(ArrayList<String> theCheckedFriends);
+
     }
 
 }

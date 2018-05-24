@@ -98,7 +98,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         chatButton.setOnClickListener(v -> {
             mPosition = position;
             askForChatId(contact.getName());
-
+            String chatid = chatButton.getText().toString().split(" ")[0];
+            mPrefs.edit().putString("THIS_IS_MY_CURRENT_CHAT_ID",chatid);
             mSwap.run();
         });
 
