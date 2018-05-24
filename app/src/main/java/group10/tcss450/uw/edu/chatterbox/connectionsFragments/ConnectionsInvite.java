@@ -147,7 +147,7 @@ public class ConnectionsInvite extends Fragment {
      */
     private void onContactClick(View v) {
         Intent contactPickerIntent = new Intent(Intent.ACTION_PICK,
-                ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+                ContactsContract.CommonDataKinds.Email.CONTENT_URI);
 
         startActivityForResult(contactPickerIntent, CONTACT_PICKER_RESULT);
     }
@@ -182,8 +182,8 @@ public class ConnectionsInvite extends Fragment {
                    ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
                    projection, null);
            String email = cursor.getString(numberIndex);
-           Log.e("Email from contacts picker: ", email);
-
+            //After retrieving email from contacts, set the textedit to that email so they can send invite
+           mEmailAddr.setText(email);
        }
     }
 

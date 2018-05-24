@@ -56,16 +56,14 @@ public class ContactsAdapterExisting extends
         // Set item views based on your views and data model
         TextView textView = holder.nameTextView;
         textView.setText(contact.getName());
+        //Remove friend button
         Button remove = holder.itemView.findViewById(R.id.connectionsExistingRemove);
         remove.setOnClickListener(v -> {
             mPosition = position;
             mRemovalPerson = contact.getName();
             onRemoveFriend(contact.getName());
         });
-        Button message = holder.itemView.findViewById(R.id.connectionExistingMessage);
-        message.setOnClickListener(v -> {
-            Log.wtf("Starting message with:", contact.getName());
-        });
+
 
     }
 
@@ -150,7 +148,6 @@ public class ContactsAdapterExisting extends
         // for any view that will be set as you render a row
         public TextView nameTextView;
         public Button removeButton;
-        public Button messageButton;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -161,7 +158,6 @@ public class ContactsAdapterExisting extends
 
             nameTextView = itemView.findViewById(R.id.connectionsExistingContactName);
             String friendName = nameTextView.getText().toString();
-            messageButton = itemView.findViewById(R.id.connectionExistingMessage);
             removeButton = itemView.findViewById(R.id.connectionsExistingRemove);
         }
     }

@@ -17,6 +17,7 @@
 
     <Button
         android:id="@+id/connectionsExistingRemove"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="58dp"
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/ic_remove"
@@ -25,14 +26,4 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp" />
 
-    <Button
-        android:id="@+id/connectionExistingMessage"
-        android:layout_width="34dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:drawableStart="@drawable/ic_chat"
-        android:enabled="true"
-        android:gravity="center_horizontal|top"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp" />
 </LinearLayout>
