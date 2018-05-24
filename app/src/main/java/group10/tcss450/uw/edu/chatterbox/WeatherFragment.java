@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONArray;
@@ -23,6 +24,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
+
 import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
 import static android.content.Context.MODE_PRIVATE;
 
@@ -73,7 +76,7 @@ public class WeatherFragment extends Fragment {
     private TextView mDayFiveTemp;
     private TextView mSunset;
     private TextView mSunrise;
-
+    private ProgressBar mProgress;
 
     public WeatherFragment() {
         // Required empty public constructor
@@ -135,6 +138,7 @@ public class WeatherFragment extends Fragment {
         mSunrise = v.findViewById(R.id.weatherSunriseTime);
         mSunset = v.findViewById(R .id.weatherSunsetTime);
         mZip = new String();
+        mProgress = v.findViewById(R.id.weatherProgress);
 
         //Get the zipcode from arguments if passed by selecting change location via zipcode
         Bundle bundle = getArguments();
@@ -192,10 +196,20 @@ public class WeatherFragment extends Fragment {
         //is displayed or maybe disable buttons. You would need a method in
         //LoginFragment to perform this.
         new SendPostAsyncTask.Builder(uri.toString(), msg)
-                .onPostExecute(this::handleWeatherOnPost)
                 .onCancelled(this::handleErrorsInTask)
+                .onProgressUpdate(this::handleWeatherProgress)
+                .onPostExecute(this::handleWeatherOnPost)
                 .build().execute();
     }
+
+    /**
+     * Handles weather progress update from ASYNC. Loads progress bar
+     * @param strings Strings update progress
+     */
+    private void handleWeatherProgress(String[] strings) {
+        mProgress.setVisibility(View.VISIBLE);
+    }
+
 
     /**
      * Handles the onPost of ASYNC for weather data calls.
@@ -283,6 +297,7 @@ public class WeatherFragment extends Fragment {
                         break;
                 }
             }
+            mProgress.setVisibility(View.GONE);
         } catch(JSONException e) {
             Log.wtf("JSON ERROR:", e);
         } catch (MalformedURLException e) {

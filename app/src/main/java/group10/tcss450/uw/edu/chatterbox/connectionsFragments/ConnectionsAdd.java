@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +35,7 @@ public class ConnectionsAdd extends Fragment implements RadioGroup.OnCheckedChan
     private RecyclerView.LayoutManager mLayoutManager;
     public ArrayList<Contact> mContacts;
     private int mOption;
+    private ProgressBar mProgress;
 
     public ConnectionsAdd() {
         // Required empty public constructor
@@ -49,6 +51,9 @@ public class ConnectionsAdd extends Fragment implements RadioGroup.OnCheckedChan
         searchMethod.setOnCheckedChangeListener(this::onCheckedChanged);
         textOne = v.findViewById(R.id.addTextBoxOne);
         textTwo = v.findViewById(R.id.addTextBox2);
+
+        //Progress bar
+        mProgress = v.findViewById(R.id.connectionsAddProgress);
 
         //Recycler view for result
         mRecyclerView = v.findViewById(R.id.addRecycler);
@@ -129,6 +134,7 @@ public class ConnectionsAdd extends Fragment implements RadioGroup.OnCheckedChan
                     //LoginFragment to perform this.
                     new SendPostAsyncTask.Builder(uri2.toString(), msg2)
                             .onPostExecute(this::handleSearchOnPost)
+                            .onProgressUpdate(this::handleProgress)
                             .onCancelled(this::handleErrorsInTask)
                             .build().execute();
                 }
@@ -180,6 +186,14 @@ public class ConnectionsAdd extends Fragment implements RadioGroup.OnCheckedChan
     }
 
     /**
+     * Handles progress bar for async
+     * @param strings
+     */
+    private void handleProgress(String[] strings) {
+        mProgress.setVisibility(View.VISIBLE);
+    }
+
+    /**
      * Handles search results and refreshes them in recycler view
      * @param result
      */
@@ -201,6 +215,7 @@ public class ConnectionsAdd extends Fragment implements RadioGroup.OnCheckedChan
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        mProgress.setVisibility(View.GONE);
     }
 
     /**
