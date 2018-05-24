@@ -46,7 +46,14 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
         View v = inflater.inflate(R.layout.fragment_chat_list, container, false);
 
         FloatingActionButton makeNewChatButton = v.findViewById(R.id.ChatListMakeNewChatActionButton);
-        makeNewChatButton.setOnClickListener(view -> mListener.onMakeNewChatAction());
+        makeNewChatButton.setOnClickListener(view -> {
+
+
+
+            mListener.onMakeNewChatAction();
+
+
+        });
 
         mRecyclerView = v.findViewById(R.id.ChatListRecycler);
         mRecyclerView.setHasFixedSize(true);

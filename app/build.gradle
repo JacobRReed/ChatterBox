@@ -25,10 +25,7 @@ android {
 }
 
 dependencies {
-<<<<<<< HEAD
-=======
     implementation 'com.google.code.gson:gson:2.7'
->>>>>>> db5b1bcc9037800db1bd678234036791ed573b71
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
