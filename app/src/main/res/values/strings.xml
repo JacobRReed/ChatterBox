@@ -39,9 +39,9 @@
     <string name="settingsFontOne">Small</string>
     <string name="settingsFontTwo">Medium</string>
     <string name="settingsFontThree">Large</string>
-    <string name="settingsColorThemeDefault">(Default) Pink/Brown</string>
-    <string name="settingsColorThemeTwo">Purple/Yellow</string>
-    <string name="settingsColorThemeThree">Cyan/Red</string>
+    <string name="settingsColorThemeDefault">Pretty in Pink Fudge</string>
+    <string name="settingsColorThemeTwo">Purpellow</string>
+    <string name="settingsColorThemeThree">Pastel Dreams</string>
     <string name="connections_existing">Existing</string>
     <string name="connections_add">Add</string>
     <string name="connections_invite">Invite</string>

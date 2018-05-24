@@ -6,11 +6,13 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +34,7 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
     private String mSendUrl;
     private TextView mOutputTextView; private ListenManager mListenManager;
     private String mCurrentChatId;
+    private ScrollView mTextScroller;
 
     public ChatMessageFragment() {
         // Required empty public constructor
@@ -42,7 +45,7 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_chat, container, false);
+        View v = inflater.inflate(R.layout.fragment_chat_message, container, false);
 
         try {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Chat");
@@ -52,6 +55,7 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
 
         v.findViewById(R.id.chatSendButton).setOnClickListener(this::sendMessage);
         mOutputTextView = v.findViewById(R.id.chatOutputTextView);
+        mTextScroller = v.findViewById(R.id.chatScroller);
 
         return v;
     }
@@ -216,6 +220,7 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
                     Log.d("Fuck test Loop append messages:", "Message is: " + msgs);
                     mOutputTextView.append(msg);
                     mOutputTextView.append(System.lineSeparator());
+                    mTextScroller.fullScroll(ScrollView.FOCUS_DOWN);
                 }
             });
         }

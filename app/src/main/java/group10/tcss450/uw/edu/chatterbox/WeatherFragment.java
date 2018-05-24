@@ -197,18 +197,15 @@ public class WeatherFragment extends Fragment {
         //LoginFragment to perform this.
         new SendPostAsyncTask.Builder(uri.toString(), msg)
                 .onCancelled(this::handleErrorsInTask)
-                .onProgressUpdate(this::handleWeatherProgress)
+                .onPreExecute(this::handleWeatherProgress)
                 .onPostExecute(this::handleWeatherOnPost)
                 .build().execute();
     }
 
-    /**
-     * Handles weather progress update from ASYNC. Loads progress bar
-     * @param strings Strings update progress
-     */
-    private void handleWeatherProgress(String[] strings) {
-        mProgress.setVisibility(View.VISIBLE);
+    private void handleWeatherProgress() {
     }
+
+
 
 
     /**

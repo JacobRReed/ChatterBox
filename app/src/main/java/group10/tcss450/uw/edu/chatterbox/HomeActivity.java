@@ -28,11 +28,8 @@ import java.util.ArrayList;
 
 import group10.tcss450.uw.edu.chatterbox.chatFragments.ChatContactsFragment;
 import group10.tcss450.uw.edu.chatterbox.chatFragments.ChatListFragment;
-<<<<<<< HEAD
 import group10.tcss450.uw.edu.chatterbox.utils.MyIntentService;
-=======
 import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
->>>>>>> c896cab28995bd0db2534671e5e7e618117706e1
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -226,7 +223,6 @@ public class HomeActivity extends AppCompatActivity
             loadFragment(new ConnectionsFragment());
         } else if (id == R.id.nav_chat) {
             //Handle chat action
-//            loadFragment(new ChatFragment());
             loadFragment(new ChatListFragment());
         } else if (id == R.id.nav_weather) {
             //Handle weather action
