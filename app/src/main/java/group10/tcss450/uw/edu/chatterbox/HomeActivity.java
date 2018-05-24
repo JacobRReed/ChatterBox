@@ -3,6 +3,7 @@ package group10.tcss450.uw.edu.chatterbox;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -13,24 +14,42 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import group10.tcss450.uw.edu.chatterbox.chatFragments.ChatContactsFragment;
 import group10.tcss450.uw.edu.chatterbox.chatFragments.ChatListFragment;
+<<<<<<< HEAD
 import group10.tcss450.uw.edu.chatterbox.utils.MyIntentService;
+=======
+import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
+>>>>>>> c896cab28995bd0db2534671e5e7e618117706e1
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
             WeatherFragment.OnFragmentInteractionListener,
             ChangeLocationFragment.OnFragmentInteractionListener,
-            ChatListFragment.OnFragmentInteractionListener {
+            ChatListFragment.OnFragmentInteractionListener,
+            ChatContactsFragment.OnFragmentInteractionListener{
 
     private static final String PREFS_THEME = "theme_pref";
     private static final String PREFS_FONT = "font_pref";
     private static final String PREFS_LOC = "location_pref";
+    private String mCreateChatUrl;
+    private String mAddFriendsToChatUrl;
+    private String mUsername;
+    private String mNewChatNameUrl;
+    private String mCurrentChatId;
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +59,25 @@ public class HomeActivity extends AppCompatActivity
         SharedPreferences themePreferences = getSharedPreferences(PREFS_THEME, MODE_PRIVATE);
         int themeChoice = themePreferences.getInt(PREFS_THEME, 0);
 
+        SharedPreferences prefs =
+                getSharedPreferences( getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
+
+        mUsername = prefs.getString(getString(R.string.keys_prefs_username_local), "");
+        mAddFriendsToChatUrl = new Uri.Builder() .scheme("https")
+                .appendPath(getString(R.string.ep_base_url))
+                .appendPath("chats")
+                .appendPath(getString(R.string.ep_add_friend_to_chat)) .build()
+                .toString();
+        mCreateChatUrl = new Uri.Builder() .scheme("https")
+                .appendPath(getString(R.string.ep_base_url))
+                .appendPath("chats")
+                .appendPath(getString(R.string.ep_create_chat)) .build()
+                .toString();
+        mNewChatNameUrl = new Uri.Builder() .scheme("https")
+                .appendPath(getString(R.string.ep_base_url))
+                .appendPath("chats")
+                .appendPath(getString(R.string.ep_new_chat_name)) .build()
+                .toString();
         //Apply themes from shared prefs
         switch(themeChoice) {
             case 1:
@@ -173,8 +211,8 @@ public class HomeActivity extends AppCompatActivity
     private void loadFragment(Fragment frag) {
         FragmentTransaction transaction = getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.homeFragmentContainer, frag);
-
+                .replace(R.id.homeFragmentContainer, frag)
+                .addToBackStack(null);
         // Commit the transaction
         transaction.commit();
     }
@@ -227,9 +265,172 @@ public class HomeActivity extends AppCompatActivity
     }
 
 
+    /**
+     * Handles errors for chat
+     * @param msg
+     */
+    private void handleError(final String msg) {
+        Log.e("CHAT ERROR!!!", msg.toString());
+    }
+
+    /**
+     * Handles end of message task ASYNC
+     * @param result JSON string
+     */
+    private void endOfAddFriendsToChat(final String result) {
+        try {
+            JSONObject res = new JSONObject(result);
+
+            if(res.get(getString(R.string.keys_json_success)).toString()
+                    .equals(getString(R.string.keys_json_success_value_true))) {
+
+                Log.d("Can I say Fuck Ya?", "I guess so...");
+                // not sure what this needs to be
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d("Can I say Fuck No?", "I guess not...");
+        }
+    }
+
+    /**
+     * Handles end of message task ASYNC
+     * @param result JSON string
+     */
+    private void endOfNewChatName(final String result) {
+        try {
+            JSONObject res = new JSONObject(result);
+
+            if(res.get(getString(R.string.keys_json_success)).toString()
+                    .equals(getString(R.string.keys_json_success_value_true))) {
+
+                Log.d("Can I say Fuck Ya 2?", "I guess so... 2");
+                // not sure what this needs to be
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d("Can I say Fuck No 2?", "I guess not... 2");
+        }
+    }
+
+    /**
+     * Handles end of message task ASYNC
+     * @param result JSON string
+     */
+    private void endOfOnMakeNewChat(final String result) {
+        try {
+            JSONObject res = new JSONObject(result);
+
+            if(res.get(getString(R.string.keys_json_success)).toString()
+                    .equals(getString(R.string.keys_json_success_value_true))) {
+
+
+                //----
+                String temp = res.get("chatid").toString();
+                temp = temp.replace("{\"chatid\":","");
+                temp = temp.replace("}", "");
+
+                //---
+
+//                String tempCurrentChatId = temp;
+
+                mCurrentChatId = temp;
+//                SharedPreferences prefs =
+//                        getSharedPreferences( getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
+//                prefs.edit().putString("THIS_IS_MY_CURRENT_CHAT_ID", tempCurrentChatId);
+
+
+//                Log.e("Results", "Success on creating a temp chat. the res: " + tempCurrentChatId + " the sharePref: " + prefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "0"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("Results", "Failure on creating a temp chat.");
+        }
+    }
+
     @Override
     public void onMakeNewChatAction() {
+
+        JSONObject messageJson = new JSONObject();
+
+        try {
+            messageJson.put("name", mUsername + " temp"); // change this
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("Try Put: ", "Failure on putting a temp chat.");
+
+        }
+        new SendPostAsyncTask.Builder(mCreateChatUrl, messageJson)
+                .onPostExecute(this::endOfOnMakeNewChat)
+                .onCancelled(this::handleError)
+                .build().execute();
+
+
         loadFragment(new ChatContactsFragment());
     }
 
+    @Override
+    public void onCreateNewChatButtonPressed(ArrayList<String> theCheckedFriends) {
+
+        SharedPreferences prefs =
+                getSharedPreferences( getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
+        String currentChatId = prefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "0");
+
+//        add username to arraylist
+        theCheckedFriends.add(mUsername);
+
+        Log.d("Fuck ya", theCheckedFriends.toString() + " the chatid is: " + mCurrentChatId);
+        int currChatID = Integer.parseInt(mCurrentChatId);
+        for(int i = 0; i < theCheckedFriends.size(); i++) {
+            JSONObject messageJson = new JSONObject();
+
+//            SharedPreferences prefs =
+//                    getSharedPreferences( getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
+//
+//            String dogChatId = prefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "0");
+            try {
+                messageJson.put(getString(R.string.keys_json_chat_id), currChatID);
+                messageJson.put(getString(R.string.keys_json_username), theCheckedFriends.get(i).toString());
+                Log.d("Fuck Try Put: ", "Success on putting new friend into chat. chatID: " + currChatID + " CurrentFriendAdded: " + theCheckedFriends.get(i).toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.d("Fuck Try Put: ", "Failure on putting a temp chat. chatID: " + mCurrentChatId + " CurrentFriendAdded: " + theCheckedFriends.get(i));
+            }
+            new SendPostAsyncTask.Builder(mAddFriendsToChatUrl, messageJson)
+                    .onPostExecute(this::endOfAddFriendsToChat)
+                    .onCancelled(this::handleError)
+                    .build().execute();
+        }
+
+        chatNameChange(mCurrentChatId, theCheckedFriends);
+        loadFragment(new ChatListFragment());
+
+        theCheckedFriends.clear();
+    }
+
+    public void chatNameChange(String theChatid, ArrayList<String> theCheckedFriends) {
+        String newChatName = "";
+        newChatName += theChatid + " ";
+        for(int i = 0; i < theCheckedFriends.size(); i++) {
+            newChatName += theCheckedFriends.get(i).toString();
+        }
+        JSONObject messageJson = new JSONObject();
+
+//            SharedPreferences prefs =
+//                    getSharedPreferences( getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
+//
+//            String dogChatId = prefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "0");
+        try {
+            messageJson.put(getString(R.string.keys_json_chat_id), Integer.parseInt(theChatid));
+            messageJson.put(getString(R.string.keys_json_new_chatname), newChatName);
+            //Log.d("Fuck Try Put: ", "Success on putting new friend into chat. chatID: " + currChatID + " CurrentFriendAdded: " + theCheckedFriends.get(i).toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            //Log.d("Fuck Try Put: ", "Failure on putting a temp chat. chatID: " + mCurrentChatId + " CurrentFriendAdded: " + theCheckedFriends.get(i));
+        }
+        new SendPostAsyncTask.Builder(mNewChatNameUrl, messageJson)
+                .onPostExecute(this::endOfNewChatName)
+                .onCancelled(this::handleError)
+                .build().execute();
+    }
 }

@@ -11,11 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import group10.tcss450.uw.edu.chatterbox.R;
@@ -29,6 +31,7 @@ public class ChatContactsAdapter extends RecyclerView.Adapter<ChatContactsAdapte
     private List<Contact> mContacts;
     private Context mContext;
     private int mPosition;
+    private int mNumberChecked;
     private FragmentManager mFrag;
     private View mView;
     private String mSendUrlMakeChat;
@@ -39,7 +42,7 @@ public class ChatContactsAdapter extends RecyclerView.Adapter<ChatContactsAdapte
 
     private String mUsername;
     private SharedPreferences mPrefs;
-
+    private ArrayList<String> mCheckedFriends;
     private String myCurrentChatId;
     private String myCurrentMemId;
 
@@ -49,7 +52,7 @@ public class ChatContactsAdapter extends RecyclerView.Adapter<ChatContactsAdapte
 
     public ChatContactsAdapter(List<Contact> contacts, Context context,
                                Runnable swap, View theView,
-                               String theUsername, SharedPreferences thePrefs) {
+                               String theUsername, SharedPreferences thePrefs, ArrayList<String> theCheckedFriends) {
         mContacts = contacts;
 //        Log.e("contactSize", "" + mContacts.size());
 //        mRemovalPerson = null;
@@ -59,6 +62,7 @@ public class ChatContactsAdapter extends RecyclerView.Adapter<ChatContactsAdapte
         mUsername = theUsername;
         mPrefs = thePrefs;
         mSwap = swap;
+        mCheckedFriends = theCheckedFriends;
     }
 
 
@@ -110,8 +114,37 @@ public class ChatContactsAdapter extends RecyclerView.Adapter<ChatContactsAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+//        for(int i = 0; i < mNumberChecked; i++) {
+//            List<Contact> contacts = new ArrayList<Contact>();;
+//            contacts.add(mContacts.get(position));
+//        }
+
+
+
+
+        // variables needed
         Contact contact = mContacts.get(position);
-        Button friendButton = holder.friendButton;
+        Button friendButton = holder.friendButton; // change this to the friendText
+        CheckBox checkBox = holder.checkBox;
+        // Checkbox setup
+        checkBox.setOnClickListener(v -> {
+            if(checkBox.isChecked()) {
+                mCheckedFriends.add(contact.getName());
+            } else {
+                if(!checkBox.isChecked()) {
+                    for(int i = 0; i < mCheckedFriends.size(); i++) {
+                        if(contact.getName() == mCheckedFriends.get(i)) {
+                            mCheckedFriends.remove(i);
+                        }
+                    }
+                }
+            }
+
+
+        });
+
+        // friend text setup
         friendButton.setText(contact.getName());
         friendButton.setOnClickListener(v -> {
             mPosition = position;
@@ -144,10 +177,12 @@ public class ChatContactsAdapter extends RecyclerView.Adapter<ChatContactsAdapte
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public Button friendButton;
+        public Button friendButton; // change to friendText
+        public CheckBox checkBox;
         public ViewHolder(View itemView) {
             super(itemView);
             friendButton = itemView.findViewById(R.id.ChatContactsContactButton);
+            checkBox = itemView.findViewById(R.id.chatContactsCheckBox);
             String friendName = friendButton.getText().toString();
             Log.e("friendName", friendName);
         }

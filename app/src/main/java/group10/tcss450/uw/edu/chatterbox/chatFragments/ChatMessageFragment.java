@@ -15,6 +15,9 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Arrays;
+
 import group10.tcss450.uw.edu.chatterbox.R;
 import group10.tcss450.uw.edu.chatterbox.utils.ListenManager;
 import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
@@ -71,24 +74,27 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
 
         /**
          * ASYNC Call
-         */
-        String currentChatId = prefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "");
-        Log.d("the current chat id is: ", currentChatId);
+                        */
+                String currentChatId = prefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "");
+        mCurrentChatId = currentChatId;
+        Log.d("Fuck test for messages get: the current chat id is: ", currentChatId);
         Uri retrieve = new Uri.Builder()
                 .scheme("https")
                 .appendPath(getString(R.string.ep_base_url))
                 .appendPath(getString(R.string.ep_get_message))
                 .appendQueryParameter("chatId", currentChatId) // this need to be change to a unique chat
                 .build();
-
+        Log.d("Fuck test for messages get: the current chat id is: bbbbbbbb ", retrieve.toString());
         if (prefs.contains(getString(R.string.keys_prefs_time_stamp))) {
             //ignore all of the seen messages. You may want to store these messages locally
+            Log.d("Fuck test inside if prefs.contains():", "Seems to be checking right");
             mListenManager = new ListenManager.Builder(retrieve.toString(),
                     this::publishProgress)
                     .setTimeStamp(prefs.getString(getString(R.string.keys_prefs_time_stamp),"0"))
                     .setExceptionHandler(this::handleError) .setDelay(1000)
                     .build();
         } else {
+            Log.d("Fuck test inside else statement:", "should still work right???");
             //no record of a saved timestamp. must be a first time login
             mListenManager = new ListenManager.Builder(retrieve.toString(),
                     this::publishProgress)
@@ -187,22 +193,27 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
      */
     private void publishProgress(JSONObject messages) {
         final String[] msgs;
+        Log.d("Fuck test publish progress:", "before if statement: " + messages.toString());
         if(messages.has(getString(R.string.keys_json_messages))) {
+            Log.d("Fuck test publish progress:", "made it inside if statement");
             try {
+                Log.d("Fuck test publish progress inside try:", "inside try!");
                 JSONArray jMessages =
                         messages.getJSONArray(getString(R.string.keys_json_messages));
                 msgs = new String[jMessages.length()];
-                for (int i = 0; i < jMessages.length(); i++) {
-                    JSONObject msg = jMessages.getJSONObject(i);
-                    String username = msg.get(getString(R.string.keys_json_username)).toString();
-                    String userMessage = msg.get(getString(R.string.keys_json_message)).toString();
-                    msgs[i] = username + ":" + userMessage; }
+                for(int i =0; i < jMessages.length(); i++) {
+                    msgs[i] = jMessages.getJSONObject(i).getString("message");
+                }
+                Log.e("Messages Array:" , Arrays.deepToString((msgs)));
             } catch (JSONException e) {
                 e.printStackTrace();
+                Log.d("Fuck test for messages get:", "something went wrong!");
                 return;
             }
             getActivity().runOnUiThread(() -> {
+                mOutputTextView.setText("");
                 for (String msg : msgs) {
+                    Log.d("Fuck test Loop append messages:", "Message is: " + msgs);
                     mOutputTextView.append(msg);
                     mOutputTextView.append(System.lineSeparator());
                 }

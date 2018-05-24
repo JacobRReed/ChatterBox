@@ -4,11 +4,14 @@
     <string name="ep_login">login</string>
     <string name="ep_register">register</string>
     <string name="ep_send_message">sendMessages</string>
-    <string name="ep_get_message">getMessages</string>
+    <string name="ep_get_message">getMessages4</string>
     <string name="ep_existing">friends</string>
     <string name="ep_add">add</string>
     <string name="ep_invite">invite</string>
     <string name="ep_reset_password">resetpassword</string>
+    <string name="ep_add_friend_to_chat">addFriendToChat</string>
+    <string name="ep_create_chat">makeChat</string>
+    <string name="ep_new_chat_name">updateChatName</string>
     <string name="ep_requests_acceptdecline">chatterboxtcss450.herokuapp.com/requests/ad</string>
     <string name="ep_requests_inc">chatterboxtcss450.herokuapp.com/requests/inc</string>
     <string name="ep_requests_out">chatterboxtcss450.herokuapp.com/requests/out</string>

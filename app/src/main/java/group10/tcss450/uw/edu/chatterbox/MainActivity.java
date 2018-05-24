@@ -10,8 +10,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -29,11 +31,17 @@ public class MainActivity extends AppCompatActivity
 
     private static final String PREFS_THEME = "theme_pref";
     private static Credentials mCredentials = null;
+    //private ProgressBar mLoginProgressBar;
+    //private ProgressBar mRegisterProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Progress Bars
+       // mLoginProgressBar = findViewById(R.id.loginProgressBar);
+        //mRegisterProgressBar = findViewById(R.id.registerProgressBar);
 
         /*
         Sets theme based on shared prefs
@@ -118,6 +126,7 @@ public class MainActivity extends AppCompatActivity
                         mCredentials.getUsername())
                         .apply();
                 checkStayLoggedIn();
+                //mLoginProgressBar.setVisibility(View.GONE);
                 onLoginAction();
             }
 
@@ -184,6 +193,7 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(this, "Registration Unsuccessful. Either due to server error or duplicate username.", Toast.LENGTH_SHORT).show();
 
             }
+            //mRegisterProgressBar.setVisibility(View.GONE);
 
         } catch (JSONException e) {
 
@@ -213,8 +223,8 @@ public class MainActivity extends AppCompatActivity
         EditText userNameTextBox = findViewById(R.id.editTextLoginEmail);
         String username = userNameTextBox.getText().toString();
 
-        EditText pwTxtbox = (EditText) findViewById(R.id.editTextLoginPassword);
-        String pw = (String)pwTxtbox.getText().toString();
+        EditText pwTxtbox = findViewById(R.id.editTextLoginPassword);
+        String pw = pwTxtbox.getText().toString();
 
         RegisterFragment regFrag = new RegisterFragment();
 
@@ -317,7 +327,16 @@ public class MainActivity extends AppCompatActivity
         new SendPostAsyncTask.Builder(uri.toString(), msg)
                 .onPostExecute(this::handleLoginOnPost)
                 .onCancelled(this::handleErrorsInTask)
+                .onProgressUpdate(this::handleLoginProgress)
                 .build().execute();
+    }
+
+    /**
+     * Handles login progress bar
+     * @param strings
+     */
+    private void handleLoginProgress(String[] strings) {
+        //mLoginProgressBar.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -345,11 +364,20 @@ public class MainActivity extends AppCompatActivity
         //LoginFragment to perform this.
         new SendPostAsyncTask.Builder(uri.toString(), msg)
                 .onPostExecute(this::handleRegOnPost)
+                .onProgressUpdate(this::handleRegisterProgress)
                 .onCancelled(this::handleErrorsInTask)
                 .build().execute();
 
         FragmentManager fragManager = getSupportFragmentManager();
         fragManager.popBackStack();
+    }
+
+    /**
+     * Handle register progress bar
+     * @param strings
+     */
+    private void handleRegisterProgress(String[] strings) {
+       // mRegisterProgressBar.setVisibility(View.VISIBLE);
     }
 
     /**

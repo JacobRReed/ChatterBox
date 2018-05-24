@@ -30,6 +30,7 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private String mSendUrlRemoveMember;
     public ArrayList<Contact> mContacts;
     public ArrayList<Chat> mChats;
     private String mUsername;
@@ -45,8 +46,22 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_chat_list, container, false);
 
+        mSendUrlRemoveMember = new Uri.Builder() .scheme("https")
+                .appendPath(getString(R.string.ep_base_url))
+                .appendPath("chats")
+                .appendPath("removeMember")
+                .build()
+                .toString();
+
         FloatingActionButton makeNewChatButton = v.findViewById(R.id.ChatListMakeNewChatActionButton);
-        makeNewChatButton.setOnClickListener(view -> mListener.onMakeNewChatAction());
+        makeNewChatButton.setOnClickListener(view -> {
+
+
+
+            mListener.onMakeNewChatAction();
+
+
+        });
 
         mRecyclerView = v.findViewById(R.id.ChatListRecycler);
         mRecyclerView.setHasFixedSize(true);
@@ -76,7 +91,27 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
             fragTrans.commit();
         };
 
-        mAdapter = new ChatListAdapter(mChats, this.getContext(), swap, getView(), mUsername, prefs);
+        Runnable swap2 = () -> {
+
+            String currentChatId = prefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "0");
+            JSONObject messageJson = new JSONObject();
+
+            try {
+                messageJson.put(getString(R.string.keys_json_chat_id), Integer.parseInt(currentChatId));
+                messageJson.put(getString(R.string.keys_json_username), mUsername);
+
+                Log.d("Fuck Try Put now: ", "Success on removing friend from chat. chatID: " + currentChatId + " CurrentFriendRemoved: " + mUsername);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.d("Fuck Try Put now: ", "Failure on removing friend from chat. chatID: " + currentChatId + " CurrentFriendRemoved: " + mUsername);
+                }
+            new SendPostAsyncTask.Builder(mSendUrlRemoveMember, messageJson)
+                    .onPostExecute(this::endOfAddFriendsToChat)
+                    .onCancelled(this::handleErrorsInTask)
+                    .build().execute();
+        };
+
+        mAdapter = new ChatListAdapter(mChats, this.getContext(), swap, swap2, getView(), mUsername, prefs);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(null);
@@ -182,7 +217,28 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
             fragTrans.commit();
         };
 
-        mAdapter = new ChatListAdapter(mChats, this.getContext(), swap, getView(), mUsername, prefs); //I changed this
+        Runnable swap2 = () -> {
+            String currentChatId = prefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "0");
+            Log.d("Fuck you forever tooooooo", currentChatId);
+            JSONObject messageJson = new JSONObject();
+
+            try {
+                messageJson.put(getString(R.string.keys_json_chat_id), currentChatId);
+                messageJson.put(getString(R.string.keys_json_username), mUsername);
+                Log.d("Fuck you now hard Try Put now: ", "Success on removing friend from chat. chatID: " + currentChatId + " CurrentFriendRemoved: " + mUsername);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.d("Fuck you now hard Try Put now: ", "FAIL AT LIFE on removing friend from chat. chatID: " + currentChatId + " CurrentFriendRemoved: " + mUsername);
+
+            }
+            new SendPostAsyncTask.Builder(mSendUrlRemoveMember, messageJson)
+                    .onPostExecute(this::endOfAddFriendsToChat)
+                    .onCancelled(this::handleErrorsInTask)
+                    .build().execute();
+        };
+
+        mAdapter = new ChatListAdapter(mChats, this.getContext(), swap, swap2, getView(), mUsername, prefs); //I changed this
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -191,5 +247,26 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
      * @param result the error message provide from the AsyncTask */
     private void handleErrorsInTask(String result) {
         Log.e("ASYNCT_TASK_ERROR", result);
+    }
+
+    /**
+     * Handles end of message task ASYNC
+     * @param result JSON string
+     */
+    private void endOfAddFriendsToChat(final String result) {
+        try {
+            JSONObject res = new JSONObject(result);
+
+            if(res.get(getString(R.string.keys_json_success)).toString()
+                    .equals(getString(R.string.keys_json_success_value_true))) {
+
+                //onChatListLoad(mUsername);
+                Log.d("Can I say Fuck Ya ending a friend?", "I guess so...");
+                // not sure what this needs to be
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d("Can I say Fuck No?", "I guess not...");
+        }
     }
 }
