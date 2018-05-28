@@ -7,7 +7,6 @@
     <string name="keys_fragment_login">loginFragmentTag</string>
     <string name="keys_fragment_register">registerFragmentTag</string>
 
-
     <string name="keys_prefs_current_chatid">currentChatId</string>
     <string name="keys_prefs_current_memid">currentMemId</string>
 
