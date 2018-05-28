@@ -23,11 +23,6 @@ public class SettingsFragment extends Fragment {
     private static final String PREFS_THEME = "theme_pref";
     private static final String PREFS_FONT = "font_pref";
 
-    private final int smallFontSize = 15;
-    private final int mediumFontSize = 20;
-    private final int largeFontSize = 30;
-
-
     public SettingsFragment() {
         // Required empty public constructor
     }
@@ -73,13 +68,13 @@ public class SettingsFragment extends Fragment {
         SharedPreferences fontPrefs = getActivity().getApplicationContext().getSharedPreferences(PREFS_FONT, MODE_PRIVATE);
         int fontChoice = fontPrefs.getInt(PREFS_FONT, 0);
         switch(fontChoice) {
-            case smallFontSize:
+            case 1:
                 fontRadioGroup.check(R.id.settingsFontOne);
                 break;
-            case mediumFontSize:
+            case 2:
                 fontRadioGroup.check(R.id.settingsFontTwo);
                 break;
-            case largeFontSize:
+            case 3:
                 fontRadioGroup.check(R.id.settingsFontThree);
                 break;
             default:
@@ -126,17 +121,17 @@ public class SettingsFragment extends Fragment {
                 if(fontButtonID != -1) {
                     switch(fontButtonID) {
                         case R.id.settingsFontOne:
-                            fontEditor.putInt(PREFS_FONT, smallFontSize);
+                            fontEditor.putInt(PREFS_FONT, 1);
                             fontEditor.apply();
                             Log.e("Font stored", "1");
                             break;
                         case R.id.settingsFontTwo:
-                            fontEditor.putInt(PREFS_FONT, mediumFontSize);
+                            fontEditor.putInt(PREFS_FONT, 2);
                             fontEditor.apply();
                             Log.e("Font stored", "2");
                             break;
                         case R.id.settingsFontThree:
-                            fontEditor.putInt(PREFS_FONT, largeFontSize);
+                            fontEditor.putInt(PREFS_FONT, 3);
                             fontEditor.apply();
                             Log.e("Font stored", "3");
                             break;

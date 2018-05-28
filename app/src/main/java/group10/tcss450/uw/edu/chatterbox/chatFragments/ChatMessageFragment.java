@@ -64,15 +64,19 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
         int fontChoice = fontPrefs.getInt(PREFS_FONT, 0);
         switch(fontChoice) {
             case 1:
+                Log.e("Chat Font Size:", "14");
                 mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                 break;
             case 2:
+                Log.e("Chat Font Size:", "16");
                 mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
                 break;
             case 3:
+                Log.e("Chat Font Size:", "18");
                 mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
                 break;
             default:
+                Log.e("Chat Font Size:", "16");
                 mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                 break;
 
@@ -95,12 +99,6 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
         mSendUrl = new Uri.Builder() .scheme("https")
                 .appendPath(getString(R.string.ep_base_url)) .appendPath(getString(R.string.ep_send_message)) .build()
                 .toString();
-
-
-        SharedPreferences.Editor fontEditor = this.getActivity().getSharedPreferences("font_pref", MODE_PRIVATE).edit();
-        int fontSize = this.getActivity().getSharedPreferences("font_pref", MODE_PRIVATE).getInt("font_pref", 20);
-        mOutputTextView.setTextSize(fontSize);
-
 
         /**
          * ASYNC Call

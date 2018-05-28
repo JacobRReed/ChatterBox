@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/settingsFontOne"
-            android:textSize="15sp" />
+            android:textSize="14dp" />
 
         <RadioButton
             android:id="@+id/settingsFontTwo"
@@ -67,7 +67,7 @@
             android:layout_weight="1"
             android:checked="false"
             android:text="@string/settingsFontTwo"
-            android:textSize="20sp" />
+            android:textSize="16dp" />
 
         <RadioButton
             android:id="@+id/settingsFontThree"
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/settingsFontThree"
-            android:textSize="30sp" />
+            android:textSize="18dp" />
     </RadioGroup>
 
     <RadioGroup
