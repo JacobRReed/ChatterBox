@@ -4,6 +4,7 @@ package group10.tcss450.uw.edu.chatterbox.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,6 +19,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import group10.tcss450.uw.edu.chatterbox.R;
 
@@ -63,8 +66,6 @@ public class ContactsAdapterExisting extends
             mRemovalPerson = contact.getName();
             onRemoveFriend(contact.getName());
         });
-
-
     }
 
     private void onRemoveFriend(String friend) {

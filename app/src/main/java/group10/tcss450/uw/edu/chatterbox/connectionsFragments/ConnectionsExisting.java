@@ -20,6 +20,8 @@ import group10.tcss450.uw.edu.chatterbox.utils.Contact;
 import group10.tcss450.uw.edu.chatterbox.utils.ContactsAdapterExisting;
 import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
 
+import static android.view.View.GONE;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -103,8 +105,12 @@ public class ConnectionsExisting extends Fragment {
         for(String s : userListFinal) {
             mContacts.add(new Contact(s));
         }
+        if(mContacts.size() <1) {
+            mRecyclerView.setVisibility(GONE);
+        } else {
+            mRecyclerView.setVisibility(View.VISIBLE);
+        }
         mAdapter = new ContactsAdapterExisting(mContacts, this.getContext());
-
         mRecyclerView.setAdapter(mAdapter);
     }
 

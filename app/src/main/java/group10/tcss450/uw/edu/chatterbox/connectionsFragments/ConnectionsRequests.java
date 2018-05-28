@@ -125,6 +125,7 @@ public class ConnectionsRequests extends Fragment {
         for(String s : userListFinal) {
             mContactsOutgoing.add(new Contact(s));
         }
+
         mAdapterOutgoing = new ContactsAdapterRequestsOutgoing(mContactsOutgoing, getContext());
         mRecyclerViewOutgoing.setAdapter(mAdapterOutgoing);
     }

@@ -225,7 +225,6 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
                 for(int i =0; i < jMessages.length(); i++) {
                     msgs[i] = jMessages.getJSONObject(i).getString("message");
                 }
-                Log.e("Messages Array:" , Arrays.deepToString((msgs)));
             } catch (JSONException e) {
                 e.printStackTrace();
                 return;
