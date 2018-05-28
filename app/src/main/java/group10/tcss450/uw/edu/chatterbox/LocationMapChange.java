@@ -1,15 +1,19 @@
 package group10.tcss450.uw.edu.chatterbox;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,7 +25,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class LocationMapChange extends FragmentActivity implements OnMapReadyCallback,
-        GoogleMap.OnMapClickListener, WeatherFragment.OnFragmentInteractionListener {
+        GoogleMap.OnMapClickListener, WeatherFragment.OnFragmentInteractionListener, LocationListener {
 
     private static final String PREFS_THEME = "theme_pref";
     private static final String PREFS_LOC = "location_pref";
@@ -29,6 +33,8 @@ public class LocationMapChange extends FragmentActivity implements OnMapReadyCal
     private Location mCurrentLocation;
     private LocationRequest mLocationRequest;
     private LatLng mLocation;
+    protected LocationManager mLocManager;
+    protected LocationListener mLocListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +67,22 @@ public class LocationMapChange extends FragmentActivity implements OnMapReadyCal
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        //Current Location
+        mLocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mLocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
         //FAB to handle location change. When user clicks fab it saves current marker as new location.
         FloatingActionButton fab = findViewById(R.id.setLocationOnMap);
         fab.setOnClickListener(view -> {
@@ -86,13 +108,9 @@ public class LocationMapChange extends FragmentActivity implements OnMapReadyCal
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
 
-        //Sets map to last known latlon from sharedprefs
-        SharedPreferences locpref = this.getSharedPreferences(PREFS_LOC, MODE_PRIVATE);
-        float lat = locpref.getFloat("lat", 0);
-        float lon = locpref.getFloat("lon", 0);
-        LatLng coord = new LatLng(lat, lon);
-        mMap.addMarker(new MarkerOptions().position(coord).title("Marker in Tacoma"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 15f));
+
+        mMap.addMarker(new MarkerOptions().position(mLocation).title(""));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLocation, 15f));
         mMap.setOnMapClickListener(this);
     }
 
@@ -120,5 +138,25 @@ public class LocationMapChange extends FragmentActivity implements OnMapReadyCal
     public void onLogout() {
         //Do nothing
         return;
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        mLocation = new LatLng(location.getLatitude(), location.getLongitude());
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        Toast.makeText(this, "Location enabled", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Toast.makeText(this, "Location disabled", Toast.LENGTH_SHORT).show();
     }
 }

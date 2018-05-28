@@ -11,7 +11,7 @@
     <string name="registerFirstName">First Name</string>
     <string name="registerLastName">Last Name</string>
     <string name="registerEmail">Email</string>
-    <string name="registerNickname">Nickname</string>
+    <string name="registerNickname">Username</string>
     <string name="registerConfirmPassword">Confirm Password</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -50,7 +50,7 @@
     <string name="existing_message">Message</string>
     <string name="add_info">Add A New Connection</string>
     <string name="add_info_2">Search By:</string>
-    <string name="add_nickname">Nickname</string>
+    <string name="add_nickname">Username</string>
     <string name="add_info4">Or</string>
     <string name="add_first_name">First Name</string>
     <string name="add_and">AND</string>
