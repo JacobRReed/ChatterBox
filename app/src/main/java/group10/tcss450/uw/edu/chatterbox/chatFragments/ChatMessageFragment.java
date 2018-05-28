@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,30 +74,25 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
                 .appendPath(getString(R.string.ep_base_url)) .appendPath(getString(R.string.ep_send_message)) .build()
                 .toString();
 
-
         /**
          * ASYNC Call
-                        */
-                String currentChatId = prefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "");
+         */
+        String currentChatId = prefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "");
         mCurrentChatId = currentChatId;
-        Log.d("Fuck test for messages get: the current chat id is: ", currentChatId);
         Uri retrieve = new Uri.Builder()
                 .scheme("https")
                 .appendPath(getString(R.string.ep_base_url))
                 .appendPath(getString(R.string.ep_get_message))
                 .appendQueryParameter("chatId", currentChatId) // this need to be change to a unique chat
                 .build();
-        Log.d("Fuck test for messages get: the current chat id is: bbbbbbbb ", retrieve.toString());
         if (prefs.contains(getString(R.string.keys_prefs_time_stamp))) {
             //ignore all of the seen messages. You may want to store these messages locally
-            Log.d("Fuck test inside if prefs.contains():", "Seems to be checking right");
             mListenManager = new ListenManager.Builder(retrieve.toString(),
                     this::publishProgress)
                     .setTimeStamp(prefs.getString(getString(R.string.keys_prefs_time_stamp),"0"))
                     .setExceptionHandler(this::handleError) .setDelay(1000)
                     .build();
         } else {
-            Log.d("Fuck test inside else statement:", "should still work right???");
             //no record of a saved timestamp. must be a first time login
             mListenManager = new ListenManager.Builder(retrieve.toString(),
                     this::publishProgress)
@@ -142,12 +136,12 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
         SharedPreferences prefs =
                 getActivity().getSharedPreferences( getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
 
-        String dogChatId = prefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "");
+        String prefsCurrentChatId = prefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "");
 
         try {
             messageJson.put(getString(R.string.keys_json_username), mUsername);
             messageJson.put(getString(R.string.keys_json_message), msg);
-            messageJson.put(getString(R.string.keys_json_chat_id), dogChatId); // change this
+            messageJson.put(getString(R.string.keys_json_chat_id), prefsCurrentChatId); // change this
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -197,11 +191,8 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
      */
     private void publishProgress(JSONObject messages) {
         final String[] msgs;
-        Log.d("Fuck test publish progress:", "before if statement: " + messages.toString());
         if(messages.has(getString(R.string.keys_json_messages))) {
-            Log.d("Fuck test publish progress:", "made it inside if statement");
             try {
-                Log.d("Fuck test publish progress inside try:", "inside try!");
                 JSONArray jMessages =
                         messages.getJSONArray(getString(R.string.keys_json_messages));
                 msgs = new String[jMessages.length()];
@@ -211,13 +202,11 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
                 Log.e("Messages Array:" , Arrays.deepToString((msgs)));
             } catch (JSONException e) {
                 e.printStackTrace();
-                Log.d("Fuck test for messages get:", "something went wrong!");
                 return;
             }
             getActivity().runOnUiThread(() -> {
                 mOutputTextView.setText("");
                 for (String msg : msgs) {
-                    Log.d("Fuck test Loop append messages:", "Message is: " + msgs);
                     mOutputTextView.append(msg);
                     mOutputTextView.append(System.lineSeparator());
                     mTextScroller.fullScroll(ScrollView.FOCUS_DOWN);

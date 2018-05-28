@@ -17,7 +17,6 @@ import android.widget.Button;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
-import java.util.List;
 
 import group10.tcss450.uw.edu.chatterbox.R;
 import group10.tcss450.uw.edu.chatterbox.utils.ChatContactsAdapter;
@@ -89,7 +88,10 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
         return v;
     }
 
-
+    /**
+     * This method loads the list of all contacts.
+     * @param username passing in the username
+     */
     private void onChatContactLoad(String username) {
         //build the web service URL
         Uri uri = new Uri.Builder()

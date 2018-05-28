@@ -55,12 +55,7 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
 
         FloatingActionButton makeNewChatButton = v.findViewById(R.id.ChatListMakeNewChatActionButton);
         makeNewChatButton.setOnClickListener(view -> {
-
-
-
             mListener.onMakeNewChatAction();
-
-
         });
 
         mRecyclerView = v.findViewById(R.id.ChatListRecycler);
@@ -217,6 +212,9 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
             fragTrans.commit();
         };
 
+        /*
+        Handles fragment swap runnable
+         */
         Runnable swap2 = () -> {
             String currentChatId = prefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "0");
             Log.d("Fuck you forever tooooooo", currentChatId);
@@ -260,13 +258,11 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
             if(res.get(getString(R.string.keys_json_success)).toString()
                     .equals(getString(R.string.keys_json_success_value_true))) {
 
-                //onChatListLoad(mUsername);
-                Log.d("Can I say Fuck Ya ending a friend?", "I guess so...");
-                // not sure what this needs to be
+                //TO DO REFRESH METHOD @TODO
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.d("Can I say Fuck No?", "I guess not...");
         }
     }
 }
