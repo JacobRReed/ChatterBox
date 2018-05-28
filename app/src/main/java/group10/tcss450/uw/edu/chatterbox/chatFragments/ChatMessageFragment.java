@@ -23,6 +23,8 @@ import group10.tcss450.uw.edu.chatterbox.R;
 import group10.tcss450.uw.edu.chatterbox.utils.ListenManager;
 import group10.tcss450.uw.edu.chatterbox.utils.SendPostAsyncTask;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
@@ -74,6 +76,12 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
                 .appendPath(getString(R.string.ep_base_url)) .appendPath(getString(R.string.ep_send_message)) .build()
                 .toString();
 
+
+        SharedPreferences.Editor fontEditor = this.getActivity().getSharedPreferences("font_pref", MODE_PRIVATE).edit();
+        int fontSize = this.getActivity().getSharedPreferences("font_pref", MODE_PRIVATE).getInt("font_pref", 20);
+        mOutputTextView.setTextSize(fontSize);
+
+
         /**
          * ASYNC Call
          */
@@ -106,6 +114,10 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
     public void onResume() {
         super.onResume();
         mListenManager.startListening();
+
+        SharedPreferences.Editor fontEditor = this.getActivity().getSharedPreferences("font_pref", MODE_PRIVATE).edit();
+        int fontSize = this.getActivity().getSharedPreferences("font_pref", MODE_PRIVATE).getInt("font_pref", 20);
+        mOutputTextView.setTextSize(fontSize);
     }
 
 
@@ -211,6 +223,7 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
                     mOutputTextView.append(System.lineSeparator());
                     mTextScroller.fullScroll(ScrollView.FOCUS_DOWN);
                 }
+
             });
         }
     }
