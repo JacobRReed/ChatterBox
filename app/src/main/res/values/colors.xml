@@ -13,4 +13,5 @@
     <color name="colorPrimaryDarkThree">#0097A7</color>
     <color name="colorAccentThree">#FF5252</color>
 
+    <color name="chat_font_color">#000000</color>
 </resources>

@@ -8,17 +8,23 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import group10.tcss450.uw.edu.chatterbox.R;
 import group10.tcss450.uw.edu.chatterbox.utils.ListenManager;
@@ -38,6 +44,8 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
     private String mCurrentChatId;
     private ScrollView mTextScroller;
     private static final String PREFS_FONT = "font_pref";
+    private LinearLayout mMessageLinear;
+    private List<TextView> mChats;
 
     public ChatMessageFragment() {
         // Required empty public constructor
@@ -57,27 +65,29 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
         }
 
         v.findViewById(R.id.chatSendButton).setOnClickListener(this::sendMessage);
-        mOutputTextView = v.findViewById(R.id.chatOutputTextView);
+        //mOutputTextView = v.findViewById(R.id.chatOutputTextView);
         mTextScroller = v.findViewById(R.id.chatScroller);
+        mMessageLinear = v.findViewById(R.id.messageLinear);
+        mChats = new ArrayList<>();
 
         SharedPreferences fontPrefs = getActivity().getApplicationContext().getSharedPreferences(PREFS_FONT, MODE_PRIVATE);
         int fontChoice = fontPrefs.getInt(PREFS_FONT, 0);
         switch(fontChoice) {
             case 1:
                 Log.e("Chat Font Size:", "14");
-                mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+                //mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                 break;
             case 2:
                 Log.e("Chat Font Size:", "16");
-                mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+                //mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
                 break;
             case 3:
                 Log.e("Chat Font Size:", "18");
-                mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
+                //mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
                 break;
             default:
                 Log.e("Chat Font Size:", "16");
-                mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+                //mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                 break;
 
         }
@@ -97,7 +107,7 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
         }
         mUsername = prefs.getString(getString(R.string.keys_prefs_username_local), "");
         mSendUrl = new Uri.Builder() .scheme("https")
-                .appendPath(getString(R.string.ep_base_url)) .appendPath(getString(R.string.ep_send_message)) .build()
+                .path(getString(R.string.ep_messages)) .appendPath(getString(R.string.ep_send_message)) .build()
                 .toString();
 
         /**
@@ -107,7 +117,7 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
         mCurrentChatId = currentChatId;
         Uri retrieve = new Uri.Builder()
                 .scheme("https")
-                .appendPath(getString(R.string.ep_base_url))
+                .path(getString(R.string.ep_messages))
                 .appendPath(getString(R.string.ep_get_message))
                 .appendQueryParameter("chatId", currentChatId) // this need to be change to a unique chat
                 .build();
@@ -216,24 +226,59 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
      * @param messages
      */
     private void publishProgress(JSONObject messages) {
-        final String[] msgs;
+        final String[][] msgs;
         if(messages.has(getString(R.string.keys_json_messages))) {
             try {
                 JSONArray jMessages =
                         messages.getJSONArray(getString(R.string.keys_json_messages));
-                msgs = new String[jMessages.length()];
+                msgs = new String[jMessages.length()][2];
                 for(int i =0; i < jMessages.length(); i++) {
-                    msgs[i] = jMessages.getJSONObject(i).getString("message");
+                    msgs[i][0] = jMessages.getJSONObject(i).getString("message");
+                    msgs[i][1] = Integer.toString(jMessages.getJSONObject(i).getInt("memberid"));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
                 return;
             }
             getActivity().runOnUiThread(() -> {
-                mOutputTextView.setText("");
-                for (String msg : msgs) {
-                    mOutputTextView.append(msg);
-                    mOutputTextView.append(System.lineSeparator());
+                //mOutputTextView.setText("");
+                mChats.clear();
+                mMessageLinear.removeAllViewsInLayout();
+                String offset = msgs[0][1];
+                TextView txt1 = new TextView(getContext());
+                txt1.setBackground(getResources().getDrawable(R.drawable.chat_bubble_user));
+                for (String msg[] : msgs) {
+                    if(offset.equals(msg[1])){ //If from same user, add to existing textview
+                        txt1.append("\n" + msg[0]);
+                        txt1.setTextColor(getResources().getColor(R.color.chat_font_color));
+                        txt1.setGravity(Gravity.RIGHT);
+                        txt1.setPadding(6,0,0,0);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        params.setMargins(20,20,20,20);
+                        txt1.setLayoutParams(params);
+                        txt1.setPadding(10,0,10,0);
+
+                        mChats.add(txt1);
+                    } else { //else add to new textview
+                        offset = msg[0];
+                        TextView txt2 = new TextView(getContext());
+                        txt2.setBackground(getResources().getDrawable(R.drawable.chat_bubble_from));
+                        txt2.setTextColor(getResources().getColor(R.color.chat_font_color));
+                        txt2.append("\n" + msg[0]);
+                        txt2.setGravity(Gravity.LEFT);
+                        txt2.setPadding(6,0,0,0);
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        params.setMargins(20,20,20,20);
+                        txt2.setLayoutParams(params);
+                        txt2.setPadding(10,0,10,0);
+                        mChats.add(txt2);
+                    }
+                    //mOutputTextView.append(msg[0]);
+                    //mOutputTextView.append(System.lineSeparator());
+                    for(int i = 0; i < mChats.size(); i++) {
+                        mMessageLinear.removeView(mChats.get(i));
+                        mMessageLinear.addView(mChats.get(i));
+                    }
                     mTextScroller.fullScroll(ScrollView.FOCUS_DOWN);
                 }
 

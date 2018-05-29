@@ -4,7 +4,7 @@
     <string name="ep_login">login</string>
     <string name="ep_register">register</string>
     <string name="ep_send_message">sendMessages</string>
-    <string name="ep_get_message">getMessages4</string>
+    <string name="ep_get_message">getMessages</string>
     <string name="ep_existing">friends</string>
     <string name="ep_add">add</string>
     <string name="ep_invite">invite</string>
@@ -22,4 +22,5 @@
     <string name="ep_make_chat">makeChat</string>
     <string name="ep_weather">chatterboxtcss450.herokuapp.com/weather</string>
     <string name="ep_check_new_message">Notification</string>
+    <string name="ep_messages">chatterboxtcss450.herokuapp.com/msg</string>
 </resources>
