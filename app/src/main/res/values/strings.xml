@@ -6,7 +6,7 @@
     <string name="login_ImageDescriptor">Application Logo</string>
     <string name="login_loginButton">Login</string>
     <string name="login_registerButton">Register</string>
-    <string name="login_reset_password_button">Forgot Password?</string>
+    <string name="login_reset_password_button">Reset Password</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="registerFirstName">First Name</string>
     <string name="registerLastName">Last Name</string>
