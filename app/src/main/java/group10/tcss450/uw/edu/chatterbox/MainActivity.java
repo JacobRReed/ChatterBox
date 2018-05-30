@@ -263,6 +263,8 @@ public class MainActivity extends AppCompatActivity
         //build the JSONObject
         JSONObject msg = mCredentials.asJSONObject();
 
+        Toast.makeText(this, "Please check email to confirm new password", Toast.LENGTH_LONG).show();
+
         //instantiate and execute the AsyncTask.
         //Feel free to add a handler for onPreExecution so that a progress bar
         //is displayed or maybe disable buttons. You would need a method in
