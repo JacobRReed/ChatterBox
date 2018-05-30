@@ -146,6 +146,9 @@ public class ConnectionsInvite extends Fragment {
      * @param v
      */
     private void onContactClick(View v) {
+        if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, CONTACT_PICKER_RESULT);
+        }
         Intent contactPickerIntent = new Intent(Intent.ACTION_PICK,
                 ContactsContract.CommonDataKinds.Email.CONTENT_URI);
 
@@ -173,6 +176,7 @@ public class ConnectionsInvite extends Fragment {
      */
     private void contactPicked(Intent data) {
        Uri contactUri = data.getData();
+
        String[] projection = new String[]{ContactsContract.CommonDataKinds.Email.ADDRESS};
        Cursor cursor = getActivity().getContentResolver().query(contactUri, projection, null, null, null);
        if(cursor != null && cursor.moveToFirst()) {

@@ -259,7 +259,7 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
 
                         mChats.add(txt1);
                     } else { //else add to new textview
-                        offset = msg[0];
+                        offset = msgs[0][1];
                         TextView txt2 = new TextView(getContext());
                         txt2.setBackground(getResources().getDrawable(R.drawable.chat_bubble_from));
                         txt2.setTextColor(getResources().getColor(R.color.chat_font_color));
