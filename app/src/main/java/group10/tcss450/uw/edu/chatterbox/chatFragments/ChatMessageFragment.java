@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -46,6 +47,7 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
     private static final String PREFS_FONT = "font_pref";
     private LinearLayout mMessageLinear;
     private List<TextView> mChats;
+    private int mFontSize;
 
     public ChatMessageFragment() {
         // Required empty public constructor
@@ -74,20 +76,16 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
         int fontChoice = fontPrefs.getInt(PREFS_FONT, 0);
         switch(fontChoice) {
             case 1:
-                Log.e("Chat Font Size:", "14");
-                //mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+                mFontSize = 14;
                 break;
             case 2:
-                Log.e("Chat Font Size:", "16");
-                //mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+                mFontSize = 16;
                 break;
             case 3:
-                Log.e("Chat Font Size:", "18");
-                //mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
+                mFontSize = 18;
                 break;
             default:
-                Log.e("Chat Font Size:", "16");
-                //mOutputTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+                mFontSize = 16;
                 break;
 
         }
@@ -254,9 +252,10 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
                         txt1.setGravity(Gravity.RIGHT);
                         txt1.setPadding(6,0,0,0);
                         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                        params.setMargins(20,20,20,20);
+                        params.setMargins(900,20,20,20);
                         txt1.setLayoutParams(params);
-                        txt1.setPadding(10,0,10,0);
+                        txt1.setPadding(5,0,5,0);
+                        txt1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSize);
 
                         mChats.add(txt1);
                     } else { //else add to new textview
@@ -271,6 +270,7 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
                         params.setMargins(20,20,20,20);
                         txt2.setLayoutParams(params);
                         txt2.setPadding(10,0,10,0);
+                        txt2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSize);
                         mChats.add(txt2);
                     }
                     //mOutputTextView.append(msg[0]);
