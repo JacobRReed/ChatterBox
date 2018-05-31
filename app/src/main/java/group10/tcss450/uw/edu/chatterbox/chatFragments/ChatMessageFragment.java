@@ -238,51 +238,58 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
                 e.printStackTrace();
                 return;
             }
-            getActivity().runOnUiThread(() -> {
-                //mOutputTextView.setText("");
-                mChats.clear();
-                mMessageLinear.removeAllViewsInLayout();
-                String offset = msgs[0][1];
-                TextView txt1 = new TextView(getContext());
-                txt1.setBackground(getResources().getDrawable(R.drawable.chat_bubble_user));
-                for (String msg[] : msgs) {
-                    if(offset.equals(msg[1])){ //If from same user, add to existing textview
-                        txt1.append("\n" + msg[0]);
-                        txt1.setTextColor(getResources().getColor(R.color.chat_font_color));
-                        txt1.setGravity(Gravity.RIGHT);
-                        txt1.setPadding(6,0,0,0);
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                        params.setMargins(900,20,20,20);
-                        txt1.setLayoutParams(params);
-                        txt1.setPadding(5,0,5,0);
-                        txt1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSize);
+            try {
+                getActivity().runOnUiThread(() -> {
+                    //mOutputTextView.setText("");
+                    mChats.clear();
+                    mMessageLinear.removeAllViewsInLayout();
+                    
+                    if (msgs.length > 0) {
+                        String offset = msgs[0][1];
+                        TextView txt1 = new TextView(getContext());
+                        txt1.setBackground(getResources().getDrawable(R.drawable.chat_bubble_user));
+                        for (String msg[] : msgs) {
+                            if (offset.equals(msg[1])) { //If from same user, add to existing textview
+                                txt1.append("\n" + msg[0]);
+                                txt1.setTextColor(getResources().getColor(R.color.chat_font_color));
+                                txt1.setGravity(Gravity.RIGHT);
+                                txt1.setPadding(6, 0, 0, 0);
+                                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                                params.setMargins(900, 20, 20, 20);
+                                txt1.setLayoutParams(params);
+                                txt1.setPadding(5, 0, 5, 0);
+                                txt1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSize);
 
-                        mChats.add(txt1);
-                    } else { //else add to new textview
-                        offset = msgs[0][1];
-                        TextView txt2 = new TextView(getContext());
-                        txt2.setBackground(getResources().getDrawable(R.drawable.chat_bubble_from));
-                        txt2.setTextColor(getResources().getColor(R.color.chat_font_color));
-                        txt2.append("\n" + msg[0]);
-                        txt2.setGravity(Gravity.LEFT);
-                        txt2.setPadding(6,0,0,0);
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                        params.setMargins(20,20,20,20);
-                        txt2.setLayoutParams(params);
-                        txt2.setPadding(10,0,10,0);
-                        txt2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSize);
-                        mChats.add(txt2);
+                                mChats.add(txt1);
+                            } else { //else add to new textview
+                                offset = msgs[0][1];
+                                TextView txt2 = new TextView(getContext());
+                                txt2.setBackground(getResources().getDrawable(R.drawable.chat_bubble_from));
+                                txt2.setTextColor(getResources().getColor(R.color.chat_font_color));
+                                txt2.append("\n" + msg[0]);
+                                txt2.setGravity(Gravity.LEFT);
+                                txt2.setPadding(6, 0, 0, 0);
+                                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                                params.setMargins(20, 20, 20, 20);
+                                txt2.setLayoutParams(params);
+                                txt2.setPadding(10, 0, 10, 0);
+                                txt2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSize);
+                                mChats.add(txt2);
+                            }
+                            //mOutputTextView.append(msg[0]);
+                            //mOutputTextView.append(System.lineSeparator());
+                            for (int i = 0; i < mChats.size(); i++) {
+                                mMessageLinear.removeView(mChats.get(i));
+                                mMessageLinear.addView(mChats.get(i));
+                            }
+                            mTextScroller.fullScroll(ScrollView.FOCUS_DOWN);
+                        }
                     }
-                    //mOutputTextView.append(msg[0]);
-                    //mOutputTextView.append(System.lineSeparator());
-                    for(int i = 0; i < mChats.size(); i++) {
-                        mMessageLinear.removeView(mChats.get(i));
-                        mMessageLinear.addView(mChats.get(i));
-                    }
-                    mTextScroller.fullScroll(ScrollView.FOCUS_DOWN);
-                }
 
-            });
+                });
+            } catch (ArrayIndexOutOfBoundsException e) {
+                Log.e("Jacob", "...jkldfjlfjlkjeinmckmsknieclknk,nlkfnnflek");
+            }
         }
     }
 }
