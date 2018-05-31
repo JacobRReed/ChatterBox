@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -45,6 +46,12 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_chat_list, container, false);
+
+        try {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Chat List");
+        } catch (NullPointerException e) {
+            Log.e("Error", "title isn't working");
+        }
 
         mSendUrlRemoveMember = new Uri.Builder() .scheme("https")
                 .appendPath(getString(R.string.ep_base_url))
@@ -94,11 +101,8 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
             try {
                 messageJson.put(getString(R.string.keys_json_chat_id), Integer.parseInt(currentChatId));
                 messageJson.put(getString(R.string.keys_json_username), mUsername);
-
-                Log.d("Fuck Try Put now: ", "Success on removing friend from chat. chatID: " + currentChatId + " CurrentFriendRemoved: " + mUsername);
-            } catch (JSONException e) {
+                } catch (JSONException e) {
                 e.printStackTrace();
-                Log.d("Fuck Try Put now: ", "Failure on removing friend from chat. chatID: " + currentChatId + " CurrentFriendRemoved: " + mUsername);
                 }
             new SendPostAsyncTask.Builder(mSendUrlRemoveMember, messageJson)
                     .onPostExecute(this::endOfAddFriendsToChat)
@@ -192,7 +196,6 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
 
         for(String s : chatNames) {
             mChats.add(new Chat(s));
-            Log.e("chats", mChats.toString());
         }
 
         SharedPreferences prefs =
@@ -217,18 +220,13 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
          */
         Runnable swap2 = () -> {
             String currentChatId = prefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "0");
-            Log.d("Fuck you forever tooooooo", currentChatId);
             JSONObject messageJson = new JSONObject();
 
             try {
                 messageJson.put(getString(R.string.keys_json_chat_id), currentChatId);
                 messageJson.put(getString(R.string.keys_json_username), mUsername);
-                Log.d("Fuck you now hard Try Put now: ", "Success on removing friend from chat. chatID: " + currentChatId + " CurrentFriendRemoved: " + mUsername);
-
             } catch (JSONException e) {
                 e.printStackTrace();
-                Log.d("Fuck you now hard Try Put now: ", "FAIL AT LIFE on removing friend from chat. chatID: " + currentChatId + " CurrentFriendRemoved: " + mUsername);
-
             }
             new SendPostAsyncTask.Builder(mSendUrlRemoveMember, messageJson)
                     .onPostExecute(this::endOfAddFriendsToChat)
@@ -236,8 +234,24 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
                     .build().execute();
         };
 
+        int count = 0;
+
+        if (mChats.size() > 0) {
+            for (int i = 0; i < mChats.size(); i++) {
+                if (mChats.get(i).getName().length() != 0) {
+                    count ++;
+                }
+            }
+        }
+
         mAdapter = new ChatListAdapter(mChats, this.getContext(), swap, swap2, getView(), mUsername, prefs); //I changed this
         mRecyclerView.setAdapter(mAdapter);
+
+        if (count > 0) {
+            mRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            mRecyclerView.setVisibility(View.INVISIBLE);
+        }
     }
 
     /**

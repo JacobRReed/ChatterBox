@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +37,9 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
     private ChatContactsFragment.OnFragmentInteractionListener mListener;
     private ArrayList<String> mCheckedFriends = new ArrayList<>();
 
+    private TextView mNoFriends;
+    private Button mMakeNewChatButton;
+
     public ChatContactsFragment() {
         // Required empty public constructor
     }
@@ -46,12 +51,19 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_chat_contacts, container, false);
 
+        try {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Contacts");
+        } catch (NullPointerException e) {
+            Log.e("Error", "title isn't working");
+        }
+
         mRecyclerView = v.findViewById(R.id.ChatContactsRecycler);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
 
-        Button makeNewChatButton = v.findViewById(R.id.chatCreateNewChatButton);
-        makeNewChatButton.setOnClickListener(view -> {
+        mNoFriends = v.findViewById(R.id.chatContactNoFriendsText);
+        mMakeNewChatButton = v.findViewById(R.id.chatCreateNewChatButton);
+        mMakeNewChatButton.setOnClickListener(view -> {
 
 
             mListener.onCreateNewChatButtonPressed(mCheckedFriends);
@@ -79,11 +91,31 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
             fragTrans.commit();
         };
 
+        int count = 0;
 
-        mAdapter = new ChatContactsAdapter(mContacts, this.getContext(), swap, getView(), mUsername, prefs, mCheckedFriends);
+        if (mContacts.size() > 0) {
+            for (int i = 0; i < mContacts.size(); i++) {
+                if (mContacts.get(i).getName().length() != 0) {
+                    count ++;
+                }
+            }
+        }
+
+        mAdapter = new ChatContactsAdapter(mContacts, mCheckedFriends);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(null);
+
+
+        if (count > 0) {
+            mMakeNewChatButton.setVisibility(View.VISIBLE);
+            mNoFriends.setVisibility(View.INVISIBLE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            mNoFriends.setVisibility(View.VISIBLE);
+            mMakeNewChatButton.setVisibility(View.INVISIBLE);
+            mRecyclerView.setVisibility(View.INVISIBLE);
+        }
 
         return v;
     }
@@ -150,8 +182,28 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
             fragTrans.commit();
         };
 
-        mAdapter = new ChatContactsAdapter(mContacts, this.getContext(), swap, getView(), mUsername, prefs, mCheckedFriends); //I changed this
+        int count = 0;
+
+        if (mContacts.size() > 0) {
+            for (int i = 0; i < mContacts.size(); i++) {
+                if (mContacts.get(i).getName().length() != 0) {
+                    count ++;
+                }
+            }
+        }
+
+        mAdapter = new ChatContactsAdapter(mContacts, mCheckedFriends); //I changed this
         mRecyclerView.setAdapter(mAdapter);
+
+        if (count > 0) {
+            mMakeNewChatButton.setVisibility(View.VISIBLE);
+            mNoFriends.setVisibility(View.INVISIBLE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            mNoFriends.setVisibility(View.VISIBLE);
+            mMakeNewChatButton.setVisibility(View.INVISIBLE);
+            mRecyclerView.setVisibility(View.INVISIBLE);
+        }
 
     }
 
