@@ -101,7 +101,7 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
             }
         }
 
-        mAdapter = new ChatContactsAdapter(mContacts, this.getContext(), swap, getView(), mUsername, prefs, mCheckedFriends);
+        mAdapter = new ChatContactsAdapter(mContacts, mCheckedFriends);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(null);
@@ -192,7 +192,7 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
             }
         }
 
-        mAdapter = new ChatContactsAdapter(mContacts, this.getContext(), swap, getView(), mUsername, prefs, mCheckedFriends); //I changed this
+        mAdapter = new ChatContactsAdapter(mContacts, mCheckedFriends); //I changed this
         mRecyclerView.setAdapter(mAdapter);
 
         if (count > 0) {

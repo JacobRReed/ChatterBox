@@ -101,11 +101,8 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
             try {
                 messageJson.put(getString(R.string.keys_json_chat_id), Integer.parseInt(currentChatId));
                 messageJson.put(getString(R.string.keys_json_username), mUsername);
-
-                Log.d("Fuck Try Put now: ", "Success on removing friend from chat. chatID: " + currentChatId + " CurrentFriendRemoved: " + mUsername);
-            } catch (JSONException e) {
+                } catch (JSONException e) {
                 e.printStackTrace();
-                Log.d("Fuck Try Put now: ", "Failure on removing friend from chat. chatID: " + currentChatId + " CurrentFriendRemoved: " + mUsername);
                 }
             new SendPostAsyncTask.Builder(mSendUrlRemoveMember, messageJson)
                     .onPostExecute(this::endOfAddFriendsToChat)
@@ -199,7 +196,6 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
 
         for(String s : chatNames) {
             mChats.add(new Chat(s));
-            Log.e("chats", mChats.toString());
         }
 
         SharedPreferences prefs =
@@ -224,18 +220,13 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
          */
         Runnable swap2 = () -> {
             String currentChatId = prefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "0");
-            Log.d("Fuck you forever tooooooo", currentChatId);
             JSONObject messageJson = new JSONObject();
 
             try {
                 messageJson.put(getString(R.string.keys_json_chat_id), currentChatId);
                 messageJson.put(getString(R.string.keys_json_username), mUsername);
-                Log.d("Fuck you now hard Try Put now: ", "Success on removing friend from chat. chatID: " + currentChatId + " CurrentFriendRemoved: " + mUsername);
-
             } catch (JSONException e) {
                 e.printStackTrace();
-                Log.d("Fuck you now hard Try Put now: ", "FAIL AT LIFE on removing friend from chat. chatID: " + currentChatId + " CurrentFriendRemoved: " + mUsername);
-
             }
             new SendPostAsyncTask.Builder(mSendUrlRemoveMember, messageJson)
                     .onPostExecute(this::endOfAddFriendsToChat)
