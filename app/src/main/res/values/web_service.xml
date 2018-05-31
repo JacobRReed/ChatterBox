@@ -23,4 +23,5 @@
     <string name="ep_weather">chatterboxtcss450.herokuapp.com/weather</string>
     <string name="ep_check_new_message">Notification</string>
     <string name="ep_messages">chatterboxtcss450.herokuapp.com/msg</string>
+    <string name="ep_memberid">chatterboxtcss450.herokuapp.com/userid</string>
 </resources>
