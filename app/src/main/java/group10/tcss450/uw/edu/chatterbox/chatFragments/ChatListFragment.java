@@ -236,8 +236,24 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
                     .build().execute();
         };
 
+        int count = 0;
+
+        if (mChats.size() > 0) {
+            for (int i = 0; i < mChats.size(); i++) {
+                if (mChats.get(i).getName().length() != 0) {
+                    count ++;
+                }
+            }
+        }
+
         mAdapter = new ChatListAdapter(mChats, this.getContext(), swap, swap2, getView(), mUsername, prefs); //I changed this
         mRecyclerView.setAdapter(mAdapter);
+
+        if (count > 0) {
+            mRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            mRecyclerView.setVisibility(View.INVISIBLE);
+        }
     }
 
     /**
