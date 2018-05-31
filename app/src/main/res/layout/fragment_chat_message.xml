@@ -45,7 +45,8 @@ tools:context=".chatFragments.ChatMessageFragment">
         app:layout_constraintBottom_toTopOf="@+id/chatInputEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:animateLayoutChanges="true">
 
         <ScrollView
             android:id="@+id/chatScroller"

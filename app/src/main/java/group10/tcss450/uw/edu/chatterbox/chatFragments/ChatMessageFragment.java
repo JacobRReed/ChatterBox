@@ -6,8 +6,10 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -311,11 +313,12 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
                                 txt1.setBackground(getResources().getDrawable(R.drawable.chat_bubble_user));
                                 txt1.setText(msgs[i][0]); //Message
                                 txt1.setTextColor(getResources().getColor(R.color.chat_font_color));
-                                txt1.setPadding(6, 0, 0, 0);
                                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                                params.setMargins(900, 20, 0, 20);
+                                params.setMargins(120, 20, 0, 20);
+                                params.gravity = Gravity.RIGHT;
                                 txt1.setLayoutParams(params);
-                                txt1.setPadding(10, 0, 10, 0);
+                                txt1.setGravity(Gravity.RIGHT);
+                                txt1.setPadding(5, 20, 5, 20);
                                 txt1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSize);
                                 mChats.add(txt1);
                             } else {
@@ -323,11 +326,12 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
                                 txt2.setBackground(getResources().getDrawable(R.drawable.chat_bubble_from));
                                 txt2.setTextColor(getResources().getColor(R.color.chat_font_color));
                                 txt2.setText(msgs[i][0]);
-                                txt2.setPadding(6, 0, 0, 0);
                                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                                 params.setMargins(20, 20, 20, 20);
+                                params.gravity = Gravity.LEFT;
+                                txt2.setGravity(Gravity.LEFT);
                                 txt2.setLayoutParams(params);
-                                txt2.setPadding(10, 0, 10, 0);
+                                txt2.setPadding(5, 20, 5, 20);
                                 txt2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSize);
                                 mChats.add(txt2);
                             }
