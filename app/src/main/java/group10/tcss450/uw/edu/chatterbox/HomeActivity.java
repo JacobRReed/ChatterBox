@@ -279,13 +279,9 @@ public class HomeActivity extends AppCompatActivity
 
             if(res.get(getString(R.string.keys_json_success)).toString()
                     .equals(getString(R.string.keys_json_success_value_true))) {
-
-                Log.d("Can I say Fuck Ya?", "I guess so...");
-                // not sure what this needs to be
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.d("Can I say Fuck No?", "I guess not...");
         }
     }
 
@@ -299,13 +295,10 @@ public class HomeActivity extends AppCompatActivity
 
             if(res.get(getString(R.string.keys_json_success)).toString()
                     .equals(getString(R.string.keys_json_success_value_true))) {
-
-                Log.d("Can I say Fuck Ya 2?", "I guess so... 2");
                 // not sure what this needs to be
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.d("Can I say Fuck No 2?", "I guess not... 2");
         }
     }
 
@@ -372,25 +365,17 @@ public class HomeActivity extends AppCompatActivity
                 getSharedPreferences( getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
         String currentChatId = prefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "0");
 
-//        add username to arraylist
+        //add username to arraylist
         theCheckedFriends.add(mUsername);
 
-        Log.d("Fuck ya", theCheckedFriends.toString() + " the chatid is: " + mCurrentChatId);
         int currChatID = Integer.parseInt(mCurrentChatId);
         for(int i = 0; i < theCheckedFriends.size(); i++) {
             JSONObject messageJson = new JSONObject();
-
-//            SharedPreferences prefs =
-//                    getSharedPreferences( getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
-//
-//            String dogChatId = prefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "0");
             try {
                 messageJson.put(getString(R.string.keys_json_chat_id), currChatID);
                 messageJson.put(getString(R.string.keys_json_username), theCheckedFriends.get(i).toString());
-                Log.d("Fuck Try Put: ", "Success on putting new friend into chat. chatID: " + currChatID + " CurrentFriendAdded: " + theCheckedFriends.get(i).toString());
             } catch (JSONException e) {
                 e.printStackTrace();
-                Log.d("Fuck Try Put: ", "Failure on putting a temp chat. chatID: " + mCurrentChatId + " CurrentFriendAdded: " + theCheckedFriends.get(i));
             }
             new SendPostAsyncTask.Builder(mAddFriendsToChatUrl, messageJson)
                     .onPostExecute(this::endOfAddFriendsToChat)
@@ -412,17 +397,11 @@ public class HomeActivity extends AppCompatActivity
         }
         JSONObject messageJson = new JSONObject();
 
-//            SharedPreferences prefs =
-//                    getSharedPreferences( getString(R.string.keys_shared_prefs), Context.MODE_PRIVATE);
-//
-//            String dogChatId = prefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "0");
         try {
             messageJson.put(getString(R.string.keys_json_chat_id), Integer.parseInt(theChatid));
             messageJson.put(getString(R.string.keys_json_new_chatname), newChatName);
-            //Log.d("Fuck Try Put: ", "Success on putting new friend into chat. chatID: " + currChatID + " CurrentFriendAdded: " + theCheckedFriends.get(i).toString());
         } catch (JSONException e) {
             e.printStackTrace();
-            //Log.d("Fuck Try Put: ", "Failure on putting a temp chat. chatID: " + mCurrentChatId + " CurrentFriendAdded: " + theCheckedFriends.get(i));
         }
         new SendPostAsyncTask.Builder(mNewChatNameUrl, messageJson)
                 .onPostExecute(this::endOfNewChatName)

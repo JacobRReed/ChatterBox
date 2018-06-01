@@ -321,7 +321,7 @@ public class ChatMessageFragment extends android.support.v4.app.Fragment {
                                 txt1.setPadding(5, 20, 5, 20);
                                 txt1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSize);
                                 mChats.add(txt1);
-                            } else {
+                            } else { //Other users
                                 TextView txt2 = new TextView(getContext());
                                 txt2.setBackground(getResources().getDrawable(R.drawable.chat_bubble_from));
                                 txt2.setTextColor(getResources().getColor(R.color.chat_font_color));

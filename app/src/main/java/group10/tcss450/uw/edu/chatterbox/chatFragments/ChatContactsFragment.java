@@ -78,7 +78,7 @@ public class ChatContactsFragment extends android.support.v4.app.Fragment {
         String username = prefs.getString(getString(R.string.keys_prefs_username_local), "");
         mUsername = username;
 
-        onChatContactLoad(username); //FIX THIS @TODO
+        onChatContactLoad(username);
         mContacts = new ArrayList<>();
 
         /*

@@ -192,7 +192,6 @@ public class ChatListFragment extends android.support.v4.app.Fragment {
         temp = temp.replace("]}","");
         temp = temp.replace("\"","");
         String[] chatNames = temp.split(",");
-        Log.e("#@#@#@#@ the results are: ", chatNames[0]);
 
         for(String s : chatNames) {
             mChats.add(new Chat(s));

@@ -59,6 +59,7 @@ public class ConnectionsAdd extends Fragment implements RadioGroup.OnCheckedChan
         mRecyclerView = v.findViewById(R.id.addRecycler);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
+
         //Generate contacts
         mContacts = new ArrayList<>();
         mAdapter = new ContactsAdapterAdd(mContacts, this.getContext());

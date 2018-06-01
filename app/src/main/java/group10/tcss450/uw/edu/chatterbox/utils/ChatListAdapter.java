@@ -71,10 +71,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         });
         removeChatButton.setOnClickListener(v -> {
             String chatid = chatButton.getText().toString().split(" ")[0];
-            Log.d("Fuck you forever", chatButton.getText().toString().split(" ")[0]);
 
             mPrefs.edit().putString("THIS_IS_MY_CURRENT_CHAT_ID",chatid).commit();
-            Log.d("Fuck you forever 22222222", mPrefs.getString("THIS_IS_MY_CURRENT_CHAT_ID", "0"));
             mSwap2.run();
         });
     }
